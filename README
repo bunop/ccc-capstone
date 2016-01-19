@@ -7,10 +7,9 @@ Set directory to data preparation (WARNING ONLY 1000 rows were considered)
 
 $ cd ~/capstone/data_preparation
 
-Modify putHDFS.py script in order to poin to the correct raw_data path. Then call
-python script to create raw_data directory:
+Then call python script to create raw_data directory:
 
-$ python putHDFS.py 2>&1 | tee output_airline_origin_destination.txt
+$ python putHDFS.py --input_path=/mnt/data/aviation/airline_origin_destination/ --output_path=/mnt/data/raw_data/airline_origin_destination/ 2>&1 | tee output_airline_origin_destination.txt
 
 Set directory to ~/capstone/origin_destination
 
@@ -26,7 +25,7 @@ $ hadoop fs -put /mnt/data/raw_data/airline_origin_destination/* /user/paolo/cap
 
 Listing directory contents
 
-$ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/
+$ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/raw_data/
 
 Call a pig script passing input directory and output file
 
@@ -65,7 +64,24 @@ Set directory to data preparation (WARNING ONLY 1000 rows were considered)
 
 $ cd ~/capstone/data_preparation
 
-Modify putHDFS.py script in order to poin to the correct raw_data path. Then call
-python script to create raw_data directory:
+Then call python script to create raw_data directory:
 
-$ python putHDFS.py 2>&1 | tee output_airline_ontime.txt
+$ python putHDFS.py --input_path=/mnt/data/aviation/airline_ontime/ --output_path=/mnt/data/raw_data/airline_ontime/ 2>&1 | tee output_airline_ontime.txt
+
+Set directory to ~/capstone/ontime
+
+$ cd ~/capstone/ontime
+
+Creating directories in hadoop file system
+
+$ hadoop fs -mkdir -p /user/paolo/capstone/airline_ontime/raw_data/
+
+Put origin-destination data in hadoop filesystem
+
+$ hadoop fs -put /mnt/data/raw_data/airline_ontime/* /user/paolo/capstone/airline_ontime/raw_data/
+
+Listing directory contents
+
+$ hadoop fs -ls /user/paolo/capstone/airline_ontime/raw_data/
+
+Call a pig script passing input directory and output file:

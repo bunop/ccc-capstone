@@ -44,21 +44,12 @@ import shutil
 import tempfile
 import zipfile
 import logging
+import argparse
 
 #An useful way to defined a logger lever, handler, and formatter
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(threadName)s - %(message)s', level=logging.DEBUG)
 program_name = os.path.basename(sys.argv[0])
 logger = logging.getLogger(program_name)
-
-#This is the origin-destination path (on AWS)
-#database_path = "~/capstone/aviation/airline_origin_destination"
-
-# This is the ontime database (AWS)
-database_path = "/mnt/data/aviation/airline_ontime"
-
-# The output path (in AWS sandbox)
-#raw_data_path = "/mnt/data/raw_data/airline_origin_destination/"
-raw_data_path = "/mnt/data/raw_data/airline_ontime/"
 
 # truncate data file atfter this number of lines (debug)
 MAX_LINES = 1000
@@ -183,24 +174,35 @@ def truncateFile(myfile, lines=MAX_LINES):
 
 #main function
 if __name__ == "__main__":
-    logger.info("%s started" %(program_name))
+    parser = argparse.ArgumentParser(description='Scan for Aviation database data, and organize contents in one directory')
+    parser.add_argument('-i', '--input_path', type=str, required=True, help='The database input path')
+    parser.add_argument('-o', '--output_path', type=str, required=True, help="The output path directory")
+    args = parser.parse_args()
 
+    # This is the database path (on AWS)
+    database_path = args.input_path
+
+    # The output path (in AWS sandbox)
+    raw_data_path = args.output_path
+
+    # debug
+    logger.info("%s started" %(program_name))
 
     #verify is output directory exists
     if os.path.exists(raw_data_path) and os.path.isdir(raw_data_path):
         raise Exception, "Output directory exists"
 
-    #create a temporary directory
+    # create a temporary directory
     workdir = tempfile.mkdtemp()
 
     logger.debug("Temporary directory %s created" %(workdir))
 
-    #process the main directory
+    # process the main directory
     processDirectory(database_path)
 
-    #now move temporary directory to out directory
-    shutil.move(workdir, outdir)
+    # now move temporary directory to out directory
+    shutil.move(workdir, raw_data_path)
 
-    logger.info("Data file ready in %s directory" %(outdir))
-
+    # Debug
+    logger.info("Data file ready in %s directory" %(raw_data_path))
     logger.info("%s finished" %(program_name))
