@@ -3,7 +3,12 @@
 * load_origin_destination.pig: Read Origin and destination dataset with pig    *
 *******************************************************************************/
 
-raw_data = LOAD '$input' USING PigStorage(',') AS (ItinID,MktID,SeqNum,Coupons,Year,Quarter,Origin:chararray,OriginAptInd,OriginCityNum,OriginCountry:chararray,OriginStateFips,OriginState,OriginStateName:chararray,OriginWac,Dest:chararray,DestAptInd,DestCityNum,DestCountry:chararray,DestStateFips,DestState,DestStateName;chararray,DestWac,Break,CouponType,TkCarrier,OpCarrier,RPCarrier,Passengers,FareClass,Distance,DistanceGroup,Gateway,ItinGeoType,CouponGeoType);
+/* registering piggybank CSV storage:
+ http://stackoverflow.com/questions/17816078/csv-reading-in-pig-csv-file-contains-quoted-comma
+*/
+REGISTER '/home/paolo/capstone/piggy_bank/contrib/piggybank/java';
+
+raw_data = LOAD '$input' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',') AS (ItinID,MktID,SeqNum,Coupons,Year,Quarter,Origin:chararray,OriginAptInd,OriginCityNum,OriginCountry:chararray,OriginStateFips,OriginState,OriginStateName:chararray,OriginWac,Dest:chararray,DestAptInd,DestCityNum,DestCountry:chararray,DestStateFips,DestState,DestStateName:chararray,DestWac,Break,CouponType,TkCarrier,OpCarrier,RPCarrier,Passengers,FareClass,Distance,DistanceGroup,Gateway,ItinGeoType,CouponGeoType);
 
 packed_data = FOREACH raw_data GENERATE Origin, OriginCountry, OriginStateName, Dest, DestCountry, DestStateName;
 
