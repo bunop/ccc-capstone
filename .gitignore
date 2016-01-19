@@ -1,0 +1,12 @@
+# Ignore bckup files
+*~
+
+# Ignore python compiled scripts
+*.pyc
+
+# Ignore log
+*.log
+
+# Ignore symbolic links
+aviation
+raw_data

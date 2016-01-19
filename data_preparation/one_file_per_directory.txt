@@ -1,0 +1,51 @@
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1975.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2006.zip
+/mnt/data/aviation/airline_origin_destination/2001_Q1.zip
+/mnt/data/aviation/aviation_safety_reporting/acr_fatg.pdf
+/mnt/data/aviation/aviation_accident_database/AAAreadme.txt
+/mnt/data/aviation/aviation_support_tables/Master Coordinate/417923300_T_MASTER_CORD.zip
+/mnt/data/aviation/aviation_support_tables/Carrier Decode/417923300_T_CARRIER_DECODE.zip
+/mnt/data/aviation/aviation_support_tables/Aircraft Types/417923300_T_AIRCRAFT_TYPES.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/2005.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_12.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_8.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_9.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_12.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_5.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_2.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_6.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_11.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_2.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_12.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_4.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_9.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_3.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_10.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_1.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_8.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_11.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_6.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_4.zip
+/mnt/data/aviation/airline_ontime/2002/On_Time_On_Time_Performance_2002_1.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_8.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2005.zip
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/2001.csv
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts008_07.html
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1988emp.csv
+/mnt/data/aviation/aviation_accident_statistics/Paxfatal.htm
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2005.zip

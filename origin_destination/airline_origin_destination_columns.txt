@@ -1,0 +1,34 @@
+ItinID	Itinerary ID
+MktID	Market ID
+SeqNum	Coupon Sequence Number
+Coupons	Number of Coupons in the Itinerary
+Year	Year
+Quarter	Quarter (1-4)
+Origin	Origin Airport Code
+OriginAptInd	Origin Airport, Multiple Airports Indicator
+OriginCityNum	Origin Airport, City Code
+OriginCountry	Origin Airport, Country Code
+OriginStateFips	Origin Airport, State FIPS Code
+OriginState	Origin Airport, State Code
+OriginStateName	Origin State Name
+OriginWac	Origin Airport, World Area Code
+Dest	Destination Airport Code
+DestAptInd	Destination Airport, Multiple Airports Indicator
+DestCityNum	Destination Airport, City Code
+DestCountry	Destination Airport, Country Code
+DestStateFips	Destination Airport, State FIPS Code
+DestState	Destination Airport, State Code
+DestStateName	Destination State Name
+DestWac	Destination Airport, World Area Code
+Break	Trip Break Code
+CouponType	Coupon Type Code
+TkCarrier	Ticketing Carrier Code
+OpCarrier	Operating Carrier Code
+RPCarrier	Reporting Carrier Code
+Passengers	Number of Passengers
+FareClass	Fare Class Code
+Distance	Coupon Distance
+DistanceGroup	Distance Group, in 500 Mile Intervals
+Gateway	Gateway Indicator (1=Yes)
+ItinGeoType	Itinerary Geography Type
+CouponGeoType	Coupon Geography Type

@@ -1,0 +1,947 @@
+/mnt/data/aviation/
+/mnt/data/aviation/small_air_carrier
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1975.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1977.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1994.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1986.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_2000.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1987.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1980.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1999.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1979.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1976.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1990.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1978.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1995.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1991.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1997.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1981.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_2002.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_2001.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1992.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1996.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1984.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1989.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1998.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1982.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1985.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1974.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1983.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1988.zip
+/mnt/data/aviation/small_air_carrier/FORM298C_A1_1993.zip
+/mnt/data/aviation/air_carrier_statistics_summary
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_2003.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_1997.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_2001.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_2002.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_1995.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_2004.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_2005.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_1998.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_1999.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_2000.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_2006.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_1994.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_1991.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_1993.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_2008.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_2007.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_1992.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T2 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T2_1996.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1989.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_2000.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1982.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1996.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1981.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_2001.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1990.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_2003.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1976.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1994.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1978.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1980.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1993.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_2005.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1998.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1977.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1984.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1983.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1987.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_2007.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_2006.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_2002.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_2004.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1975.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1999.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1995.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1992.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_2008.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1988.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1997.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1986.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1991.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1979.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1985.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T1 U.S. Air Carrier Traffic And Capacity/SCHEDULE_T1_1974.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_2001.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_2007.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_2000.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_1991.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_1995.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_2005.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_2006.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_1993.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_1994.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_1997.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_2002.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_2004.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_1992.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_1998.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_1999.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_1996.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_2003.zip
+/mnt/data/aviation/air_carrier_statistics_summary/T3 U.S. Air Carrier Airport Activity/SCHEDULE_T3_2008.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2006.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1992.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1994.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2008.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2002.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1995.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1998.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2007.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2000.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1991.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1990.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2004.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2003.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1993.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1997.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1999.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2001.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 1996.zip
+/mnt/data/aviation/air_carrier_statistics_summary/RAA Commuter and Small Certificated Air Carrier Traffic and Capacity/RAA_SUMMARY 2005.zip
+/mnt/data/aviation/airline_origin_destination
+/mnt/data/aviation/airline_origin_destination/2001_Q1.zip
+/mnt/data/aviation/airline_origin_destination/1996_Q3.zip
+/mnt/data/aviation/airline_origin_destination/1993_Q1.zip
+/mnt/data/aviation/airline_origin_destination/2007_Q3.zip
+/mnt/data/aviation/airline_origin_destination/1999_Q3.zip
+/mnt/data/aviation/airline_origin_destination/2000_Q4.zip
+/mnt/data/aviation/airline_origin_destination/1998_Q1.zip
+/mnt/data/aviation/airline_origin_destination/1998_Q3.zip
+/mnt/data/aviation/airline_origin_destination/2007_Q1.zip
+/mnt/data/aviation/airline_origin_destination/2008_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1995_Q3.zip
+/mnt/data/aviation/airline_origin_destination/2008_Q1.zip
+/mnt/data/aviation/airline_origin_destination/2000_Q1.zip
+/mnt/data/aviation/airline_origin_destination/1999_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1997_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2005_Q1.zip
+/mnt/data/aviation/airline_origin_destination/1999_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2002_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2005_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1997_Q1.zip
+/mnt/data/aviation/airline_origin_destination/2006_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1993_Q3.zip
+/mnt/data/aviation/airline_origin_destination/1997_Q3.zip
+/mnt/data/aviation/airline_origin_destination/2001_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2002_Q1.zip
+/mnt/data/aviation/airline_origin_destination/2003_Q1.zip
+/mnt/data/aviation/airline_origin_destination/1998_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1993_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2007_Q4.zip
+/mnt/data/aviation/airline_origin_destination/1998_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2006_Q1.zip
+/mnt/data/aviation/airline_origin_destination/2003_Q3.zip
+/mnt/data/aviation/airline_origin_destination/2004_Q2.zip
+/mnt/data/aviation/airline_origin_destination/2001_Q3.zip
+/mnt/data/aviation/airline_origin_destination/1994_Q2.zip
+/mnt/data/aviation/airline_origin_destination/2005_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2000_Q3.zip
+/mnt/data/aviation/airline_origin_destination/2003_Q4.zip
+/mnt/data/aviation/airline_origin_destination/1996_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2002_Q3.zip
+/mnt/data/aviation/airline_origin_destination/2006_Q3.zip
+/mnt/data/aviation/airline_origin_destination/1997_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1996_Q1.zip
+/mnt/data/aviation/airline_origin_destination/2002_Q2.zip
+/mnt/data/aviation/airline_origin_destination/2005_Q3.zip
+/mnt/data/aviation/airline_origin_destination/2004_Q1.zip
+/mnt/data/aviation/airline_origin_destination/1996_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1994_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2003_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1995_Q2.zip
+/mnt/data/aviation/airline_origin_destination/2007_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1994_Q1.zip
+/mnt/data/aviation/airline_origin_destination/1995_Q1.zip
+/mnt/data/aviation/airline_origin_destination/1999_Q1.zip
+/mnt/data/aviation/airline_origin_destination/1995_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2006_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2004_Q4.zip
+/mnt/data/aviation/airline_origin_destination/2004_Q3.zip
+/mnt/data/aviation/airline_origin_destination/2001_Q2.zip
+/mnt/data/aviation/airline_origin_destination/2000_Q2.zip
+/mnt/data/aviation/airline_origin_destination/1993_Q2.zip
+/mnt/data/aviation/aviation_safety_reporting
+/mnt/data/aviation/aviation_safety_reporting/acr_fatg.pdf
+/mnt/data/aviation/aviation_safety_reporting/helo.pdf
+/mnt/data/aviation/aviation_safety_reporting/plt_ctlr.pdf
+/mnt/data/aviation/aviation_safety_reporting/cftt.pdf
+/mnt/data/aviation/aviation_safety_reporting/animal.pdf
+/mnt/data/aviation/aviation_safety_reporting/cabin.pdf
+/mnt/data/aviation/aviation_safety_reporting/upsets.pdf
+/mnt/data/aviation/aviation_safety_reporting/crm.pdf
+/mnt/data/aviation/aviation_safety_reporting/altdev.pdf
+/mnt/data/aviation/aviation_safety_reporting/rwy_incur.pdf
+/mnt/data/aviation/aviation_safety_reporting/ems.pdf
+/mnt/data/aviation/aviation_safety_reporting/mechanic.pdf
+/mnt/data/aviation/aviation_safety_reporting/parachute.pdf
+/mnt/data/aviation/aviation_safety_reporting/penetrat.pdf
+/mnt/data/aviation/aviation_safety_reporting/icing.pdf
+/mnt/data/aviation/aviation_safety_reporting/com_fatigue.pdf
+/mnt/data/aviation/aviation_safety_reporting/ga_train.pdf
+/mnt/data/aviation/aviation_safety_reporting/waketurb.pdf
+/mnt/data/aviation/aviation_safety_reporting/non_twr.pdf
+/mnt/data/aviation/aviation_safety_reporting/fuel.pdf
+/mnt/data/aviation/aviation_safety_reporting/wx.pdf
+/mnt/data/aviation/aviation_safety_reporting/chklist.pdf
+/mnt/data/aviation/aviation_safety_reporting/ped.pdf
+/mnt/data/aviation/aviation_safety_reporting/gps.pdf
+/mnt/data/aviation/aviation_safety_reporting/pax.pdf
+/mnt/data/aviation/aviation_safety_reporting/ctlr.pdf
+/mnt/data/aviation/aviation_accident_database
+/mnt/data/aviation/aviation_accident_database/AAAreadme.txt
+/mnt/data/aviation/aviation_accident_database/ADMSPUB.sql
+/mnt/data/aviation/aviation_accident_database/admsrel.pdf
+/mnt/data/aviation/aviation_accident_database/Mult_Response.pdf
+/mnt/data/aviation/aviation_accident_database/ADMSPUB.pdf
+/mnt/data/aviation/aviation_accident_database/PRE1982.zip
+/mnt/data/aviation/aviation_accident_database/codman.pdf
+/mnt/data/aviation/aviation_support_tables
+/mnt/data/aviation/aviation_support_tables/Master Coordinate
+/mnt/data/aviation/aviation_support_tables/Master Coordinate/417923300_T_MASTER_CORD.zip
+/mnt/data/aviation/aviation_support_tables/Carrier Decode
+/mnt/data/aviation/aviation_support_tables/Carrier Decode/417923300_T_CARRIER_DECODE.zip
+/mnt/data/aviation/aviation_support_tables/Aircraft Types
+/mnt/data/aviation/aviation_support_tables/Aircraft Types/417923300_T_AIRCRAFT_TYPES.zip
+/mnt/data/aviation/air_carrier_financial_reports
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1999.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1993.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1992.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1991.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1996.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1998.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1995.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1997.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1994.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2008.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/1990.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-11/2000.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1999.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1993.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1992.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1991.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1996.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1998.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1995.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1997.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1994.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2008.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/1990.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-7/2000.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1999.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1993.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1992.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1991.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1996.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1998.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1995.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1997.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1994.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2008.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/1990.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12/2000.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2008.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-12A/2000.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1999.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1993.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1992.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1991.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1996.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1998.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1995.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1997.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1994.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2008.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/1990.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-11/2000.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1999.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1993.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1992.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1991.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1996.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1998.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1995.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1997.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1994.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2008.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/1990.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-51/2000.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1999.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1993.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1992.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1991.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1996.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1998.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1995.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1997.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1994.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2008.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/1990.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-52/2000.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1999.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1993.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1992.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1991.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1996.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1998.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1995.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1997.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1994.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2008.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/1990.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-6/2000.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1999.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1993.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1992.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1991.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1996.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1998.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1995.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1997.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1994.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2008.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/1990.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_b-1/2000.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/2005.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/1999.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/2006.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/2003.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/1998.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/2001.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/2002.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/2007.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/2004.zip
+/mnt/data/aviation/air_carrier_financial_reports/schedule_p-10/2000.zip
+/mnt/data/aviation/airline_ontime
+/mnt/data/aviation/airline_ontime/1999
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_12.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_2.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_10.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_4.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_8.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_11.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_5.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_3.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_7.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_6.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_1.zip
+/mnt/data/aviation/airline_ontime/1999/On_Time_On_Time_Performance_1999_9.zip
+/mnt/data/aviation/airline_ontime/1995
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_8.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_1.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_6.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_2.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_5.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_4.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_10.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_12.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_3.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_11.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_7.zip
+/mnt/data/aviation/airline_ontime/1995/On_Time_On_Time_Performance_1995_9.zip
+/mnt/data/aviation/airline_ontime/2006
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_9.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_6.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_1.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_11.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_5.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_4.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_8.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_12.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_10.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_7.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_2.zip
+/mnt/data/aviation/airline_ontime/2006/On_Time_On_Time_Performance_2006_3.zip
+/mnt/data/aviation/airline_ontime/1997
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_12.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_5.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_10.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_11.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_4.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_8.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_2.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_9.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_7.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_1.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_3.zip
+/mnt/data/aviation/airline_ontime/1997/On_Time_On_Time_Performance_1997_6.zip
+/mnt/data/aviation/airline_ontime/2004
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_5.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_7.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_4.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_10.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_9.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_11.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_3.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_2.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_1.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_6.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_8.zip
+/mnt/data/aviation/airline_ontime/2004/On_Time_On_Time_Performance_2004_12.zip
+/mnt/data/aviation/airline_ontime/2003
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_2.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_6.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_5.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_3.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_1.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_12.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_4.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_8.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_11.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_7.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_9.zip
+/mnt/data/aviation/airline_ontime/2003/On_Time_On_Time_Performance_2003_10.zip
+/mnt/data/aviation/airline_ontime/1989
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_6.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_4.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_1.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_9.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_11.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_3.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_10.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_5.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_2.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_12.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_7.zip
+/mnt/data/aviation/airline_ontime/1989/On_Time_On_Time_Performance_1989_8.zip
+/mnt/data/aviation/airline_ontime/2001
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_11.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_2.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_4.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_12.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_1.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_5.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_3.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_9.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_8.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_10.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_6.zip
+/mnt/data/aviation/airline_ontime/2001/On_Time_On_Time_Performance_2001_7.zip
+/mnt/data/aviation/airline_ontime/1993
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_2.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_5.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_10.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_8.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_7.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_6.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_12.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_11.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_4.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_3.zip
+/mnt/data/aviation/airline_ontime/1993/On_Time_On_Time_Performance_1993_1.zip
+/mnt/data/aviation/airline_ontime/1998
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_12.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_6.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_5.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_1.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_4.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_3.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_7.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_2.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_11.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_9.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_10.zip
+/mnt/data/aviation/airline_ontime/1998/On_Time_On_Time_Performance_1998_8.zip
+/mnt/data/aviation/airline_ontime/2007
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_4.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_5.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_12.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_9.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_10.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_7.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_2.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_3.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_11.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_1.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_8.zip
+/mnt/data/aviation/airline_ontime/2007/On_Time_On_Time_Performance_2007_6.zip
+/mnt/data/aviation/airline_ontime/2008
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_9.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_10.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_7.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_11.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_5.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_1.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_4.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_2.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_12.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_8.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_3.zip
+/mnt/data/aviation/airline_ontime/2008/On_Time_On_Time_Performance_2008_6.zip
+/mnt/data/aviation/airline_ontime/2000
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_3.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_8.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_7.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_4.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_6.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_2.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_9.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_11.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_1.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_10.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_5.zip
+/mnt/data/aviation/airline_ontime/2000/On_Time_On_Time_Performance_2000_12.zip
+/mnt/data/aviation/airline_ontime/1991
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_10.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_11.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_8.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_5.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_2.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_4.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_1.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_6.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_3.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_12.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_9.zip
+/mnt/data/aviation/airline_ontime/1991/On_Time_On_Time_Performance_1991_7.zip
+/mnt/data/aviation/airline_ontime/1996
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_1.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_9.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_5.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_4.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_12.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_11.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_8.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_3.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_10.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_7.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_6.zip
+/mnt/data/aviation/airline_ontime/1996/On_Time_On_Time_Performance_1996_2.zip
+/mnt/data/aviation/airline_ontime/1992
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_8.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_1.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_4.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_10.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_7.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_5.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_9.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_12.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_6.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_11.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_2.zip
+/mnt/data/aviation/airline_ontime/1992/On_Time_On_Time_Performance_1992_3.zip
+/mnt/data/aviation/airline_ontime/1990
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_11.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_3.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_12.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_10.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_9.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_2.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_7.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_4.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_1.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_8.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_6.zip
+/mnt/data/aviation/airline_ontime/1990/On_Time_On_Time_Performance_1990_5.zip
+/mnt/data/aviation/airline_ontime/1988
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_6.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_11.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_3.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_5.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_2.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_8.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_12.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_10.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_1.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_9.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_4.zip
+/mnt/data/aviation/airline_ontime/1988/On_Time_On_Time_Performance_1988_7.zip
+/mnt/data/aviation/airline_ontime/1994
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_4.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_12.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_6.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_10.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_11.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_2.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_7.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_8.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_9.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_5.zip
+/mnt/data/aviation/airline_ontime/1994/On_Time_On_Time_Performance_1994_1.zip
+/mnt/data/aviation/airline_ontime/2002
+/mnt/data/aviation/airline_ontime/2002/On_Time_On_Time_Performance_2002_1.zip
+/mnt/data/aviation/airline_ontime/2002/On_Time_On_Time_Performance_2002_3.zip
+/mnt/data/aviation/airline_ontime/2002/On_Time_On_Time_Performance_2002_2.zip
+/mnt/data/aviation/airline_ontime/2002/On_Time_On_Time_Performance_2002_4.zip
+/mnt/data/aviation/airline_ontime/2005
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_8.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_7.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_6.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_12.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_5.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_9.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_2.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_1.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_11.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_3.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_10.zip
+/mnt/data/aviation/airline_ontime/2005/On_Time_On_Time_Performance_2005_4.zip
+/mnt/data/aviation/air_carrier_statistics_ALL
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2005.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1999.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1993.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2006.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1992.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2003.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1991.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1996.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1998.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1995.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2001.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1997.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2002.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1994.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2007.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2008.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2004.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/1990.zip
+/mnt/data/aviation/air_carrier_statistics_ALL/t-100_domestic_market/2000.zip
+/mnt/data/aviation/air_carrier_employees
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/2001.csv
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/2006.csv
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/2005.csv
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/2007.csv
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/2004.csv
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/2002.csv
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/2000.csv
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/1999.csv
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/2003.csv
+/mnt/data/aviation/air_carrier_employees/P10 - Annual Employee Statistics by Labor Category/1998.csv
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts008_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts014_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts044_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts009_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts004_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts017_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts059_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts061_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts009_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts041_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts050_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts055_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts025_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts031_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts035_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts047_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts039_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts046_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts037_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts039_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts034_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts048_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts030_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts042_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts013_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts062_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts055_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts003_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts034_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts011_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts026_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts018_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts013_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts059_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts023_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts030_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts025_08.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts028_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts053_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts017_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts049_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts032_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts053_05.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts018_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts024_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts003_07.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts044_06.html
+/mnt/data/aviation/air_carrier_employees/Passenger Airline Employment Press Releases/bts014_08.html
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1988emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1989emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1995emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1982emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1996emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1994emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/2000emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1993emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1998emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1978emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1981emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/2001emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1970emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/2006.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/2005.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1973emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/2007.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1990emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/2002emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1992emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1977emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1974emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1975emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1980emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1999emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1972emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/2004.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1997emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1984emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1979emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/2003.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1991emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1986emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1976emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1983emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1987emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1971emp.csv
+/mnt/data/aviation/air_carrier_employees/Certificated Carriers (Full-time and Part-time)/1985emp.csv
+/mnt/data/aviation/aviation_accident_statistics
+/mnt/data/aviation/aviation_accident_statistics/Paxfatal.htm
+/mnt/data/aviation/aviation_accident_statistics/default.htm
+/mnt/data/aviation/aviation_accident_statistics/2001_GA_Annual_Review_Data.xls
+/mnt/data/aviation/aviation_accident_statistics/table5.csv
+/mnt/data/aviation/aviation_accident_statistics/aviation.htm
+/mnt/data/aviation/aviation_accident_statistics/1998_GA_Annual_Review_Data.xls
+/mnt/data/aviation/aviation_accident_statistics/table1.csv
+/mnt/data/aviation/aviation_accident_statistics/table9.csv
+/mnt/data/aviation/aviation_accident_statistics/table6.csv
+/mnt/data/aviation/aviation_accident_statistics/table10.csv
+/mnt/data/aviation/aviation_accident_statistics/2000_GA_Annual_Review_Data.xls
+/mnt/data/aviation/aviation_accident_statistics/arc0202.xls
+/mnt/data/aviation/aviation_accident_statistics/table8.csv
+/mnt/data/aviation/aviation_accident_statistics/table7.csv
+/mnt/data/aviation/aviation_accident_statistics/stats_yr.htm
+/mnt/data/aviation/aviation_accident_statistics/guide.htm
+/mnt/data/aviation/aviation_accident_statistics/table4.csv
+/mnt/data/aviation/aviation_accident_statistics/080416.html
+/mnt/data/aviation/aviation_accident_statistics/Paxftl35.htm
+/mnt/data/aviation/aviation_accident_statistics/table2.csv
+/mnt/data/aviation/aviation_accident_statistics/A_Stat.htm
+/mnt/data/aviation/aviation_accident_statistics/ARC2004.xls
+/mnt/data/aviation/aviation_accident_statistics/curr_mo.TXT
+/mnt/data/aviation/aviation_accident_statistics/table11.csv
+/mnt/data/aviation/aviation_accident_statistics/table3.csv
+/mnt/data/aviation/aviation_accident_statistics/alaska_stat.html
+/mnt/data/aviation/aviation_accident_statistics/table12.csv
+/mnt/data/aviation/aviation_accident_statistics/1999_GA_Annual_Review_Data.xls
+/mnt/data/aviation/air_carrier_statistics_US
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1999.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1993.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2006.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1992.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2003.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1991.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1996.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1998.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1995.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2001.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1997.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2002.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1994.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2007.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2008.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2004.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/1990.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_market/2000.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1999.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1993.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2006.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1992.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2003.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1991.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1996.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1998.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1995.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2001.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1997.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2002.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1994.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2007.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2008.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2004.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/1990.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_segment/2000.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1999.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1993.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2006.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1992.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2003.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1991.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1996.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1998.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1995.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2001.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1997.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2002.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1994.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2007.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2008.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2004.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/1990.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_segment/2000.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1999.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1993.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2006.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1992.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2003.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1991.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1996.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1998.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1995.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2001.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1997.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2002.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1994.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2007.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2008.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2004.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/1990.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_international_market/2000.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1999.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1993.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2006.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1992.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2003.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1991.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1996.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1998.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1995.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2001.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1997.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2002.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1994.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2007.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2008.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2004.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/1990.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_domestic_market/2000.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2005.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1999.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1993.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2006.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1992.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2003.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1991.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1996.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1998.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1995.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2001.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1997.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2002.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1994.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2007.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2008.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2004.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/1990.zip
+/mnt/data/aviation/air_carrier_statistics_US/t-100_segment/2000.zip
