@@ -1,24 +1,28 @@
 
 Creating directories in hadoop file system
 
-$ hadoop fs -mkdir -p /user/paolo/capstone/airline_origin_destination
+$ hadoop fs -mkdir -p /user/paolo/capstone/airline_origin_destination/raw_data/
+$ hadoop fs -mkdir /user/paolo/capstone/airline_origin_destination/filtered_data/
 
 Put origin-destination data in hadoop filesystem
 
-$ hadoop fs -put ./raw_data/* /user/paolo/capstone/airline_origin_destination/
+$ hadoop fs -put ./raw_data/* /user/paolo/capstone/airline_origin_destination/raw_data/
 
 Listing directory contents
 
 $ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/
- 
+
 Call a pig script passing input directory and output file
 
-$ pig -x mapreduce -p input=/user/paolo/capstone/airline_origin_destination/ -p output=/user/paolo/capstone/top_10 load_origin_destination.pig
+$ pig -x mapreduce -p input=/user/paolo/capstone/airline_origin_destination/raw_data/ \
+  -p output=/user/paolo/capstone/airline_origin_destination/top_10 \
+  -p filtered=/user/paolo/capstone/airline_origin_destination/filtered_data/ \
+  load_origin_destination.pig
 
 List resuts in hadoop FS:
 
-$ hadoop fs -ls /user/paolo/capstone/top_10/
+$ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/top_10/
 
 Dump results on screeen:
 
-$ hadoop fs -cat /user/paolo/capstone/top_10/part-r-00000
+$ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/top_10/part-r-00000
