@@ -1,4 +1,12 @@
 
+#################################################################################
+# Processing and filtering Origin/Destination data                              #
+#################################################################################
+
+Set directory to ~/capstone/origin_destination
+
+$ cd ~/capstone/origin_destination
+
 Creating directories in hadoop file system
 
 $ hadoop fs -mkdir -p /user/paolo/capstone/airline_origin_destination/raw_data/
@@ -27,3 +35,22 @@ Dump results on screeen:
 
 $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/top_10/part-r-00000
 $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/filtered_data/part-m-00000 | head
+
+Processing filtered data and dump top 10 airports
+-------------------------------------------------
+
+Set directory to ~/capstone/origin_destination
+
+$ cd ~/capstone/origin_destination
+
+Call a pig script passing input directory and output file
+
+$ pig -x mapreduce -p input=/user/paolo/capstone/airline_origin_destination/raw_data/ \
+  -p output=/user/paolo/capstone/airline_origin_destination/top_10 \
+  -p filtered=/user/paolo/capstone/airline_origin_destination/filtered_data/ \
+  get_top10.pig
+
+
+#################################################################################
+# Processing and filtering Origin/Destination data                              #
+#################################################################################

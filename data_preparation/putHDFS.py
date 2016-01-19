@@ -139,8 +139,6 @@ def processZipFile(myfile):
             logger.info("%s ready for HDFS" %(archived_file))
 
 
-
-
 #A function to truncate a file
 def truncateFile(myfile, lines=MAX_LINES):
     logger.debug("Truncating %s after %s lines" %(myfile, lines))

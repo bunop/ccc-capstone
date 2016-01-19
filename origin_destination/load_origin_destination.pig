@@ -1,9 +1,9 @@
 
 /*******************************************************************************
-* Read Origin and destination dataset with pig                                 *
+* load_origin_destination.pig: Read Origin and destination dataset with pig    *
 *******************************************************************************/
 
-raw_data = LOAD '$input' USING PigStorage(',') AS (ItinID,MktID,SeqNum,Coupons,Year,Quarter,Origin:chararray,OriginAptInd,OriginCityNum,OriginCountry,OriginStateFips,OriginState,OriginStateName,OriginWac,Dest:chararray,DestAptInd,DestCityNum,DestCountry,DestStateFips,DestState,DestStateName,DestWac,Break,CouponType,TkCarrier,OpCarrier,RPCarrier,Passengers,FareClass,Distance,DistanceGroup,Gateway,ItinGeoType,CouponGeoType);
+raw_data = LOAD '$input' USING PigStorage(',') AS (ItinID,MktID,SeqNum,Coupons,Year,Quarter,Origin:chararray,OriginAptInd,OriginCityNum,OriginCountry:chararray,OriginStateFips,OriginState,OriginStateName:chararray,OriginWac,Dest:chararray,DestAptInd,DestCityNum,DestCountry:chararray,DestStateFips,DestState,DestStateName;chararray,DestWac,Break,CouponType,TkCarrier,OpCarrier,RPCarrier,Passengers,FareClass,Distance,DistanceGroup,Gateway,ItinGeoType,CouponGeoType);
 
 packed_data = FOREACH raw_data GENERATE Origin, OriginCountry, OriginStateName, Dest, DestCountry, DestStateName;
 
@@ -36,6 +36,7 @@ Total_counts = FOREACH United_group GENERATE FLATTEN($0), SUM(United_counts.coun
 /* order by counts - using PARALLEL reduce tasks */
 Popular = ORDER Total_counts BY count DESC PARALLEL 4;
 
+/* get and dump the top 10 airports */
 TOP_10 = LIMIT Popular 10;
 DUMP TOP_10;
 
