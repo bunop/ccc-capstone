@@ -2,7 +2,6 @@
 Creating directories in hadoop file system
 
 $ hadoop fs -mkdir -p /user/paolo/capstone/airline_origin_destination/raw_data/
-$ hadoop fs -mkdir /user/paolo/capstone/airline_origin_destination/filtered_data/
 
 Put origin-destination data in hadoop filesystem
 
@@ -22,7 +21,9 @@ $ pig -x mapreduce -p input=/user/paolo/capstone/airline_origin_destination/raw_
 List resuts in hadoop FS:
 
 $ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/top_10/
+$ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/filtered_data/
 
 Dump results on screeen:
 
 $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/top_10/part-r-00000
+$ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/filtered_data/part-m-00000 | head

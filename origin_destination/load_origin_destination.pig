@@ -14,7 +14,7 @@ C = FILTER B BY Origin != '""' ;
 not_empty = FILTER C BY Dest != '""' ;
 
 /* Dump filtered data in HDFS */
-STORE not_empty INTO '$filtered';
+STORE not_empty INTO '$filtered' USING PigStorage(',');
 
 /* Group by origin and destination */
 Origin = GROUP not_empty BY Origin;
@@ -40,4 +40,4 @@ TOP_10 = LIMIT Popular 10;
 DUMP TOP_10;
 
 /* store data to HDFS */
-STORE TOP_10 INTO '$output';
+STORE TOP_10 INTO '$output' USING PigStorage(',');
