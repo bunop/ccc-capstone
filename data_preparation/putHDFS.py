@@ -110,7 +110,15 @@ def processZipFile(myfile):
     #the global temporary working directory
     global workdir
 
-    archive = zipfile.ZipFile(myfile)
+    try:
+        archive = zipfile.ZipFile(myfile)
+
+    except zipfile.BadZipfile, message:
+        #exit this function on errors
+        logger.error("Error on %s: %s" %(myfile, message))
+        logger.warn("Ignoring %s" %(myfile))
+        return
+
     archived_files = archive.namelist()
 
     for archived_file in archived_files:

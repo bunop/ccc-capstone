@@ -3,6 +3,15 @@
 # Processing and filtering Origin/Destination data                              #
 #################################################################################
 
+Set directory to data preparation (WARNING ONLY 1000 rows were considered)
+
+$ cd ~/capstone/data_preparation
+
+Modify putHDFS.py script in order to poin to the correct raw_data path. Then call
+python script to create raw_data directory:
+
+$ python putHDFS.py 2>&1 | tee output_airline_origin_destination.txt
+
 Set directory to ~/capstone/origin_destination
 
 $ cd ~/capstone/origin_destination
@@ -52,10 +61,11 @@ $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_origin_destination/f
 # Processing and filtering Origin/Destination data                              #
 #################################################################################
 
-Set directory to data preparation
+Set directory to data preparation (WARNING ONLY 1000 rows were considered)
 
 $ cd ~/capstone/data_preparation
 
-Call python script to create raw_data directory
+Modify putHDFS.py script in order to poin to the correct raw_data path. Then call
+python script to create raw_data directory:
 
 $ python putHDFS.py 2>&1 | tee output_airline_ontime.txt
