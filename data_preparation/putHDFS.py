@@ -50,11 +50,15 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(threadNam
 program_name = os.path.basename(sys.argv[0])
 logger = logging.getLogger(program_name)
 
-#This is the origin-destination relative path
+#This is the origin-destination path (on AWS)
 #database_path = "~/capstone/aviation/airline_origin_destination"
 
-# This is the ontime database
-database_path = "~/capstone/aviation/airline_ontime"
+# This is the ontime database (AWS)
+database_path = "/mnt/data/aviation/airline_ontime"
+
+# The output path (in AWS sandbox)
+#raw_data_path = "/mnt/data/raw_data/airline_origin_destination/"
+raw_data_path = "/mnt/data/raw_data/airline_ontime/"
 
 # truncate data file atfter this number of lines (debug)
 MAX_LINES = 1000
@@ -173,11 +177,9 @@ def truncateFile(myfile, lines=MAX_LINES):
 if __name__ == "__main__":
     logger.info("%s started" %(program_name))
 
-    #the output directory
-    outdir = os.path.join(os.environ["HOME"],"raw_data")
 
     #verify is output directory exists
-    if os.path.exists("~/raw_data") and os.path.isdir("~/raw_data"):
+    if os.path.exists(raw_data_path) and os.path.isdir(raw_data_path):
         raise Exception, "Output directory exists"
 
     #create a temporary directory
