@@ -99,8 +99,10 @@ $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/top_10/part-r-0
 $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/filtered_data/part-m-00000 | head
 ```
 
-### Processing filtered data and dump top 10 airports
+**TODO**: Each file has the first record (header)
 
+
+### Processing filtered data and dump top 10 airports
 
 Set directory to `~/capstone/origin_destination`
 
@@ -154,3 +156,9 @@ $ hadoop fs -ls /user/paolo/capstone/airline_ontime/raw_data/
 ```
 
 Call a pig script passing input directory and output file:
+
+```
+$ pig -x mapreduce -p input=/user/paolo/capstone/airline_ontime/raw_data/ \
+  -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
+  load_ontime.pig
+```
