@@ -162,3 +162,14 @@ $ pig -x mapreduce -p input=/user/paolo/capstone/airline_ontime/raw_data/ \
   -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
   load_ontime.pig
 ```
+
+List resuts in *hadoop FS*:
+
+```
+$ hadoop fs -ls /user/paolo/capstone/airline_ontime/filtered_data/
+```
+
+Dump results on screeen:
+
+```
+$ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data/part-m-00000 | head
