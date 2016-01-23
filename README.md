@@ -176,6 +176,32 @@ Dump results on screeen:
 $ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data/part-m-00000 | head
 ```
 
+## Get lookup table for ontime dataset
+
+Download data:
+
+```
+$ wget http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRLINE_ID -O /mnt/data/capstone/aviation/lookup/Lookup_AirlineID.csv
+```
+
+Creating directories in *hadoop file system*:
+
+```
+$ hadoop fs -mkdir -p /user/paolo/capstone/lookup/
+```
+
+Put *origin-destination* data in *hadoop filesystem*
+
+```
+$ hadoop fs -put /mnt/data/aviation/lookup/Lookup_AirlineID.csv  /user/paolo/capstone/lookup/
+```
+
+Listing directory contents:
+
+```
+$ hadoop fs -ls /user/paolo/capstone/lookup/
+```
+
 ## Using IPython with Spark
 
 1. Create an iPython notebook profile for our Spark configuration:
