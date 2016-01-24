@@ -1,0 +1,4 @@
+.git
+raw_data
+aviation
+piggy_bank
