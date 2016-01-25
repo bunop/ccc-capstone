@@ -21,7 +21,7 @@ from operator import itemgetter
 from pyspark import SparkConf, SparkContext
 
 ## Module Constants
-APP_NAME = "Top 10 airlines by on-time arrival performance"
+APP_NAME = "days of the week by on-time arrival performance"
 LOOKUP_DIR = "hdfs://sandbox.hortonworks.com:8020/user/paolo/capstone/lookup/"
 DATE_FMT = "%Y-%m-%d"
 TIME_FMT = "%H%M"
@@ -46,11 +46,11 @@ def parse(row):
     row[fields.index("CRSArrTime")] = datetime.strptime(row[fields.index("CRSArrTime")], TIME_FMT).time()
     row[fields.index("Cancelled")] = bool(int(row[fields.index("Cancelled")]))
     row[fields.index("Diverted")] = bool(int(row[fields.index("Diverted")]))
-    
+
     # handle cancellation code
     if row[fields.index("CancellationCode")] == '"':
         row[fields.index("CancellationCode")] = None
-    
+
     #`handle float values
     for index in ["DepDelay", "ArrDelay", "CRSElapsedTime", "Distance", "ActualElapsedTime", "AirTime"]:
         try:
@@ -59,10 +59,10 @@ def parse(row):
             row[fields.index(index)] = None
 
     return Ontime(*row)
-    
+
 def getDayOfWeek(date):
     """Get the day of the week from a datetime object"""
-    
+
     #http://stackoverflow.com/questions/9847213/which-day-of-week-given-a-date-python
     return calendar.day_name[date.weekday()]
 
@@ -76,31 +76,27 @@ def main(sc):
 
     # filter out cancelled or diverted data: http://spark.apache.org/examples.html
     arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False)
-    
+
     # map delay by day of week
     ArrDelay = arrived_data.map(lambda m: (getDayOfWeek(m.FlightDate), m.ArrDelay))
-    
-    #TODO: complete scripts
-    
+
     # calculate ontime average: http://abshinn.github.io/python/apache-spark/2014/10/11/using-combinebykey-in-apache-spark/.
     # create a map like (label, (sum, count)).
     sumCount = ArrDelay.combineByKey(lambda value: (value, 1), lambda x, value: (x[0] + value, x[1] + 1), lambda x, y: (x[0] + y[0], x[1] + y[1]))
-    
+
     # calculating average
     averageByKey = sumCount.map(lambda (label, (value_sum, count)): (label, value_sum / count))
-    
+
     # getting data from RDD
     averageByKey = averageByKey.collectAsMap()
-    
+
     # sort by average values:http://stackoverflow.com/questions/613183/sort-a-python-dictionary-by-value
     sorted_delays = sorted(averageByKey.items(), key=itemgetter(1))
-    
-    # print the top 10 delays
-    for item in sorted_delays[:10]:
-        print item
-    
 
-    
+    # Rank the days of the week by on-time arrival performance.
+    for item in sorted_delays:
+        print item
+
 #main function
 if __name__ == "__main__":
     # Configure Spark
