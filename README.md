@@ -5,10 +5,10 @@
 
 * subversion
 * [ant (HOWTO install)][install-ant]: get [binary][ant-binary]
+* jna
 
 [install-ant]: http://xmodulo.com/how-to-install-apache-ant-on-centos.html
 [ant-binary]: http://mirrors.muzzy.it/apache//ant/binaries/apache-ant-1.9.6-bin.tar.gz
-
 
 ### Registering different types of storage
 
@@ -36,6 +36,42 @@ More info [here][reading-csv-in-pig]
 
 [install-piggybank]: https://cwiki.apache.org/confluence/display/PIG/PiggyBank
 [reading-csv-in-pig]: http://stackoverflow.com/questions/17816078/csv-reading-in-pig-csv-file-contains-quoted-comma
+
+### Install Cassandra
+
+Add the `datastax` repository to your repos `/etc/yum.repos.d/datastax.repo`:
+
+```
+[datastax]
+name = DataStax Repo for Apache Cassandra
+baseurl = http://rpm.datastax.com/community
+enabled = 1
+gpgcheck = 0
+```
+
+Install Cassandra
+
+```
+$ yum install dsc20
+```
+
+Manage Cassandra services
+
+```
+$ service cassandra start
+$ service cassandra status
+$ service cassandra stop
+```
+
+[install-cassandra]: http://www.liquidweb.com/kb/how-to-install-cassandra-on-centos-6/
+
+### Install pyspark-cassandra
+
+```
+$ export SPARK_HOME=/usr/hdp/current/spark-client
+$ $SPARK_HOME/bin/spark-shell --packages TargetHolding:pyspark-cassandra:0.2.4
+$ ipython --profile spark
+```
 
 ## Processing and filtering Origin/Destination data
 
