@@ -20,8 +20,11 @@ import csv
 from StringIO import StringIO
 from datetime import datetime
 from collections import namedtuple
-from operator import itemgetter
+from operator import itemgetter, add
 from pyspark import SparkConf, SparkContext
+
+# add pyspark cassandra
+import pyspark_cassandra
 
 ## Module Constants
 APP_NAME = "Top 10 airlines by on-time arrival performance"
@@ -63,6 +66,22 @@ def parse(row):
 
     return Ontime(*row)
 
+def getTop10(group, element):
+    """Add and element to the list, order the list and then filter the lower value
+    to get onlt 10 elements"""
+    
+    group = add(group, element)
+    
+    # each element in a group is a [airlineid, depdelay]
+    group.sort(key=itemgetter(1))
+    
+    # remove the last element if needed
+    if len(group) > 10:
+        group.pop()
+        
+    return group
+    
+
 def main(sc):
     """Main function"""
 
@@ -82,20 +101,22 @@ def main(sc):
     arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False)
 
     # map by Airport, Carrier key
-    CarrierData = arrived_data.map(lambda m: ((m.Origin, m.AirlineID, airline_lookup.value[str(m.AirlineID)]), m.DepDelay))
+    CarrierData = arrived_data.map(lambda m: ((m.Origin, m.AirlineID), m.DepDelay))
+    
+    # calculate average with mapreduce mapreduce average: Trasorm each value in a list
+    averageByKey = CarrierData.map(lambda (key, value): (key, [value])).reduceByKey(add).map(lambda (key, values): (key, sum(values)/float(len(values))))
 
-    # calculate ontime average: http://abshinn.github.io/python/apache-spark/2014/10/11/using-combinebykey-in-apache-spark/.
-    # create a map like (label, (sum, count)).
-    sumCount = CarrierData.combineByKey(lambda value: (value, 1), lambda x, value: (x[0] + value, x[1] + 1), lambda x, y: (x[0] + y[0], x[1] + y[1]))
+    # traforming data using Origin as a key, and (AirilineID, DepDelay) as value
+    OriginData = averageByKey.map(lambda ((origin, airlineid), depdelay): (origin, [(airlineid, depdelay)]))
+    
+    # reducing data by Origin. Keep best top 10 performances
+    reducedOrigin = OriginData.reduceByKey(getTop10)
+    
+    # transform the rdd in a flatten rdd by kesy
+    top10Origin = reducedOrigin.flatMapValues(lambda x: x)
 
-    # calculating average
-    averageByKey = sumCount.map(lambda (label, (value_sum, count)): (label, value_sum / count))
-
-    # getting data from RDD
-    #averageByKey = averageByKey.collectAsMap()
-
-    # TODO: store values in Cassandra database
-    carriersByAirport = averageByKey.map(lambda ((origin, airlineid, airline), depdelay): {"origin":origin, "airlineid":airlineid, "airline":airline, "depdelay":depdelay})
+    # Store values in Cassandra database
+    carriersByAirport = top10Origin.map(lambda (origin, (airlineid, depdelay)): {"origin":origin, "airlineid":airlineid, "airline":airline_lookup.value[str(airlineid)], "depdelay":depdelay})
     
     # Use LOWER characters
     carriersByAirport.saveToCassandra("capstone","carriersbyairport")
