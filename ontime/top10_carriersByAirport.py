@@ -28,43 +28,9 @@ import pyspark_cassandra
 
 ## Module Constants
 APP_NAME = "top-10 carriers in decreasing order of on-time departure performance from X"
-LOOKUP_DIR = "hdfs://sandbox.hortonworks.com:8020/user/paolo/capstone/lookup/"
-DATE_FMT = "%Y-%m-%d"
-TIME_FMT = "%H%M"
 
-# Those are my fields
-fields = ("FlightDate", "AirlineID", "Origin", "OriginCityName", "OriginStateName", "Dest", "DestCityName", "DestStateName", "CRSDepTime",  "DepDelay", "CRSArrTime", "ArrDelay", "Cancelled", "CancellationCode", "Diverted", "CRSElapsedTime", "ActualElapsedTime", "AirTime", "Distance")
-
-# A namedtuple object
-Ontime = namedtuple('Ontime', fields)
-
-def split(line):
-    """Operator function for splitting a line with csv module"""
-    reader = csv.reader(StringIO(line))
-    return reader.next()
-
-def parse(row):
-    """Parses a row and returns a named tuple"""
-
-    row[fields.index("FlightDate")] = datetime.strptime(row[fields.index("FlightDate")], DATE_FMT).date()
-    row[fields.index("AirlineID")] = int(row[fields.index("AirlineID")])
-    row[fields.index("CRSDepTime")] = datetime.strptime(row[fields.index("CRSDepTime")], TIME_FMT).time()
-    row[fields.index("CRSArrTime")] = datetime.strptime(row[fields.index("CRSArrTime")], TIME_FMT).time()
-    row[fields.index("Cancelled")] = bool(int(row[fields.index("Cancelled")]))
-    row[fields.index("Diverted")] = bool(int(row[fields.index("Diverted")]))
-
-    # handle cancellation code
-    if row[fields.index("CancellationCode")] == '"':
-        row[fields.index("CancellationCode")] = None
-
-    #`handle float values
-    for index in ["DepDelay", "ArrDelay", "CRSElapsedTime", "Distance", "ActualElapsedTime", "AirTime"]:
-        try:
-            row[fields.index(index)] = float(row[fields.index(index)])
-        except ValueError:
-            row[fields.index(index)] = None
-
-    return Ontime(*row)
+## my functions
+from common import *
 
 def getTop10(group, element):
     """Add and element to the list, order the list and then filter the lower value

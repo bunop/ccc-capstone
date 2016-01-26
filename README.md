@@ -321,6 +321,7 @@ USE capstone;
 CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
 CREATE TABLE airportsbyairport ( origin TEXT, destination TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
 CREATE TABLE carriersbypath ( origin TEXT, destination TEXT, airlineid INT, airline TEXT, arrdelay FLOAT, PRIMARY KEY(origin, destination, arrdelay));
+CREATE TABLE best2path (flightdate TIMESTAMP, origin TEXT, destination TEXT, crsdeptime TIMESTAMP, crsarrtime TIMESTAMP, arrdelay FLOAT, PRIMARY KEY(flightdate, origin, destination, arrdelay));
 ```
 
 ### Quering Cassandra
