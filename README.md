@@ -319,6 +319,7 @@ Here, a combined primary key in order to store origin and depdelay in order
 ```
 USE capstone;
 CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
+CREATE TABLE airportsbyairport ( origin TEXT, destination TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
 ```
 
 ### Quering Cassandra
@@ -328,4 +329,5 @@ For each airport X, rank the top-10 carriers in decreasing order of on-time depa
 ```
 USE capstone;
 SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'DEN';
+SELECT origin, destination, depdelay FROM airportsbyairport WHERE origin = 'DEN';
 ```

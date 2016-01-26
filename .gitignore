@@ -10,4 +10,5 @@
 # Ignore symbolic links or path
 aviation
 raw_data
-piggy_bank
+piggy_bank/
+pyspark-cassandra/

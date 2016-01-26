@@ -1,16 +1,15 @@
 ## Spark Application - execute with spark-submit
 # -*- coding: utf-8 -*-
 """
-Created on lun 25 gen 2016, 16.30.05, CET
+Created on mar 26 gen 2016, 19.35.30, CET
 
 @author: Paolo Cozzi <paolo.cozzi@ptp.it>
 
-For each airport X, rank the top-10 carriers in decreasing order of on-time departure
-performance from X. I will need to compute the results for ALL input values (e.g.,
-airport X, source-destination pair X-Y, etc.) for which the result is nonempty.
-These results should then be stored in Cassandra so that the results for an input
-value can be queried by a user.
-
+https://class.coursera.org/cloudcapstone-001/forum/thread?thread_id=88#post-227
+To clarify, in Question 2.2 we are asking you to find, for each airport X, the 
+top 10 other airports {Y1, Y2, ..., Y10} such that flights from X to Yi (on any 
+carrier) have the best on-time departure performance from X. How you measure 
+"on-time departure performance" is up to you.
 """
 
 ## Imports
@@ -100,14 +99,14 @@ def main(sc):
     # filter out cancelled or diverted data: http://spark.apache.org/examples.html
     arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False)
 
-    # map by Airport, Carrier key
-    CarrierData = arrived_data.map(lambda m: ((m.Origin, m.AirlineID), m.DepDelay))
+    # map by Airport origin, Air port destination key
+    CarrierData = arrived_data.map(lambda m: ((m.Origin, m.Dest), m.DepDelay))
     
     # calculate average with mapreduce mapreduce average: Trasorm each value in a list
     averageByKey = CarrierData.map(lambda (key, value): (key, [value])).reduceByKey(add).map(lambda (key, values): (key, sum(values)/float(len(values))))
 
-    # traforming data using Origin as a key, and (AirilineID, DepDelay) as value
-    OriginData = averageByKey.map(lambda ((origin, airlineid), depdelay): (origin, [(airlineid, depdelay)]))
+    # traforming data using Origin as a key, and (Dest, DepDelay) as value
+    OriginData = averageByKey.map(lambda ((origin, dest), depdelay): (origin, [(dest, depdelay)]))
     
     # reducing data by Origin. Keep best top 10 performances
     reducedOrigin = OriginData.reduceByKey(getTop10)
@@ -116,10 +115,10 @@ def main(sc):
     top10Origin = reducedOrigin.flatMapValues(lambda x: x)
 
     # Store values in Cassandra database
-    carriersByAirport = top10Origin.map(lambda (origin, (airlineid, depdelay)): {"origin":origin, "airlineid":airlineid, "airline":airline_lookup.value[str(airlineid)], "depdelay":depdelay})
+    airportsByAirport = top10Origin.map(lambda (origin, (dest, depdelay)): {"origin":origin, "destination":dest, "depdelay":depdelay})
     
     # Use LOWER characters
-    carriersByAirport.saveToCassandra("capstone","carriersbyairport")
+    airportsByAirport.saveToCassandra("capstone","airportsbyairport")
 
 
 #main function
