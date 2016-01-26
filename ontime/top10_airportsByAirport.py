@@ -26,7 +26,7 @@ from pyspark import SparkConf, SparkContext
 import pyspark_cassandra
 
 ## Module Constants
-APP_NAME = "Top 10 airlines by on-time arrival performance"
+APP_NAME = "Top-10 airports in decreasing order of on-time departure performance from X."
 LOOKUP_DIR = "hdfs://sandbox.hortonworks.com:8020/user/paolo/capstone/lookup/"
 DATE_FMT = "%Y-%m-%d"
 TIME_FMT = "%H%M"
