@@ -82,7 +82,7 @@ def main(sc):
     arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False)
 
     # map by Airport, Carrier key
-    CarrierData = arrived_data.map(lambda m: ((m.Origin, airline_lookup.value[str(m.AirlineID)]), m.DepDelay))
+    CarrierData = arrived_data.map(lambda m: ((m.Origin, m.AirlineID, airline_lookup.value[str(m.AirlineID)]), m.DepDelay))
 
     # calculate ontime average: http://abshinn.github.io/python/apache-spark/2014/10/11/using-combinebykey-in-apache-spark/.
     # create a map like (label, (sum, count)).
@@ -92,9 +92,13 @@ def main(sc):
     averageByKey = sumCount.map(lambda (label, (value_sum, count)): (label, value_sum / count))
 
     # getting data from RDD
-    averageByKey = averageByKey.collectAsMap()
+    #averageByKey = averageByKey.collectAsMap()
 
     # TODO: store values in Cassandra database
+    carriersByAirport = averageByKey.map(lambda ((origin, airlineid, airline), depdelay): {"origin":origin, "airlineid":airlineid, "airline":airline, "depdelay":depdelay})
+    
+    # Use LOWER characters
+    carriersByAirport.saveToCassandra("capstone","carriersbyairport")
 
 
 #main function

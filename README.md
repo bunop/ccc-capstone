@@ -68,10 +68,26 @@ $ service cassandra stop
 ### Install pyspark-cassandra
 
 ```
-$ export SPARK_HOME=/usr/hdp/current/spark-client
-$ $SPARK_HOME/bin/spark-shell --packages TargetHolding:pyspark-cassandra:0.2.4
+$ curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+$ yum install sbt
+$ git clone https://github.com/bigstepinc/pyspark-cassandra.git
+$ cd pyspark-cassandra
+$ git submodule update --init --recursive
+$ make dist
+$ export PYSPARK_ROOT=/home/paolo/capstone/pyspark-cassandra/target
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
+    --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
+    --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.6.egg \
+    --conf spark.cassandra.connection.host=127.0.0.1"
 $ ipython --profile spark
 ```
+
+Example on pyspark_cassandra dataframe could be found [here][pyspark-dataframe-cassanra].
+
+[official-pypsark_cassandra]: https://github.com/TargetHolding/pyspark-cassandra.git
+[centos-6-pyspark_cassandra]: https://github.com/bigstepinc/pyspark-cassandra.git
+[pyspark-dataframe-cassanra]: http://rustyrazorblade.com/2015/05/on-the-bleeding-edge-pyspark-dataframes-and-cassandra/
+
 
 ## Processing and filtering Origin/Destination data
 
@@ -286,3 +302,26 @@ More info on installing Ipython-notebook with spark could be found [here][settin
 [setting-ipython-notebook]: http://nbviewer.jupyter.org/gist/fperez/6384491/00-Setup-IPython-PySpark.ipynb
 [notebook-cloudera]: http://blog.cloudera.com/blog/2014/08/how-to-use-ipython-notebook-with-apache-spark/
 [spark-python]: https://districtdatalabs.silvrback.com/getting-started-with-spark-in-python
+
+
+## Storing data into Cassandra
+
+### Creating keyspace
+
+```
+CREATE KEYSPACE capstone WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+```
+
+### Creating tables
+
+```
+USE capstone;
+CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depdelay FLOAT, PRIMARY KEY(origin));
+```
+
+### Quering Cassandra
+
+```
+USE capstone;
+SELECT * FROM carriersByAirport WHERE origin = 'ERI' ;
+```
