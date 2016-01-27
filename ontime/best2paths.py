@@ -21,6 +21,7 @@ Your mission (should you choose to accept it!) is to find, for each X-Y-Z and da
 """
 
 ## Imports
+from collections import namedtuple
 from datetime import datetime, time
 from operator import itemgetter, add
 from pyspark import SparkConf, SparkContext
@@ -33,6 +34,12 @@ APP_NAME = "Top 10 carriers in decreasing order of on-time arrival performance a
 
 # My functions
 from common import *
+
+# a named tuple for flat path like this:
+fields = ('flightdate1', 'origin1', 'dest1', 'flightnum1', 'crsdeptime1', 'crsarrtime1', 'arrdelay1', 'flightdate2', 'origin2', 'dest2', 'flightnum2', 'crsdeptime2', 'crsarrtime2', 'arrdelay2')
+
+# A namedtuple object
+TwoPaths = namedtuple('TwoPaths', fields)
 
 def flatpath(line):
     """Flat a path 2 path tuple"""
@@ -47,16 +54,19 @@ def flatpath(line):
     record = path1 + path2
     
     # return a tuple
-    return tuple(record)
+    return TwoPaths(*record)
     
-
-def sortByDelay(group, element):
-    """Add and element to the list, and then order the list"""
+def getBest(group, element):
+    """Add and element to the list, order the list and get the top of the list"""
     
-    group = add(group, element)
+    group = add([group], [element])
     
-    # each element in a group is a [(m.FlightNum, m.CRSDepTime, m.CRSArrTime, m.ArrDelay)]))
-    group.sort(key=itemgetter(3))
+    # each element in a group is a [airlineid, depdelay]
+    group.sort(key=itemgetter(6))
+    
+    # remove all elements after the 10 index. When reducing, two lists could be evaluated
+    if len(group) > 1:
+        group = group[0]
         
     return group
     
@@ -85,19 +95,29 @@ def main(sc):
     path1 = FlightData.filter(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): crsdeptime < time(hour=12, minute=00))
     path2 = FlightData.filter(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): crsdeptime > time(hour=12, minute=00))
     
+    # Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16: assume you know the actual delay of each flight).
+    # order by arr delay and then get only the first element
+    path1ByFlight = path1.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): (flightdate, origin, dest))
+    path2ByFlight = path2.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): (flightdate, origin, dest))
+    
+    # reduce the flight on the same day on the same path. Get best arrival performance
+    reducedPath1 = path1ByFlight.reduceByKey(getBest).values()
+    reducedPath2 = path2ByFlight.reduceByKey(getBest).values()
+    
     # I can traform path by Origin and destination key, in order to join path1 destionation with path2 origin
-    dest_path1 = path1.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): dest)
-    origin_path2 = path2.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): origin)
+    destPath1 = reducedPath1.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): dest)
+    originPath2 = reducedPath2.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): origin)
     
     # Now I can do a join with the two path. Airport Y (path1 dest, pat2 origin) is the key
-    joined_path = dest_path1.join(origin_path2).values().map(flatpath)
+    joinedPath = destPath1.join(originPath2).values().map(flatpath)
     
     # The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y). 
-    # For example, if X-Y departs January 5, 2008, Y-Z must depart January 7, 2008.
-    
+    # For example, if X-Y departs January 5, 2008, Y-Z must depart January 7, 2008. A difference between
+    # two datetime days is a datetime.timedelta
+    twoDaysPath = joinedPath.filter(lambda x: (x.flightdate2 - x.flightdate1).days == 2)
 
-    # Store values in Cassandra database
-    best2path = sortedData.map(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): {"flightdate":flightdate, "origin":origin ,"destination":dest, "flightnum": flightnum, "crsdeptime": sumDateTime(flightdate, crsdeptime), "crsarrtime": sumDateTime(flightdate, crsarrtime), "arrdelay":arrdelay})
+    # Store values in Cassandra database (flightnum1 INT, origin1 TEXT, dest1 TEXT, departure1 TIMESTAMP, arrival1 TIMESTAMP, arrdelay1 FLOAT, flightnum2 INT, origin2 TEXT, dest2 TEXT, departure2 TIMESTAMP, arrival2 TIMESTAMP, arrdelay2 FLOAT)
+    best2path = twoDaysPath.map(lambda x: {"flightnum1": x.flightnum1, "origin1": x.origin1, "dest1": x.dest1, "departure1": sumDateTime(x.flightdate1, x.crsdeptime1), "arrival1": sumDateTime(x.flightdate1, x.crsarrtime1), "arrdelay1": x.arrdelay1, "flightnum2": x.flightnum2, "origin2": x.origin2, "dest2": x.dest2, "departure2": sumDateTime(x.flightdate2, x.crsdeptime2), "arrival2": sumDateTime(x.flightdate2, x.crsarrtime2), "arrdelay2": x.arrdelay2})
     
     # Use LOWER characters
     best2path.saveToCassandra("capstone","best2path")

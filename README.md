@@ -321,7 +321,7 @@ USE capstone;
 CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
 CREATE TABLE airportsbyairport ( origin TEXT, destination TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
 CREATE TABLE carriersbypath ( origin TEXT, destination TEXT, airlineid INT, airline TEXT, arrdelay FLOAT, PRIMARY KEY(origin, destination, arrdelay));
-CREATE TABLE best2path (flightdate TIMESTAMP, origin TEXT, destination TEXT, flightnum INT, crsdeptime TIMESTAMP, crsarrtime TIMESTAMP, arrdelay FLOAT, PRIMARY KEY(flightdate, origin, destination, arrdelay));
+CREATE TABLE best2path (flightnum1 INT, origin1 TEXT, dest1 TEXT, departure1 TIMESTAMP, arrival1 TIMESTAMP, arrdelay1 FLOAT, flightnum2 INT, origin2 TEXT, dest2 TEXT, departure2 TIMESTAMP, arrival2 TIMESTAMP, arrdelay2 FLOAT, PRIMARY KEY(origin1, dest1, dest2));
 ```
 
 ### Quering Cassandra
@@ -333,4 +333,5 @@ USE capstone;
 SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'DEN';
 SELECT origin, destination, depdelay FROM airportsbyairport WHERE origin = 'DEN';
 SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'DEN';
+SELECT flightnum1, origin1, dest1, departure1, arrival1, arrdelay1, flightnum2, origin2, dest2, departure2, arrival2, arrdelay2 FROM best2path LIMIT 10;
 ```
