@@ -34,6 +34,22 @@ APP_NAME = "Top 10 carriers in decreasing order of on-time arrival performance a
 # My functions
 from common import *
 
+def flatpath(line):
+    """Flat a path 2 path tuple"""
+    
+    # get the two path tuples
+    path1, path2 = line
+    
+    # convert into list
+    path1, path2 = list(path1), list(path2)
+    
+    # merge a path in a single record
+    record = path1 + path2
+    
+    # return a tuple
+    return tuple(record)
+    
+
 def sortByDelay(group, element):
     """Add and element to the list, and then order the list"""
     
@@ -63,25 +79,21 @@ def main(sc):
 
     # I need to extract the values I need. I need the date, the departure and arrival time 
     # scheduled, and the delay
-    FlightData = arrived_data.map(lambda m: ((m.FlightDate, m.Origin, m.Dest), [(m.FlightNum, m.CRSDepTime, m.CRSArrTime, m.ArrDelay)]))
-    
-    # I think that values mus be sorted by m.ArrDelay: Tom wants to arrive at each destination with as little delay as possible 
-    # (Clarification 1/24/16: assume you know the actual delay of each flight).
-    reducedData = FlightData.reduceByKey(sortByDelay)
-    
-    # transform the rdd in a flatten rdd by kesy
-    sortedData = reducedData.flatMapValues(lambda x: x)
+    FlightData = arrived_data.map(lambda m: (m.FlightDate, m.Origin, m.Dest, m.FlightNum, m.CRSDepTime, m.CRSArrTime, m.ArrDelay))
     
     # I need to filter data two times. Tom wants his flights scheduled to depart airport X before 12:00 PM local time
-    path1 = sortedData.filter(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): crsdeptime < time(hour=12, minute=00))
-    path2 = sortedData.filter(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): crsdeptime > time(hour=12, minute=00))
+    path1 = FlightData.filter(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): crsdeptime < time(hour=12, minute=00))
+    path2 = FlightData.filter(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): crsdeptime > time(hour=12, minute=00))
     
     # I can traform path by Origin and destination key, in order to join path1 destionation with path2 origin
-    dest_path1 = path1.keyBy(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): dest)
-    origin_path2 = path2.keyBy(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): origin)
+    dest_path1 = path1.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): dest)
+    origin_path2 = path2.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): origin)
     
-    # Now I can do a join with the two path
-    joined_path = dest_path1.join(origin_path2)
+    # Now I can do a join with the two path. Airport Y (path1 dest, pat2 origin) is the key
+    joined_path = dest_path1.join(origin_path2).values().map(flatpath)
+    
+    # The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y). 
+    # For example, if X-Y departs January 5, 2008, Y-Z must depart January 7, 2008.
     
 
     # Store values in Cassandra database
