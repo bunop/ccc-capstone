@@ -21,12 +21,7 @@ Your mission (should you choose to accept it!) is to find, for each X-Y-Z and da
 """
 
 ## Imports
-import os
-import csv
-
-from StringIO import StringIO
-from datetime import datetime
-from collections import namedtuple
+from datetime import datetime, time
 from operator import itemgetter, add
 from pyspark import SparkConf, SparkContext
 
@@ -44,8 +39,8 @@ def sortByDelay(group, element):
     
     group = add(group, element)
     
-    # each element in a group is a [airlineid, depdelay]
-    group.sort(key=itemgetter(2))
+    # each element in a group is a [(m.FlightNum, m.CRSDepTime, m.CRSArrTime, m.ArrDelay)]))
+    group.sort(key=itemgetter(3))
         
     return group
     
@@ -68,7 +63,7 @@ def main(sc):
 
     # I need to extract the values I need. I need the date, the departure and arrival time 
     # scheduled, and the delay
-    FlightData = arrived_data.map(lambda m: ((m.FlightDate, m.Origin, m.Dest), [(m.CRSDepTime, m.CRSArrTime, m.ArrDelay)]))
+    FlightData = arrived_data.map(lambda m: ((m.FlightDate, m.Origin, m.Dest), [(m.FlightNum, m.CRSDepTime, m.CRSArrTime, m.ArrDelay)]))
     
     # I think that values mus be sorted by m.ArrDelay: Tom wants to arrive at each destination with as little delay as possible 
     # (Clarification 1/24/16: assume you know the actual delay of each flight).
@@ -76,9 +71,21 @@ def main(sc):
     
     # transform the rdd in a flatten rdd by kesy
     sortedData = reducedData.flatMapValues(lambda x: x)
+    
+    # I need to filter data two times. Tom wants his flights scheduled to depart airport X before 12:00 PM local time
+    path1 = sortedData.filter(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): crsdeptime < time(hour=12, minute=00))
+    path2 = sortedData.filter(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): crsdeptime > time(hour=12, minute=00))
+    
+    # I can traform path by Origin and destination key, in order to join path1 destionation with path2 origin
+    dest_path1 = path1.keyBy(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): dest)
+    origin_path2 = path2.keyBy(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): origin)
+    
+    # Now I can do a join with the two path
+    joined_path = dest_path1.join(origin_path2)
+    
 
     # Store values in Cassandra database
-    best2path = sortedData.map(lambda ((flightdate, origin, dest), (crsdeptime, crsarrtime, arrdelay)): {"flightdate":flightdate, "origin":origin ,"destination":dest, "crsdeptime": sumDateTime(flightdate, crsdeptime), "crsarrtime": sumDateTime(flightdate, crsarrtime), "arrdelay":arrdelay})
+    best2path = sortedData.map(lambda ((flightdate, origin, dest), (flightnum, crsdeptime, crsarrtime, arrdelay)): {"flightdate":flightdate, "origin":origin ,"destination":dest, "flightnum": flightnum, "crsdeptime": sumDateTime(flightdate, crsdeptime), "crsarrtime": sumDateTime(flightdate, crsarrtime), "arrdelay":arrdelay})
     
     # Use LOWER characters
     best2path.saveToCassandra("capstone","best2path")
