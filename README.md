@@ -56,7 +56,7 @@ $ ant
 Next, you have to refister piggybank.jar and refer to the appropriate module, Ex:
 
 ```
-grunt> REGISTER /home/paolo/capstone/piggy_bank/contrib/piggybank/java;
+grunt> REGISTER /home/ec2-user/capstone/piggy_bank/contrib/piggybank/java;
 grunt> data = LOAD 'my.csv' USING org.apache.pig.piggybank.storage.CSVExcelStorage()
   AS (...);
 ```

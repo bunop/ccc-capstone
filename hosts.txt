@@ -1,0 +1,16 @@
+172.31.58.114   ip-172-31-58-114.ec2.internal   ambari
+172.31.62.110   ip-172-31-62-110.ec2.internal   node110
+172.31.62.111   ip-172-31-62-111.ec2.internal   node111
+172.31.62.112   ip-172-31-62-112.ec2.internal   node112
+172.31.62.113   ip-172-31-62-113.ec2.internal   node113
+172.31.5.15     ip-172-31-5-15.ec2.internal     node15
+172.31.5.16     ip-172-31-5-16.ec2.internal     node16
+
+
+ip-172-31-58-114.ec2.internal
+ip-172-31-62-110.ec2.internal
+ip-172-31-62-111.ec2.internal
+ip-172-31-62-112.ec2.internal
+ip-172-31-62-113.ec2.internal
+ip-172-31-5-15.ec2.internal
+ip-172-31-5-16.ec2.internal
