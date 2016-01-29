@@ -130,7 +130,7 @@ def processZipFile(myfile):
             data_file = os.path.join(workdir, archived_file)
 
             #debug: deal with the first x lines of a file
-            truncateFile(data_file)
+            #truncateFile(data_file)
 
             #pack csv in gzip format
             cmd = "pigz --best %s" %(data_file)
