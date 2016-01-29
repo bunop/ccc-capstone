@@ -100,6 +100,7 @@ def processZipFile(myfile):
 
     #the global temporary working directory
     global workdir
+    global raw_data_path
 
     try:
         archive = zipfile.ZipFile(myfile)
@@ -139,7 +140,13 @@ def processZipFile(myfile):
 
             archived_file += ".gz"
 
-            logger.info("%s ready for HDFS" %(archived_file))
+            #Load data into HDFS:
+            helper.launch(shlex.split("hadoop fs -put %s %s" %(os.path.join(workdir, archived_file), raw_data_path)))
+
+            #debug
+            logger.info("%s loaded into hdfs://%s" %(archived_file, raw_data_path))
+            logger.debug("Removing %s from %s" %(archived_file, workdir))
+            os.remove(os.path.join(workdir, archived_file))
 
 
 #A function to truncate a file
@@ -176,7 +183,7 @@ def truncateFile(myfile, lines=MAX_LINES):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Scan for Aviation database data, and organize contents in one directory')
     parser.add_argument('-i', '--input_path', type=str, required=True, help='The database input path')
-    parser.add_argument('-o', '--output_path', type=str, required=True, help="The output path directory")
+    parser.add_argument('-o', '--output_path', type=str, required=True, help="The output path directory (HDFS)")
     args = parser.parse_args()
 
     # This is the database path (on AWS)
@@ -201,7 +208,8 @@ if __name__ == "__main__":
     processDirectory(database_path)
 
     # now move temporary directory to out directory
-    shutil.move(workdir, raw_data_path)
+    #shutil.move(workdir, raw_data_path)
+    os.rmdir(workdir)
 
     # Debug
     logger.info("Data file ready in %s directory" %(raw_data_path))

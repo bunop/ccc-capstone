@@ -6,9 +6,38 @@
 * subversion
 * [ant (HOWTO install)][install-ant]: get [binary][ant-binary]
 * jna
+* java devel (if you can'f find: [tools.jar][tools-jar])
 
 [install-ant]: http://xmodulo.com/how-to-install-apache-ant-on-centos.html
 [ant-binary]: http://mirrors.muzzy.it/apache//ant/binaries/apache-ant-1.9.6-bin.tar.gz
+[tools-jar]: http://stackoverflow.com/questions/5730815/unable-to-locate-tools-jar
+
+### install maven
+
+As a superuser do:
+
+```
+$ cd /opt/
+$ wget http://mirrors.gigenet.com/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+$ tar -zxvf apache-maven-3.3.9-bin.tar.gz
+$ ln -s apache-maven-3.3.9 maven
+```
+
+Edit the file `/etc/profile.d/maven.sh`:
+
+```
+export M2_HOME=/opt/maven
+export M2=$M2_HOME/bin
+PATH=$M2:$PATH
+```
+
+Logout, and test maven installation
+
+```
+$ mvn -version
+```
+
+[install-maven]: http://johnathanmarksmith.com/linux/centos7/java/maven/programming/project%20management/2014/10/08/how-to-install-maven-323-on-centos7/
 
 ### Registering different types of storage
 
@@ -69,8 +98,8 @@ $ service cassandra stop
 
 ```
 $ curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-$ yum install sbt
-$ git clone https://github.com/bigstepinc/pyspark-cassandra.git
+$ yum install sbt ipython
+$ git clone https://github.com/TargetHolding/pyspark-cassandra.git
 $ cd pyspark-cassandra
 $ git submodule update --init --recursive
 $ make dist
@@ -91,7 +120,45 @@ Example on pyspark_cassandra dataframe could be found [here][pyspark-dataframe-c
 
 ## Processing and filtering Origin/Destination data
 
-Set directory to data preparation **(WARNING ONLY 1000 rows were considered)**
+### Mount DATA volume
+
+```
+$ sudo lsblk /dev/xvdf
+$ blkid /dev/xvdf1
+```
+
+Edit `/etc/fstab`
+
+```
+#
+# /etc/fstab
+# Created by anaconda on Mon Nov  9 20:20:10 2015
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+UUID=379de64d-ea11-4f5b-ae6a-0aa50ff7b24d /                       xfs     defaults        0 0
+
+# Data volume
+# UUID=cb8fc03c-d634-4a2e-944a-7fe61b9a37fd /mnt/data/              ext4    defaults,users,noauto               0 0
+```
+
+### Manage permission
+
+The first time, you need to add user to hdfs group. Then create hdfs directory and
+manage permissions, as stated [here][hadoop-fs-mkdir]
+
+```
+$ sudo usermod -aG hdfs $(whoami)
+$ sudo -u hdfs hadoop fs -mkdir -p /user/paolo/capstone/airline_origin_destination/raw_data/
+$ sudo -u hdfs hadoop fs -chown -R $(whoami) /user/paolo/
+```
+
+[hadoop-fs-mkdir]: http://stackoverflow.com/questions/22676593/hadoop-fs-mkdir-permission-denied
+
+### Loading files
+
+Set directory to data preparation
 
 ```
 $ cd ~/capstone/data_preparation
@@ -101,25 +168,8 @@ Then call python script to create raw_data directory:
 
 ```
 $ python putHDFS.py --input_path=/mnt/data/aviation/airline_origin_destination/ \
-  --output_path=/mnt/data/raw_data/airline_origin_destination/ 2>&1 | tee \
+  --output_path=/user/paolo/capstone/airline_origin_destination/raw_data/ 2>&1 | tee \
   output_airline_origin_destination.log
-```
-Set directory to `~/capstone/origin_destination`
-
-```
-$ cd ~/capstone/origin_destination
-```
-
-Creating directories in hadoop file system:
-
-```
-$ hadoop fs -mkdir -p /user/paolo/capstone/airline_origin_destination/raw_data/
-```
-
-Put *origin-destination* data in *hadoop filesystem*:
-
-```
-$ hadoop fs -put /mnt/data/raw_data/airline_origin_destination/* /user/paolo/capstone/airline_origin_destination/raw_data/
 ```
 
 Listing directory contents:
@@ -128,11 +178,19 @@ Listing directory contents:
 $ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/raw_data/
 ```
 
+### 3.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
+
+Set directory to `~/capstone/origin_destination`
+
+```
+$ cd ~/capstone/origin_destination
+```
+
 Call a *pig* script passing input directory and output file:
 
 ```
 $ pig -x mapreduce -p input=/user/paolo/capstone/airline_origin_destination/raw_data/ \
-  -p output=/user/paolo/capstone/airline_origin_destination/top_10 \
+  -p output=/user/paolo/capstone/airline_origin_destination/popular/ \
   -p filtered=/user/paolo/capstone/airline_origin_destination/filtered_data/ \
   load_origin_destination.pig
 ```
@@ -140,19 +198,16 @@ $ pig -x mapreduce -p input=/user/paolo/capstone/airline_origin_destination/raw_
 List resuts in *hadoop FS*:
 
 ```
-$ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/top_10/
+$ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/popular/
 $ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/filtered_data/
 ```
 
 Dump results on screeen:
 
 ```
-$ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/top_10/part-r-00000
+$ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/popular/part-r-00000
 $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/filtered_data/part-m-00000 | head
 ```
-
-**TODO**: Each file has the first record (header)
-
 
 ### Processing filtered data and dump top 10 airports
 
