@@ -10,6 +10,12 @@
 [install-ant]: http://xmodulo.com/how-to-install-apache-ant-on-centos.html
 [ant-binary]: http://mirrors.muzzy.it/apache//ant/binaries/apache-ant-1.9.6-bin.tar.gz
 
+### Mount Data volume
+
+```
+$ sudo mount -t ext4 -O rw,defaults,user,noauto UUID=cb8fc03c-d634-4a2e-944a-7fe61b9a37fd /mnt/data/
+```
+
 ### Registering different types of storage
 
 Follow this [guide][install-piggybank]:
