@@ -133,12 +133,12 @@ def processZipFile(myfile):
             #debug: deal with the first x lines of a file
             #truncateFile(data_file)
 
-            #pack csv in gzip format
-            cmd = "pigz --best %s" %(data_file)
-            cmds = shlex.split(cmd)
-            helper.launch(cmds)
-
-            archived_file += ".gz"
+#            #pack csv in gzip format
+#            cmd = "pigz --best %s" %(data_file)
+#            cmds = shlex.split(cmd)
+#            helper.launch(cmds)
+#
+#            archived_file += ".gz"
 
             #Load data into HDFS:
             helper.launch(shlex.split("hadoop fs -put %s %s" %(os.path.join(workdir, archived_file), raw_data_path)))
