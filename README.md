@@ -39,6 +39,12 @@ $ mvn -version
 
 [install-maven]: http://johnathanmarksmith.com/linux/centos7/java/maven/programming/project%20management/2014/10/08/how-to-install-maven-323-on-centos7/
 
+### Mount Data volume
+
+```
+$ sudo mount -t ext4 -O rw,defaults,user,noauto UUID=cb8fc03c-d634-4a2e-944a-7fe61b9a37fd /mnt/data/
+```
+
 ### Registering different types of storage
 
 Follow this [guide][install-piggybank]:
