@@ -52,7 +52,7 @@ program_name = os.path.basename(sys.argv[0])
 logger = logging.getLogger(program_name)
 
 # truncate data file atfter this number of lines (debug)
-MAX_LINES = 1000
+MAX_LINES = 1000000
 
 #a function to process a directory
 def processDirectory(directory):
@@ -101,6 +101,10 @@ def processZipFile(myfile):
     #the global temporary working directory
     global workdir
     global raw_data_path
+    
+    #change directory
+    olddir = os.getcwd()
+    os.chdir(workdir)
 
     try:
         archive = zipfile.ZipFile(myfile)
@@ -132,21 +136,46 @@ def processZipFile(myfile):
 
             #debug: deal with the first x lines of a file
             #truncateFile(data_file)
+            
+            #get file basename
+            basename = os.path.splitext(archived_file)[0]
+            
+            #Try to split input files in chunks
+            cmd = "split --lines=%s %s %s." %(MAX_LINES, archived_file, basename)
+            cmds = shlex.split(cmd)
+            helper.launch(cmds)
+            
+            #now, remove original file
+            os.remove(os.path.join(workdir, data_file))
+            
+            #scan directory for csv, load them in HDFS
+            for chunk in os.listdir(workdir):
+                chunk = os.path.join(workdir, chunk)          
+            
+                #pack csv in gzip format
+                cmd = "pigz --best %s" %(chunk)
+                cmds = shlex.split(cmd)
+                helper.launch(cmds)
+                
+                chunk += ".gz"
 
-#            #pack csv in gzip format
-#            cmd = "pigz --best %s" %(data_file)
-#            cmds = shlex.split(cmd)
-#            helper.launch(cmds)
-#
-#            archived_file += ".gz"
+                #Load data into HDFS:
+                helper.launch(shlex.split("hadoop fs -put %s %s" %(chunk, raw_data_path)))
 
-            #Load data into HDFS:
-            helper.launch(shlex.split("hadoop fs -put %s %s" %(os.path.join(workdir, archived_file), raw_data_path)))
-
-            #debug
-            logger.info("%s loaded into hdfs://%s" %(archived_file, raw_data_path))
-            logger.debug("Removing %s from %s" %(archived_file, workdir))
-            os.remove(os.path.join(workdir, archived_file))
+                #debug
+                logger.info("%s loaded into hdfs://%s" %(chunk, raw_data_path))
+                logger.debug("Removing %s from %s" %(chunk, workdir))
+                os.remove(chunk)
+                
+            #block for splitted files
+            
+        #block for a csv file
+    
+    #return to old dir
+    os.chdir(olddir)
+    
+    #debug
+    #sys.exit(0)
 
 
 #A function to truncate a file

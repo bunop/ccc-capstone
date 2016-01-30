@@ -285,7 +285,7 @@ $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_origin_destination/f
 
 ## Processing and filtering Origin/Destination data
 
-Set directory to data preparation **(WARNING ONLY 1000 rows were considered)**
+Set directory to data preparation
 
 ```
 $ cd ~/capstone/data_preparation
