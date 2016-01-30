@@ -12,8 +12,11 @@ raw_data = LOAD '$input' USING org.apache.pig.piggybank.storage.CSVExcelStorage(
 
 packed_data = FOREACH raw_data GENERATE Origin, OriginCountry, OriginStateName, Dest, DestCountry, DestStateName;
 
+/* there are header inside raw_data, filter out them*/
+filtered_data = FILTER raw_data BY FlightDate != 'Origin' OR AirlineID != 'Dest' ;
+
 /* removing empty values */
-A = FILTER packed_data BY Origin IS NOT NULL ;
+A = FILTER filtered_data BY Origin IS NOT NULL ;
 B = FILTER A BY Dest IS NOT NULL ;
 C = FILTER B BY Origin != '""' ;
 not_empty = FILTER C BY Dest != '""' ;

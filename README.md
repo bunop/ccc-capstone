@@ -285,41 +285,30 @@ $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_origin_destination/f
 
 ## Processing and filtering Origin/Destination data
 
-Set directory to data preparation
+Set directory to data preparation, and create the `raw_data` directory:
 
 ```
 $ cd ~/capstone/data_preparation
+$ hadoop fs -mkdir -p /user/paolo/capstone/airline_ontime/raw_data/
 ```
 
 Then call python script to create `raw_data` directory:
 
 ```
 $ python putHDFS.py --input_path=/mnt/data/aviation/airline_ontime/ \
-  --output_path=/mnt/data/raw_data/airline_ontime/ 2>&1 | tee output_airline_ontime.log
-```
-
-Set directory to `~/capstone/ontime`
-
-```
-$ cd ~/capstone/ontime
-```
-
-Creating directories in *hadoop file system*:
-
-```
-$ hadoop fs -mkdir -p /user/paolo/capstone/airline_ontime/raw_data/
-```
-
-Put *origin-destination* data in *hadoop filesystem*
-
-```
-$ hadoop fs -put /mnt/data/raw_data/airline_ontime/* /user/paolo/capstone/airline_ontime/raw_data/
+  --output_path=/user/paolo/capstone/airline_ontime/raw_data/ 2>&1 | tee output_airline_ontime.log
 ```
 
 Listing directory contents:
 
 ```
 $ hadoop fs -ls /user/paolo/capstone/airline_ontime/raw_data/
+```
+
+Set directory to `~/capstone/ontime`
+
+```
+$ cd ~/capstone/ontime
 ```
 
 Call a pig script passing input directory and output file:
