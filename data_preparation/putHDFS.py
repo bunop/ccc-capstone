@@ -100,6 +100,11 @@ def processZipFile(myfile):
 
     #the global temporary working directory
     global workdir
+    global raw_data_path
+    
+    #change directory
+    olddir = os.getcwd()
+    os.chdir(workdir)
 
     try:
         archive = zipfile.ZipFile(myfile)
@@ -140,6 +145,9 @@ def processZipFile(myfile):
             archived_file += ".gz"
 
             logger.info("%s ready for HDFS" %(archived_file))
+            
+     #return to old dir
+     os.chdir(olddir
 
 
 #A function to truncate a file
