@@ -9,7 +9,7 @@
 * java devel (if you can'f find: [tools.jar][tools-jar])
 
 [install-ant]: http://xmodulo.com/how-to-install-apache-ant-on-centos.html
-[ant-binary]: http://mirrors.muzzy.it/apache//ant/binaries/apache-ant-1.9.6-bin.tar.gz
+[ant-binary]: http://mirrors.muzzy.it/apache/ant/binaries/apache-ant-1.9.6-bin.tar.gz
 [tools-jar]: http://stackoverflow.com/questions/5730815/unable-to-locate-tools-jar
 
 ### install maven

@@ -1,3 +1,5 @@
+Virginia:
+
 172.31.58.114   ip-172-31-58-114.ec2.internal   ambari
 172.31.62.110   ip-172-31-62-110.ec2.internal   node110
 172.31.62.111   ip-172-31-62-111.ec2.internal   node111
@@ -14,3 +16,18 @@ ip-172-31-62-112.ec2.internal
 ip-172-31-62-113.ec2.internal
 ip-172-31-5-15.ec2.internal
 ip-172-31-5-16.ec2.internal
+
+
+Frankfurt:
+
+172.31.25.15    ip-172-31-25-15.eu-central-1.compute.internal     ambari
+172.31.25.16    ip-172-31-25-16.eu-central-1.compute.internal     node16
+172.31.25.17    ip-172-31-25-17.eu-central-1.compute.internal     node17
+172.31.25.18    ip-172-31-25-18.eu-central-1.compute.internal     node18
+172.31.25.19    ip-172-31-25-19.eu-central-1.compute.internal     node19
+
+ip-172-31-25-15.eu-central-1.compute.internal
+ip-172-31-25-16.eu-central-1.compute.internal
+ip-172-31-25-17.eu-central-1.compute.internal
+ip-172-31-25-18.eu-central-1.compute.internal
+ip-172-31-25-19.eu-central-1.compute.internal
