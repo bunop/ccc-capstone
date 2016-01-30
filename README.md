@@ -39,18 +39,12 @@ $ mvn -version
 
 [install-maven]: http://johnathanmarksmith.com/linux/centos7/java/maven/programming/project%20management/2014/10/08/how-to-install-maven-323-on-centos7/
 
-### Mount Data volume
-
-```
-$ sudo mount -t ext4 -O rw,defaults,user,noauto UUID=cb8fc03c-d634-4a2e-944a-7fe61b9a37fd /mnt/data/
-```
-
 ### Registering different types of storage
 
 Follow this [guide][install-piggybank]:
 
 ```
-$ cd /home/paolo/capstone
+$ cd /home/ec2-user/capstone
 $ mkdir piggy_bank
 $ cd piggy_bank
 $ svn checkout http://svn.apache.org/repos/asf/pig/trunk/ .
@@ -98,7 +92,37 @@ $ service cassandra status
 $ service cassandra stop
 ```
 
+Edit `/etc/cassandra/conf/cassandra.yaml`. listen_address and rpc_address have to been
+set to hostname, or ip address, as suggested [here][configure-cassandra]
+
+```
+236c236
+<           - seeds: "127.0.0.1"
+---
+>           - seeds: "node18,node19"
+308c308
+< listen_address: localhost
+---
+> listen_address: ambari
+357c357,358
+< rpc_address: localhost
+---
+> rpc_address: ambari
+>
+```
+
+Test cassandra installation:
+
+```
+$ nodetool status
+$ cqlsh ambari
+```
+
+More info in [cassandra GettingStarted][GettingStarted-cassandra]
+
 [install-cassandra]: http://www.liquidweb.com/kb/how-to-install-cassandra-on-centos-6/
+[configure-cassandra]: http://wiki.apache.org/cassandra/MultinodeCluster10
+[GettingStarted-cassandra]: http://wiki.apache.org/cassandra/GettingStarted
 
 ### Install pyspark-cassandra
 
@@ -128,12 +152,15 @@ Example on pyspark_cassandra dataframe could be found [here][pyspark-dataframe-c
 
 ### Mount DATA volume
 
+Discover volumes:
+
 ```
 $ sudo lsblk /dev/xvdf
 $ blkid /dev/xvdf1
 ```
 
-Edit `/etc/fstab`
+Add the following lines to `/etc/fstab` (warn: if you detach this volume, the instance will
+fail at startup, even if device is not mounted in auto mode):
 
 ```
 #
@@ -148,6 +175,32 @@ UUID=379de64d-ea11-4f5b-ae6a-0aa50ff7b24d /                       xfs     defaul
 # Data volume
 # UUID=cb8fc03c-d634-4a2e-944a-7fe61b9a37fd /mnt/data/              ext4    defaults,users,noauto               0 0
 ```
+
+Mount manually the volume:
+
+```
+$ sudo mkdir /mnt/data
+$ sudo mount -t ext4 -O rw,defaults,user,noauto UUID=cb8fc03c-d634-4a2e-944a-7fe61b9a37fd /mnt/data/
+```
+
+### Mount SWAP
+
+Follow [this][add-swap] guide:
+
+```
+$ sudo dd if=/dev/zero of=/swapfile bs=1024 count=4194304
+$ sudo mkswap /swapfile
+$ sudo swapon /swapfile
+```
+
+Add the following line in `/etc/fstab`:
+
+```
+# Swap file
+/swapfile               swap                    swap    defaults        0 0
+```
+
+[add-swap]: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-swap-adding.html
 
 ### Manage permission
 
@@ -196,8 +249,8 @@ Call a *pig* script passing input directory and output file:
 
 ```
 $ pig -x mapreduce -p input=/user/paolo/capstone/airline_origin_destination/raw_data/ \
-  -p output=/user/paolo/capstone/airline_origin_destination/popular/ \
-  -p filtered=/user/paolo/capstone/airline_origin_destination/filtered_data/ \
+  -p output=/user/paolo/capstone/airline_origin_destination/popular.gz \
+  -p filtered=/user/paolo/capstone/airline_origin_destination/filtered_data.gz \
   load_origin_destination.pig
 ```
 
