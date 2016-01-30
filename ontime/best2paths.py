@@ -16,7 +16,10 @@ requirements:
  * Tom wants to arrive at each destination with as little delay as possible 
    (Clarification 1/24/16: assume you know the actual delay of each flight).
    
-Your mission (should you choose to accept it!) is to find, for each X-Y-Z and day/month (dd/mm) combination in the year 2008, the two flights (X-Y and Y-Z) that satisfy constraints (a) and (b) and have the best individual performance with respect to constraint (c), if such flights exist.
+Your mission (should you choose to accept it!) is to find, for each X-Y-Z and 
+day/month (dd/mm) combination in the year 2008, the two flights (X-Y and Y-Z) 
+that satisfy constraints (a) and (b) and have the best individual performance with 
+respect to constraint (c), if such flights exist.
 
 """
 
