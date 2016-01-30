@@ -17,7 +17,7 @@ from collections import namedtuple
 from operator import itemgetter, add
 
 ## Module Constants
-HDFS_PREFIX = "hdfs://sandbox.hortonworks.com:8020"
+HDFS_PREFIX = "hdfs://ip-172-31-25-15.eu-central-1.compute.internal:8020"
 LOOKUP_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/lookup/")
 DATA_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/filtered_data/")
 DATE_FMT = "%Y-%m-%d"

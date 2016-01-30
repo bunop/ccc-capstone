@@ -124,6 +124,55 @@ More info in [cassandra GettingStarted][GettingStarted-cassandra]
 [configure-cassandra]: http://wiki.apache.org/cassandra/MultinodeCluster10
 [GettingStarted-cassandra]: http://wiki.apache.org/cassandra/GettingStarted
 
+## Using IPython with Spark
+
+1. Create an iPython notebook profile for our Spark configuration:
+
+```
+$ ipython profile create spark
+```
+
+2. Create a file in `$HOME/.ipython/profile_spark/startup/00-pyspark-setup.py` and add the following:
+
+```python
+import os
+import sys
+
+# Configure the environment
+if 'SPARK_HOME' not in os.environ:
+    os.environ['SPARK_HOME'] = '/usr/hdp/current/spark-client'
+
+# Create a variable for our root path
+SPARK_HOME = os.environ['SPARK_HOME']
+
+# Add the PySpark/py4j to the Python Path
+sys.path.insert(0, os.path.join(SPARK_HOME, "python", "lib"))
+sys.path.insert(0, os.path.join(SPARK_HOME, "python"))
+
+# Described here: http://blog.cloudera.com/blog/2014/08/how-to-use-ipython-notebook-with-apache-spark/
+sys.path.insert(0, os.path.join(SPARK_HOME, "python/lib/py4j-0.8.2.1-src.zip"))
+execfile(os.path.join(SPARK_HOME, 'python/pyspark/shell.py'))
+```
+
+3. Start up an IPython shell with the profile we just created.
+
+```
+$ ipython --profile spark
+```
+
+In your notebook, you should see the variables we just created.
+
+```python
+print SPARK_HOME
+```
+
+More info on installing Ipython-notebook with spark could be found [here][setting-ipython-notebook],
+[here][notebook-cloudera] and [here][spark-python]
+
+[setting-ipython-notebook]: http://nbviewer.jupyter.org/gist/fperez/6384491/00-Setup-IPython-PySpark.ipynb
+[notebook-cloudera]: http://blog.cloudera.com/blog/2014/08/how-to-use-ipython-notebook-with-apache-spark/
+[spark-python]: https://districtdatalabs.silvrback.com/getting-started-with-spark-in-python
+
 ### Install pyspark-cassandra
 
 ```
@@ -133,11 +182,11 @@ $ git clone https://github.com/TargetHolding/pyspark-cassandra.git
 $ cd pyspark-cassandra
 $ git submodule update --init --recursive
 $ make dist
-$ export PYSPARK_ROOT=/home/paolo/capstone/pyspark-cassandra/target
-$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
-    --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
-    --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.6.egg \
-    --conf spark.cassandra.connection.host=127.0.0.1"
+$ export PYSPARK_CASSANDRA=/home/ec2-user/capstone/pyspark-cassandra/target
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar  \
+    --driver-class-path ${PYSPARK_CASSANDRA}/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar  \
+    --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.2.5-py2.7.egg \
+    --conf spark.cassandra.connection.host=node19 pyspark-shell"
 $ ipython --profile spark
 ```
 
@@ -315,20 +364,20 @@ Call a pig script passing input directory and output file:
 
 ```
 $ pig -x mapreduce -p input=/user/paolo/capstone/airline_ontime/raw_data/ \
-  -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
+  -p filtered=/user/paolo/capstone/airline_ontime/filtered_data.gz \
   load_ontime.pig
 ```
 
 List resuts in *hadoop FS*:
 
 ```
-$ hadoop fs -ls /user/paolo/capstone/airline_ontime/filtered_data/
+$ hadoop fs -ls /user/paolo/capstone/airline_ontime/filtered_data.gz
 ```
 
 Dump results on screeen:
 
 ```
-$ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data/part-m-00000 | head
+$ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data.gz/part-m-00000.gz | zcat | head
 ```
 
 ## Get lookup table for ontime dataset
@@ -356,56 +405,6 @@ Listing directory contents:
 ```
 $ hadoop fs -ls /user/paolo/capstone/lookup/
 ```
-
-## Using IPython with Spark
-
-1. Create an iPython notebook profile for our Spark configuration:
-
-```
-$ ipython profile create spark
-```
-
-2. Create a file in `$HOME/.config/ipython/profile_spark/startup/00-pyspark-setup.py` and add the following:
-
-```python
-import os
-import sys
-
-# Configure the environment
-if 'SPARK_HOME' not in os.environ:
-  os.environ['SPARK_HOME'] = '/usr/hdp/current/spark-client'
-
-  # Create a variable for our root path
-  SPARK_HOME = os.environ['SPARK_HOME']
-
-  # Add the PySpark/py4j to the Python Path
-  sys.path.insert(0, os.path.join(SPARK_HOME, "python", "build"))
-  sys.path.insert(0, os.path.join(SPARK_HOME, "python"))
-
-  # Described here: http://blog.cloudera.com/blog/2014/08/how-to-use-ipython-notebook-with-apache-spark/
-  sys.path.insert(0, os.path.join(SPARK_HOME, "/python/lib/py4j-0.8.2.1-src.zip"))
-  execfile(os.path.join(SPARK_HOME, 'python/pyspark/shell.py'))
-```
-
-3. Start up an IPython shell with the profile we just created.
-
-```
-$ ipython --profile spark
-```
-
-In your notebook, you should see the variables we just created.
-
-```python
-print SPARK_HOME
-```
-
-More info on installing Ipython-notebook with spark could be found [here][setting-ipython-notebook],
-[here][notebook-cloudera] and [here][spark-python]
-
-[setting-ipython-notebook]: http://nbviewer.jupyter.org/gist/fperez/6384491/00-Setup-IPython-PySpark.ipynb
-[notebook-cloudera]: http://blog.cloudera.com/blog/2014/08/how-to-use-ipython-notebook-with-apache-spark/
-[spark-python]: https://districtdatalabs.silvrback.com/getting-started-with-spark-in-python
-
 
 ## Storing data into Cassandra
 
