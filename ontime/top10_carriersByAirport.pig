@@ -1,7 +1,7 @@
 
 /********************************************************************************
-* top10 airportsbyairport: Read Origin and destination dataset with pig and     *
-* rank the top-10 airports in decreasing order of on-time departure performance *
+* top10 carriersbyairport: Read Origin and destination dataset with pig and     *
+* rank the top-10 carriers in decreasing order of on-time departure performance *
 * from X                                                                        *
 ********************************************************************************/
 
@@ -17,26 +17,26 @@ filtered = LOAD '$filtered' USING org.apache.pig.piggybank.storage.CSVExcelStora
 arrived_flights = FILTER filtered BY Cancelled == 0 AND Diverted == 0;
 
 /* strip columns */
-flights = FOREACH arrived_flights GENERATE Origin, Dest, DepDelay;
+flights = FOREACH arrived_flights GENERATE Origin, AirlineID, DepDelay;
 
-/* grop by Origin and destionation */
-path = GROUP flights BY (Origin, Dest);
+/* grop by Origin and AirlineID */
+carrier = GROUP flights BY (Origin, AirlineID);
 
 /* calculate average */
-path_delays = FOREACH path GENERATE group.Origin, group.Dest, AVG(flights.DepDelay) AS avg_delay;
+carrier_delays = FOREACH carrier GENERATE group.Origin, group.AirlineID, AVG(flights.DepDelay) AS avg_delay;
 
 /* group by airport X*/
-origin_delays = GROUP path_delays BY Origin;
+origin_delays = GROUP carrier_delays BY Origin;
 
 /* order by delay each origin */
-airports_by_airport = FOREACH origin_delays {
-  sorted_origin = ORDER path_delays BY avg_delay ASC;
+carriers_by_airport = FOREACH origin_delays {
+  sorted_origin = ORDER carrier_delays BY avg_delay ASC;
   top10 = LIMIT sorted_origin 10;
   GENERATE FLATTEN(top10);
 };
 
 /* write results to HDFS */
-STORE airports_by_airport INTO '$results' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'NO_MULTILINE', 'NOCHANGE', 'SKIP_OUTPUT_HEADER');;
+STORE carriers_by_airport INTO '$results' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'NO_MULTILINE', 'NOCHANGE', 'SKIP_OUTPUT_HEADER');;
 
 /* in cassandra?
 REGISTER '/usr/share/cassandra/lib/apache-cassandra-2.0.17.jar';
