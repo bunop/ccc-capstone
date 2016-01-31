@@ -42,24 +42,18 @@ def parse(row):
     row[fields.index("AirlineID")] = int(row[fields.index("AirlineID")])
     row[fields.index("FlightNum")] = int(row[fields.index("FlightNum")])
     
-    try:
-        if row[fields.index("CRSDepTime")] == "2400":
-            row[fields.index("CRSDepTime")] = "0000"
-            
-        row[fields.index("CRSDepTime")] = datetime.strptime(row[fields.index("CRSDepTime")], TIME_FMT).time()
-    except ValueError:
-        #raise Exception, "problem in evaluating %s" %(row[fields.index("CRSArrTime")])
-        row[fields.index("CRSDepTime")] = None
+    #cicle amoung scheduled times    
+    for index in ["CRSDepTime", "CRSArrTime"]:
+        if row[fields.index(index)] == "2400":
+            row[fields.index(index)] = "0000"
         
-    try:
-        if row[fields.index("CRSArrTime")] == "2400":
-            row[fields.index("CRSArrTime")] = "0000"
-            
-        row[fields.index("CRSArrTime")] = datetime.strptime(row[fields.index("CRSArrTime")], TIME_FMT).time()
-        
-    except ValueError:
-        #raise Exception, "problem in evaluating %s" %(row[fields.index("CRSArrTime")])
-        row[fields.index("CRSArrTime")] = None
+        # Handle time values
+        try:
+            row[fields.index(index)] = datetime.strptime(row[fields.index(index)], TIME_FMT).time()
+                    
+        except ValueError:
+            #raise Exception, "problem in evaluating %s" %(row[fields.index(index)])
+            row[fields.index(index)] = None
         
     row[fields.index("Cancelled")] = bool(int(row[fields.index("Cancelled")]))
     row[fields.index("Diverted")] = bool(int(row[fields.index("Diverted")]))
