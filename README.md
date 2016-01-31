@@ -394,6 +394,7 @@ Set directory to `~/capstone/ontime` and call:
 
 ```
 $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ top10_airline.pig
+$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airline.py
 ```
 
 Here's the top10 airlines:
@@ -413,6 +414,45 @@ Here's the top10 airlines:
 
 ## 2.1) Rank carriers by airports
 
+Create cassandra tables:
+
+```
+USE capstone;
+CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
+```
+
+Set directory to `~/capstone/ontime` and call:
+
+```
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
+  -p results=/user/paolo/capstone/airline_ontime/top10_carriersByAirport/ top10_carriersByAirport.pig
+$ spark-submit --jars /home/ec2-user/capstone/pyspark-cassandra/target/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar \
+  --driver-class-path /home/ec2-user/capstone/pyspark-cassandra/target/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar \
+  --py-files /home/ec2-user/capstone/pyspark-cassandra/target/pyspark_cassandra-0.2.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=node19 \
+  --master yarn --executor-cores=2 --num-executors 6 top10_carriersByAirport.py
+```
+
+## 2.1) Rank airport by airports
+
+Create cassandra tables:
+
+```
+USE capstone;
+CREATE TABLE airportsbyairport ( origin TEXT, destination TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
+```
+
+Set directory to `~/capstone/ontime` and call:
+
+```
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
+  -p results=/user/paolo/capstone/airline_ontime/top10_airportsByAirport/ top10_airportsByAirport.pig
+$ spark-submit --jars /home/ec2-user/capstone/pyspark-cassandra/target/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar \
+  --driver-class-path /home/ec2-user/capstone/pyspark-cassandra/target/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar \
+  --py-files /home/ec2-user/capstone/pyspark-cassandra/target/pyspark_cassandra-0.2.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=node19 \
+  --master yarn --executor-cores=2 --num-executors 6 top10_airportsByAirport.py
+```
 
 
 ## 3.1) Rank airport by popularity
@@ -463,7 +503,7 @@ $ hadoop fs -ls /user/paolo/capstone/lookup/
 ### Creating keyspace
 
 ```
-CREATE KEYSPACE capstone WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+CREATE KEYSPACE capstone WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 2};
 ```
 
 ### Creating tables

@@ -20,6 +20,7 @@ from operator import itemgetter, add
 HDFS_PREFIX = "hdfs://ip-172-31-25-15.eu-central-1.compute.internal:8020"
 LOOKUP_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/lookup/")
 DATA_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/filtered_data")
+TEST_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/test")
 DATE_FMT = "%Y-%m-%d"
 TIME_FMT = "%H%M"
 
