@@ -61,7 +61,7 @@ def main(sc):
     # Read the CSV Data into an RDD (data are stored on HFDS)
     # The HDSF location in specified in core-site.xml (grep fs /etc/hadoop/conf/core-site.xml)
     # http://stackoverflow.com/questions/27478096/cannot-read-a-file-from-hdfs-using-spark
-    ontime_data = sc.textFile(TEST_DIR).map(split).map(parse)
+    ontime_data = sc.textFile(DATA_DIR).map(split).map(parse)
 
     # filter out cancelled or diverted data: http://spark.apache.org/examples.html
     arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False)

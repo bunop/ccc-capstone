@@ -178,14 +178,14 @@ More info on installing Ipython-notebook with spark could be found [here][settin
 ```
 $ curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
 $ yum install sbt ipython
-$ git clone https://github.com/TargetHolding/pyspark-cassandra.git
+$ git clone https://github.com/bigstepinc/pyspark-cassandra.git
 $ cd pyspark-cassandra
 $ git submodule update --init --recursive
 $ make dist
 $ export PYSPARK_CASSANDRA=/home/ec2-user/capstone/pyspark-cassandra/target
-$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar  \
-    --driver-class-path ${PYSPARK_CASSANDRA}/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar  \
-    --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.2.5-py2.7.egg \
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+    --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+    --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
     --conf spark.cassandra.connection.host=node19 pyspark-shell"
 $ ipython --profile spark
 ```
@@ -426,14 +426,14 @@ Set directory to `~/capstone/ontime` and call:
 ```
 $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
   -p results=/user/paolo/capstone/airline_ontime/top10_carriersByAirport/ top10_carriersByAirport.pig
-$ spark-submit --jars /home/ec2-user/capstone/pyspark-cassandra/target/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar \
-  --driver-class-path /home/ec2-user/capstone/pyspark-cassandra/target/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar \
-  --py-files /home/ec2-user/capstone/pyspark-cassandra/target/pyspark_cassandra-0.2.5-py2.7.egg \
-  --conf spark.cassandra.connection.host=node19 \
-  --master yarn --executor-cores=2 --num-executors 6 top10_carriersByAirport.py
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \                                                                 
+  --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=node19"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByAirport.py
 ```
 
-## 2.1) Rank airport by airports
+## 2.2) Rank airport by airports
 
 Create cassandra tables:
 
@@ -447,11 +447,32 @@ Set directory to `~/capstone/ontime` and call:
 ```
 $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
   -p results=/user/paolo/capstone/airline_ontime/top10_airportsByAirport/ top10_airportsByAirport.pig
-$ spark-submit --jars /home/ec2-user/capstone/pyspark-cassandra/target/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar \
-  --driver-class-path /home/ec2-user/capstone/pyspark-cassandra/target/scala-2.10/pyspark-cassandra-assembly-0.2.5.jar \
-  --py-files /home/ec2-user/capstone/pyspark-cassandra/target/pyspark_cassandra-0.2.5-py2.7.egg \
-  --conf spark.cassandra.connection.host=node19 \
-  --master yarn --executor-cores=2 --num-executors 6 top10_airportsByAirport.py
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \                                                                 
+  --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=node19"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_airportsByAirport.py
+```
+
+## 2.3) Rank carriers by path
+
+Create cassandra tables:
+
+```
+USE capstone;
+CREATE TABLE carriersbypath ( origin TEXT, destination TEXT, airlineid INT, airline TEXT, arrdelay FLOAT, PRIMARY KEY(origin, destination, arrdelay));
+```
+
+Set directory to `~/capstone/ontime` and call:
+
+```
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
+  -p results=/user/paolo/capstone/airline_ontime/top10_carriersByPath/ top10_carriersByPath.pig
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \                                                                 
+  --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=node19"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByPath.py
 ```
 
 
