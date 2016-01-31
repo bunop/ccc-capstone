@@ -264,7 +264,7 @@ $ sudo -u hdfs hadoop fs -chown -R $(whoami) /user/paolo/
 
 [hadoop-fs-mkdir]: http://stackoverflow.com/questions/22676593/hadoop-fs-mkdir-permission-denied
 
-### Loading files
+## Loading Origin / Destination dataset
 
 Set directory to data preparation
 
@@ -285,8 +285,6 @@ Listing directory contents:
 ```
 $ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/raw_data/
 ```
-
-### 3.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
 Set directory to `~/capstone/origin_destination`
 
@@ -315,21 +313,6 @@ Dump results on screeen:
 ```
 $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/popular/part-r-00000
 $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/filtered_data/part-m-00000 | head
-```
-
-### Processing filtered data and dump top 10 airports
-
-Set directory to `~/capstone/origin_destination`
-
-```
-$ cd ~/capstone/origin_destination
-```
-
-Call a *pig* script passing input directory and output file
-
-```
-$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_origin_destination/filtered_data/ \
-  get_top10.pig
 ```
 
 ## Processing and filtering Origin/Destination data
@@ -378,6 +361,45 @@ Dump results on screeen:
 
 ```
 $ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data.gz/part-m-00000.gz | zcat | head
+```
+
+## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
+
+Set directory to `~/capstone/ontime`
+
+```
+$ cd ~/capstone/ontime
+```
+
+Call a *pig* script passing input directory and output file
+
+```
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
+  get_top10.pig
+```
+
+Here's the top10 airport:
+
+```
+(ORD,12449354)
+(ATL,11540422)
+(DFW,10799303)
+(LAX,7723596)
+(PHX,6585532)
+(DEN,6273787)
+(DTW,5636622)
+(IAH,5480734)
+(MSP,5199213)
+(SFO,5171023)
+```
+
+## 3.1) Rank airport by popularity
+
+Set directory to `~/capstone/ontime`. Call a *pig* script passing input directory and output file
+
+```
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
+  -p popular=/user/paolo/capstone/airline_ontime/popular/ get_popular.pig
 ```
 
 ## Get lookup table for ontime dataset
