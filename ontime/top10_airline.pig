@@ -7,7 +7,7 @@
 /* registering piggybank CSV storage:
  http://stackoverflow.com/questions/17816078/csv-reading-in-pig-csv-file-contains-quoted-comma
 */
-REGISTER '/home/paolo/capstone/piggy_bank/contrib/piggybank/java/piggybank.jar';
+REGISTER '/home/ec2-user/capstone/piggy_bank/contrib/piggybank/java/piggybank.jar';
 
 /* load data from filtered dataset */
 filtered = LOAD '$filtered' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'NO_MULTILINE', 'NOCHANGE', 'SKIP_INPUT_HEADER') AS (FlightDate:chararray,AirlineID:chararray,FlightNum:int,Origin:chararray,OriginCityName:chararray,OriginStateName:chararray,Dest:chararray,DestCityName:chararray,DestStateName:chararray,CRSDepTime:chararray,DepDelay:float,CRSArrTime:chararray,ArrDelay:float,Cancelled:int,CancellationCode:chararray,Diverted:int,CRSElapsedTime:float,ActualElapsedTime:float,AirTime:float,Distance:float);

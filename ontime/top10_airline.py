@@ -27,11 +27,11 @@ def main(sc):
     """Main function"""
 
     # Load the airlines lookup dictionary
-    airlines = dict(sc.textFile(os.path.join(LOOKUP_DIR,"Lookup_AirlineID.csv" )).map(split).collect())
+    #airlines = dict(sc.textFile(os.path.join(LOOKUP_DIR,"Lookup_AirlineID.csv" )).map(split).collect())
 
     # Broadcast the lookup dictionary to the cluster. Broadcast variables allow the programmer
     # to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.
-    airline_lookup = sc.broadcast(airlines)
+    #airline_lookup = sc.broadcast(airlines)
 
     # Read the CSV Data into an RDD (data are stored on HFDS)
     # The HDSF location in specified in core-site.xml (grep fs /etc/hadoop/conf/core-site.xml)
@@ -39,10 +39,11 @@ def main(sc):
     ontime_data = sc.textFile(DATA_DIR).map(split).map(parse)
 
     # filter out cancelled or diverted data: http://spark.apache.org/examples.html
-    arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False)
+    arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False and x.AirlineID is not None and x.ArrDelay is not None)
     
     # map by arrived delays
-    ArrDelay = arrived_data.map(lambda m: (airline_lookup.value[str(m.AirlineID)], m.ArrDelay))
+    #ArrDelay = arrived_data.map(lambda m: (airline_lookup.value[str(m.AirlineID)], m.ArrDelay))
+    ArrDelay = arrived_data.map(lambda m: (m.AirlineID, m.ArrDelay))
     
     # calculate ontime average: http://abshinn.github.io/python/apache-spark/2014/10/11/using-combinebykey-in-apache-spark/.
     # create a map like (label, (sum, count)).
@@ -66,9 +67,12 @@ def main(sc):
 #main function
 if __name__ == "__main__":
     # Configure Spark
-    conf = SparkConf().setMaster("local[*]")
+    conf = SparkConf()
     conf = conf.setAppName(APP_NAME)
     sc   = SparkContext(conf=conf)
+    
+    # http://stackoverflow.com/questions/24686474/shipping-python-modules-in-pyspark-to-other-nodes
+    sc.addPyFile("common.py")
 
     # Execute Main functionality
     main(sc)

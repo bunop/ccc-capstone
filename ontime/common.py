@@ -19,7 +19,7 @@ from operator import itemgetter, add
 ## Module Constants
 HDFS_PREFIX = "hdfs://ip-172-31-25-15.eu-central-1.compute.internal:8020"
 LOOKUP_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/lookup/")
-DATA_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/filtered_data/")
+DATA_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/filtered_data.gz/")
 DATE_FMT = "%Y-%m-%d"
 TIME_FMT = "%H%M"
 
@@ -40,8 +40,24 @@ def parse(row):
     row[fields.index("FlightDate")] = datetime.strptime(row[fields.index("FlightDate")], DATE_FMT).date()
     row[fields.index("AirlineID")] = int(row[fields.index("AirlineID")])
     row[fields.index("FlightNum")] = int(row[fields.index("FlightNum")])
-    row[fields.index("CRSDepTime")] = datetime.strptime(row[fields.index("CRSDepTime")], TIME_FMT).time()
-    row[fields.index("CRSArrTime")] = datetime.strptime(row[fields.index("CRSArrTime")], TIME_FMT).time()
+    
+    try:
+        if row[fields.index("CRSDepTime")] == "2400":
+            row[fields.index("CRSDepTime")] = "0000"
+            
+        row[fields.index("CRSDepTime")] = datetime.strptime(row[fields.index("CRSDepTime")], TIME_FMT).time()
+    except ValueError:
+        raise Exception, "problem in evaluating %s" %(row[fields.index("CRSArrTime")])
+        
+    try:
+        if row[fields.index("CRSArrTime")] == "2400":
+            row[fields.index("CRSArrTime")] = "0000"
+            
+        row[fields.index("CRSArrTime")] = datetime.strptime(row[fields.index("CRSArrTime")], TIME_FMT).time()
+        
+    except ValueError:
+        raise Exception, "problem in evaluating %s" %(row[fields.index("CRSArrTime")])
+        
     row[fields.index("Cancelled")] = bool(int(row[fields.index("Cancelled")]))
     row[fields.index("Diverted")] = bool(int(row[fields.index("Diverted")]))
 
