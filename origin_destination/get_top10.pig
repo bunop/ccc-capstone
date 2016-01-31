@@ -3,8 +3,13 @@
 * get_top_10.pig: Get top 10 airports from filtered data                       *
 *******************************************************************************/
 
+/* registering piggybank CSV storage:
+ http://stackoverflow.com/questions/17816078/csv-reading-in-pig-csv-file-contains-quoted-comma
+*/
+REGISTER '/home/ec2-user/capstone/piggy_bank/contrib/piggybank/java/piggybank.jar';
+
 /* load data from filtered dataset */
-not_empty = LOAD '$filtered' USING PigStorage(',') AS (Origin:chararray, OriginCountry:chararray, OriginStateName:chararray, Dest:chararray, DestCountry:chararray, DestStateName:chararray);
+not_empty = LOAD '$filtered' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'NO_MULTILINE', 'NOCHANGE', 'SKIP_INPUT_HEADER') AS (Origin:chararray, OriginCountry:chararray, OriginStateName:chararray, Dest:chararray, DestCountry:chararray, DestStateName:chararray);
 
 /* Group by origin and destination */
 Origin = GROUP not_empty BY Origin;

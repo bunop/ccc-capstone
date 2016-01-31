@@ -266,6 +266,8 @@ $ sudo -u hdfs hadoop fs -chown -R $(whoami) /user/paolo/
 
 ## Loading Origin / Destination dataset
 
+**WARNING: data not used**
+
 Set directory to data preparation
 
 ```
@@ -296,8 +298,7 @@ Call a *pig* script passing input directory and output file:
 
 ```
 $ pig -x mapreduce -p input=/user/paolo/capstone/airline_origin_destination/raw_data/ \
-  -p output=/user/paolo/capstone/airline_origin_destination/popular.gz \
-  -p filtered=/user/paolo/capstone/airline_origin_destination/filtered_data.gz \
+  -p filtered=/user/paolo/capstone/airline_origin_destination/filtered_data \
   load_origin_destination.pig
 ```
 
@@ -305,7 +306,7 @@ List resuts in *hadoop FS*:
 
 ```
 $ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/popular/
-$ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/filtered_data/
+$ hadoop fs -ls /user/paolo/capstone/airline_origin_destination/filtered_data.gz/
 ```
 
 Dump results on screeen:
@@ -347,31 +348,25 @@ Call a pig script passing input directory and output file:
 
 ```
 $ pig -x mapreduce -p input=/user/paolo/capstone/airline_ontime/raw_data/ \
-  -p filtered=/user/paolo/capstone/airline_ontime/filtered_data.gz \
+  -p filtered=/user/paolo/capstone/airline_ontime/filtered_data \
   load_ontime.pig
 ```
 
 List resuts in *hadoop FS*:
 
 ```
-$ hadoop fs -ls /user/paolo/capstone/airline_ontime/filtered_data.gz
+$ hadoop fs -ls /user/paolo/capstone/airline_ontime/filtered_data
 ```
 
 Dump results on screeen:
 
 ```
-$ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data.gz/part-m-00000.gz | zcat | head
+$ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data/part-m-00000 | head
 ```
 
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
-Set directory to `~/capstone/ontime`
-
-```
-$ cd ~/capstone/ontime
-```
-
-Call a *pig* script passing input directory and output file
+Set directory to `~/capstone/ontime`. Call a *pig* script passing input directory and output file
 
 ```
 $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
@@ -393,6 +388,33 @@ Here's the top10 airport:
 (SFO,5171023)
 ```
 
+## 1.2) Rank the top 10 airlines by on-time arrival performance.
+
+Set directory to `~/capstone/ontime` and call:
+
+```
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ top10_airline.pig
+```
+
+Here's the top10 airlines:
+
+```
+(19690,-1.01180434574519)
+(19678,1.1569234424812056)
+(19391,1.4506385127822803)
+(20295,4.747609195734892)
+(20384,5.3224309999287875)
+(20436,5.465881148819851)
+(19386,5.557783392671835)
+(19393,5.5607742598815735)
+(20304,5.736312463662878)
+(20363,5.8671846616957595)
+```
+
+## 2.1) Rank carriers by airports
+
+
+
 ## 3.1) Rank airport by popularity
 
 Set directory to `~/capstone/ontime`. Call a *pig* script passing input directory and output file
@@ -400,6 +422,14 @@ Set directory to `~/capstone/ontime`. Call a *pig* script passing input director
 ```
 $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
   -p popular=/user/paolo/capstone/airline_ontime/popular/ get_popular.pig
+```
+
+Dump results on screeen:
+
+```
+$ hadoop fs -ls /user/paolo/capstone/airline_ontime/popular
+$ hadoop fs -cat /user/paolo/capstone/airline_ontime/popular/part-m-00000 | head
+$ hadoop fs -get /user/paolo/capstone/airline_ontime/popular/part-m-00000 $PWD/airportByPopularity.csv
 ```
 
 ## Get lookup table for ontime dataset

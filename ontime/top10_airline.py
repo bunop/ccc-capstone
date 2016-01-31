@@ -19,9 +19,23 @@ from pyspark import SparkConf, SparkContext
 ## Module Constants
 APP_NAME = "Top 10 airlines by on-time arrival performance"
 
-
 ## my functions
 from common import *
+
+def getTop10(group, element):
+    """Add and element to the list, order the list and then filter the lower value
+    to get onlt 10 elements"""
+    
+    group = add(group, element)
+    
+    # each element in a group is a [airlineid, depdelay]
+    group.sort(key=itemgetter(1))
+    
+    # remove all elements after the 10 index. When reducing, two lists could be evaluated
+    if len(group) > 10:
+        group = group[:10]
+        
+    return group
 
 def main(sc):
     """Main function"""
@@ -45,21 +59,20 @@ def main(sc):
     #ArrDelay = arrived_data.map(lambda m: (airline_lookup.value[str(m.AirlineID)], m.ArrDelay))
     ArrDelay = arrived_data.map(lambda m: (m.AirlineID, m.ArrDelay))
     
-    # calculate ontime average: http://abshinn.github.io/python/apache-spark/2014/10/11/using-combinebykey-in-apache-spark/.
-    # create a map like (label, (sum, count)).
-    sumCount = ArrDelay.combineByKey(lambda value: (value, 1), lambda x, value: (x[0] + value, x[1] + 1), lambda x, y: (x[0] + y[0], x[1] + y[1]))
+    # calculate average with mapreduce mapreduce average: Trasorm each value in a list
+    averageByKey = ArrDelay.map(lambda (key, value): (key, [value])).reduceByKey(add).map(lambda (key, values): (key, sum(values)/float(len(values))))
+
+    # # traforming data using 1 as a key, and (AirlineID, ArrDelay) as value
+    AirlineIDData = averageByKey.map(lambda (airlineid, arrdelay): (True, [(airlineid, arrdelay)]))
+
+    # reducing data by 1. Keep best top 10 performances
+    reducedAirlineID = AirlineIDData.reduceByKey(getTop10)
     
-    # calculating average
-    averageByKey = sumCount.map(lambda (label, (value_sum, count)): (label, value_sum / count))
-    
-    # getting data from RDD
-    averageByKey = averageByKey.collectAsMap()
-    
-    # sort by average values:http://stackoverflow.com/questions/613183/sort-a-python-dictionary-by-value
-    sorted_delays = sorted(averageByKey.items(), key=itemgetter(1))
+    # transform the rdd in a flatten rdd by kesy
+    top10Airline = reducedAirlineID.flatMapValues(lambda x: x).map(lambda (key, value): value)
     
     # print the top 10 delays
-    for item in sorted_delays[:10]:
+    for item in top10Airline.collect():
         print item
     
 

@@ -19,7 +19,7 @@ from operator import itemgetter, add
 ## Module Constants
 HDFS_PREFIX = "hdfs://ip-172-31-25-15.eu-central-1.compute.internal:8020"
 LOOKUP_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/lookup/")
-DATA_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/filtered_data.gz/")
+DATA_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/filtered_data")
 DATE_FMT = "%Y-%m-%d"
 TIME_FMT = "%H%M"
 
@@ -47,7 +47,8 @@ def parse(row):
             
         row[fields.index("CRSDepTime")] = datetime.strptime(row[fields.index("CRSDepTime")], TIME_FMT).time()
     except ValueError:
-        raise Exception, "problem in evaluating %s" %(row[fields.index("CRSArrTime")])
+        #raise Exception, "problem in evaluating %s" %(row[fields.index("CRSArrTime")])
+        row[fields.index("CRSDepTime")] = None
         
     try:
         if row[fields.index("CRSArrTime")] == "2400":
@@ -56,7 +57,8 @@ def parse(row):
         row[fields.index("CRSArrTime")] = datetime.strptime(row[fields.index("CRSArrTime")], TIME_FMT).time()
         
     except ValueError:
-        raise Exception, "problem in evaluating %s" %(row[fields.index("CRSArrTime")])
+        #raise Exception, "problem in evaluating %s" %(row[fields.index("CRSArrTime")])
+        row[fields.index("CRSArrTime")] = None
         
     row[fields.index("Cancelled")] = bool(int(row[fields.index("Cancelled")]))
     row[fields.index("Diverted")] = bool(int(row[fields.index("Diverted")]))

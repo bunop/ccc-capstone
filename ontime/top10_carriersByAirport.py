@@ -91,7 +91,7 @@ def main(sc):
 #main function
 if __name__ == "__main__":
     # Configure Spark
-    conf = SparkConf().setMaster("local[*]")
+    conf = SparkConf()
     conf = conf.setAppName(APP_NAME)
     sc   = SparkContext(conf=conf)
 
