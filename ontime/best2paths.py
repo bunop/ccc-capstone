@@ -88,7 +88,7 @@ def main(sc):
 
     # filter out cancelled or diverted data: http://spark.apache.org/examples.html
     # consider to get only 2008 data as specified in requirements
-    arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False and x.FlightDate.year == 2008)
+    arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False and x.FlightDate.year == 2008 and x.CRSDepTime is not None and x.CRSArrTime is not None and x.ArrDelay is not None)
 
     # I need to extract the values I need. I need the date, the departure and arrival time 
     # scheduled, and the delay
@@ -129,9 +129,13 @@ def main(sc):
 #main function
 if __name__ == "__main__":
     # Configure Spark
-    conf = SparkConf().setMaster("local[*]")
+    conf = SparkConf()
     conf = conf.setAppName(APP_NAME)
     sc   = SparkContext(conf=conf)
+    
+    # http://stackoverflow.com/questions/24686474/shipping-python-modules-in-pyspark-to-other-nodes
+    sc.addPyFile("common.py")
 
     # Execute Main functionality
     main(sc)
+    

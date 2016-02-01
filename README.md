@@ -68,7 +68,8 @@ More info [here][reading-csv-in-pig]
 
 ### Install Cassandra
 
-Add the `datastax` repository to your repos `/etc/yum.repos.d/datastax.repo`:
+Add the `datastax` repository to your repos `/etc/yum.repos.d/datastax.repo` as suggested
+[here][datastax-cassandra]:
 
 ```
 [datastax]
@@ -120,6 +121,7 @@ $ cqlsh ambari
 
 More info in [cassandra GettingStarted][GettingStarted-cassandra]
 
+[datastax-cassandra]: https://docs.datastax.com/en/cassandra/2.0/cassandra/install/installRHEL_t.html
 [install-cassandra]: http://www.liquidweb.com/kb/how-to-install-cassandra-on-centos-6/
 [configure-cassandra]: http://wiki.apache.org/cassandra/MultinodeCluster10
 [GettingStarted-cassandra]: http://wiki.apache.org/cassandra/GettingStarted
@@ -167,11 +169,13 @@ print SPARK_HOME
 ```
 
 More info on installing Ipython-notebook with spark could be found [here][setting-ipython-notebook],
-[here][notebook-cloudera] and [here][spark-python]
+[here][notebook-cloudera] and [here][spark-python]. Tips to submit application using
+yarn could be found [here][spark-submitting]
 
 [setting-ipython-notebook]: http://nbviewer.jupyter.org/gist/fperez/6384491/00-Setup-IPython-PySpark.ipynb
 [notebook-cloudera]: http://blog.cloudera.com/blog/2014/08/how-to-use-ipython-notebook-with-apache-spark/
 [spark-python]: https://districtdatalabs.silvrback.com/getting-started-with-spark-in-python
+[spark-submitting]: http://spark.apache.org/docs/latest/submitting-applications.html
 
 ### Install pyspark-cassandra
 
@@ -364,6 +368,32 @@ Dump results on screeen:
 $ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data/part-m-00000 | head
 ```
 
+## Get lookup table for ontime dataset
+
+Download data:
+
+```
+$ wget http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRLINE_ID -O /mnt/data/capstone/aviation/lookup/Lookup_AirlineID.csv
+```
+
+Creating directories in *hadoop file system*:
+
+```
+$ hadoop fs -mkdir -p /user/paolo/capstone/lookup/
+```
+
+Put *origin-destination* data in *hadoop filesystem*
+
+```
+$ hadoop fs -put /mnt/data/aviation/lookup/Lookup_AirlineID.csv  /user/paolo/capstone/lookup/
+```
+
+Listing directory contents:
+
+```
+$ hadoop fs -ls /user/paolo/capstone/lookup/
+```
+
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
 Set directory to `~/capstone/ontime`. Call a *pig* script passing input directory and output file
@@ -426,9 +456,9 @@ Set directory to `~/capstone/ontime` and call:
 ```
 $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
   -p results=/user/paolo/capstone/airline_ontime/top10_carriersByAirport/ top10_carriersByAirport.pig
-$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \                                                                 
-  --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
-  --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.7.egg \
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=node19"
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByAirport.py
 ```
@@ -447,9 +477,9 @@ Set directory to `~/capstone/ontime` and call:
 ```
 $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
   -p results=/user/paolo/capstone/airline_ontime/top10_airportsByAirport/ top10_airportsByAirport.pig
-$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \                                                                 
-  --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
-  --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.7.egg \
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=node19"
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_airportsByAirport.py
 ```
@@ -468,13 +498,12 @@ Set directory to `~/capstone/ontime` and call:
 ```
 $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
   -p results=/user/paolo/capstone/airline_ontime/top10_carriersByPath/ top10_carriersByPath.pig
-$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \                                                                 
-  --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar  \
-  --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.7.egg \
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar \
+  --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=node19"
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByPath.py
 ```
-
 
 ## 3.1) Rank airport by popularity
 
@@ -493,30 +522,34 @@ $ hadoop fs -cat /user/paolo/capstone/airline_ontime/popular/part-m-00000 | head
 $ hadoop fs -get /user/paolo/capstone/airline_ontime/popular/part-m-00000 $PWD/airportByPopularity.csv
 ```
 
-## Get lookup table for ontime dataset
+## 3.2) Find best path
 
-Download data:
+Tom wants to travel from airport X to airport Z. However, Tom also wants to stop
+at airport Y for some sightseeing on the way. More concretely, Tom has the following
+requirements (see Task 1 Queries for specific queries):
 
-```
-$ wget http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRLINE_ID -O /mnt/data/capstone/aviation/lookup/Lookup_AirlineID.csv
-```
+* The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y).
+  For example, if X-Y departs January 5, 2008, Y-Z must depart January 7, 2008.
+* Tom wants his flights scheduled to depart airport X before 12:00 PM local time and
+  to depart airport Y after 12:00 PM local time.
+* Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16:
+  assume you know the actual delay of each flight).
 
-Creating directories in *hadoop file system*:
+Your mission (should you choose to accept it!) is to find, for each X-Y-Z and day/month
+(dd/mm) combination in the year 2008, the two flights (X-Y and Y-Z) that satisfy
+constraints (a) and (b) and have the best individual performance with respect to
+constraint (c), if such flights exist.
 
-```
-$ hadoop fs -mkdir -p /user/paolo/capstone/lookup/
-```
-
-Put *origin-destination* data in *hadoop filesystem*
-
-```
-$ hadoop fs -put /mnt/data/aviation/lookup/Lookup_AirlineID.csv  /user/paolo/capstone/lookup/
-```
-
-Listing directory contents:
+Set directory to `~/capstone/ontime`. Call a *pig* script passing input directory and output file
 
 ```
-$ hadoop fs -ls /user/paolo/capstone/lookup/
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
+  -p popular=/user/paolo/capstone/airline_ontime/popular/ <pig_script>
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar \
+  --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=node19"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 best2paths.py
 ```
 
 ## Storing data into Cassandra

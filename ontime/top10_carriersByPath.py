@@ -61,7 +61,7 @@ def main(sc):
     ontime_data = sc.textFile(DATA_DIR).map(split).map(parse)
 
     # filter out cancelled or diverted data: http://spark.apache.org/examples.html
-    arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False and m.ArrDelay is not None)
+    arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False and x.ArrDelay is not None)
 
     # map by Airport origin, Air port destination and airline id key
     CarrierData = arrived_data.map(lambda m: ((m.Origin, m.Dest,  m.AirlineID), m.ArrDelay))
