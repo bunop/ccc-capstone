@@ -444,6 +444,11 @@ Here's the top10 airlines:
 
 ## 2.1) Rank carriers by airports
 
+>Clarification 1/27/2016: For questions 1 and 2 below, we are asking you to find,
+for each airport, the top 10 carriers and destination airports from that airport
+with respect to on-time departure performance. We are not asking you to rank the
+overall top 10 carriers/airports.
+
 Create cassandra tables:
 
 ```
@@ -461,6 +466,30 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=node19"
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByAirport.py
+```
+
+Provide the results using the following airport codes.
+
+CMI (University of Illinois Willard Airport)
+BWI (Baltimore-Washington International Airport)
+MIA (Miami International Airport)
+LAX (Los Angeles International Airport)
+IAH (George Bush Intercontinental Airport)
+SFO (San Francisco International Airport)
+
+```
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'CMI';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'BWI';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'MIA';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'LAX';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'IAH';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'SFO';
+```
+
+Or you can use a CQL script:
+
+```
+$ cqlsh -f top10_carriersByAirport.cql node19 > top10_carriersByAirport.txt
 ```
 
 ## 2.2) Rank airport by airports
@@ -484,6 +513,21 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_airportsByAirport.py
 ```
 
+Provide the results using the following airport codes.
+
+CMI (University of Illinois Willard Airport)
+BWI (Baltimore-Washington International Airport)
+MIA (Miami International Airport)
+LAX (Los Angeles International Airport)
+IAH (George Bush Intercontinental Airport)
+SFO (San Francisco International Airport)
+
+You can use a CQL script:
+
+```
+$ cqlsh -f top10_airportsByAirport.cql node19 > top10_airportsByAirport.txt
+```
+
 ## 2.3) Rank carriers by path
 
 Create cassandra tables:
@@ -503,6 +547,12 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=node19"
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByPath.py
+```
+
+You can use a CQL script:
+
+```
+$ cqlsh -f top10_carriersByPath.cql node19 > top10_carriersByPath.txt
 ```
 
 ## 3.1) Rank airport by popularity

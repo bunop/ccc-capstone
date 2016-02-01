@@ -117,6 +117,8 @@ def main(sc):
     # The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y). 
     # For example, if X-Y departs January 5, 2008, Y-Z must depart January 7, 2008. A difference between
     # two datetime days is a datetime.timedelta
+    
+    #TODO: map by flightdate2 then filter out useful flight
     twoDaysPath = joinedPath.filter(lambda x: (x.flightdate2 - x.flightdate1).days == 2)
 
     # Store values in Cassandra database (flightnum1 INT, origin1 TEXT, dest1 TEXT, departure1 TIMESTAMP, arrival1 TIMESTAMP, arrdelay1 FLOAT, flightnum2 INT, origin2 TEXT, dest2 TEXT, departure2 TIMESTAMP, arrival2 TIMESTAMP, arrdelay2 FLOAT)
