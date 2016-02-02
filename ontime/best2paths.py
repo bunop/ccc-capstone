@@ -25,7 +25,7 @@ respect to constraint (c), if such flights exist.
 
 ## Imports
 from collections import namedtuple
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from operator import itemgetter, add
 from pyspark import SparkConf, SparkContext
 
@@ -54,23 +54,7 @@ def filterByDays(line):
     flightdate1, flightdate2 = path1[0], path2[0]
     
     return (flightdate2 - flightdate1).days == 2
-    
-def getBest(group, element):
-    """Add and element to the list, order the list and get the top of the list"""
-    
-    #this is the single element
-    #(flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1, flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2, arrdelay1+arrdelay2)
-    group = add(group, element)
-    
-    # each element in a group is a [airlineid, depdelay]
-    group.sort(key=itemgetter(14))
-    
-    # remove all elements after the 10 index. When reducing, two lists could be evaluated
-    if len(group) > 1:
-        group = [group[0]]
         
-    return group
-    
 def sumDateTime(date, time):
     """Sum time to a datetime object"""
     
@@ -97,22 +81,21 @@ def main(sc):
     path2 = FlightData.filter(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): crsdeptime > time(hour=12, minute=00))
     
     # I can traform path by Origin and destination key, in order to join path1 destionation with path2 origin
-    destPath1 = path1.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): dest)
-    originPath2 = path2.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): origin)
+    # TIP: since the The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y).
+    # i could subtrack 2 days from the second dataset; then join by two keys
+    destPath1 = path1.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): (dest, flightdate))
+    
+    # By subtracting two days from 2nd time, I could join by date
+    originPath2 = path2.keyBy(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): (origin, flightdate-timedelta(2)))
     
     # Now I can do a join with the two path. Airport Y (path1 dest, pat2 origin) is the key. When a join is performed
     # RDD with the same keys are located on the same nodes. Calling a map to transform values could be ineficcinest since
     # the new keys will invalidate partitioning by keys. So, filter out dates before calling a new key map phase
     joinedPath = destPath1.join(originPath2).values()
     
-    # The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y). 
-    # For example, if X-Y departs January 5, 2008, Y-Z must depart January 7, 2008. A difference between
-    # two datetime days is a datetime.timedelta
-    twoDaysPath = joinedPath.filter(filterByDays).cache()
-    
     # Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16: assume you know the actual delay of each flight)
     # I can sum delays for each 2 path, then order by such values. So
-    twoDaysPathFlat = twoDaysPath.map(lambda ((flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1), (flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2)): ((flightdate1, origin1, dest1, dest2), [(flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1, flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2, arrdelay1+arrdelay2)]))
+    twoDaysPathFlat = joinedPath.map(lambda ((flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1), (flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2)): ((flightdate1, origin1, dest1, dest2), [(flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1, flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2, arrdelay1+arrdelay2)]))
     
     # Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16: assume you know the actual delay of each flight).
     #reducing data by sum of delays. keep only the best. First sum flight from the same dat with the same path
