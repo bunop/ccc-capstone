@@ -108,18 +108,21 @@ def main(sc):
     # The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y). 
     # For example, if X-Y departs January 5, 2008, Y-Z must depart January 7, 2008. A difference between
     # two datetime days is a datetime.timedelta
-    twoDaysPath = joinedPath.filter(filterByDays)
+    twoDaysPath = joinedPath.filter(filterByDays).cache()
     
     # Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16: assume you know the actual delay of each flight)
     # I can sum delays for each 2 path, then order by such values. So
-    twoDaysPathFlat = twoDaysPath.map(lambda ((flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1), (flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2)): ((origin1, dest1, dest1), [(flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1, flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2, arrdelay1+arrdelay2)]))
+    twoDaysPathFlat = twoDaysPath.map(lambda ((flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1), (flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2)): ((flightdate1, origin1, dest1, dest2), [(flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1, flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2, arrdelay1+arrdelay2)]))
     
     # Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16: assume you know the actual delay of each flight).
-    #reducing data by sum of delays. keep only the best
-    twoDaysPathReduced = twoDaysPathFlat.reduceByKey(getBest)
+    #reducing data by sum of delays. keep only the best. First sum flight from the same dat with the same path
+    twoDaysPathReduced = twoDaysPathFlat.reduceByKey(add)
+    
+    # sorting by sum of delays, then take the first element
+    twoDaysPathSorted = twoDaysPathReduced.mapValues(lambda v: sorted(v, key=itemgetter(14))).mapValues(lambda v: v[0])
     
     #transforming in a more easier object
-    twoDaysPath = twoDaysPathReduced.flatMapValues(lambda x:x).values().map(lambda x: TwoPaths(*x))
+    twoDaysPath = twoDaysPathSorted.values().map(lambda x: TwoPaths(*x))
     
     # Store values in Cassandra database (flightnum1 INT, origin1 TEXT, dest1 TEXT, departure1 TIMESTAMP, arrival1 TIMESTAMP, arrdelay1 FLOAT, flightnum2 INT, origin2 TEXT, dest2 TEXT, departure2 TIMESTAMP, arrival2 TIMESTAMP, arrdelay2 FLOAT)
     best2path = twoDaysPath.map(lambda x: {"flightnum1": x.flightnum1, "origin1": x.origin1, "dest1": x.dest1, "departure1": sumDateTime(x.flightdate1, x.crsdeptime1), "arrival1": sumDateTime(x.flightdate1, x.crsarrtime1), "arrdelay1": x.arrdelay1, "flightnum2": x.flightnum2, "origin2": x.origin2, "dest2": x.dest2, "departure2": sumDateTime(x.flightdate2, x.crsdeptime2), "arrival2": sumDateTime(x.flightdate2, x.crsarrtime2), "arrdelay2": x.arrdelay2})
