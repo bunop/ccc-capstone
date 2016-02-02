@@ -56,3 +56,87 @@ SELECT flightnum1,
        dest2 = 'CRP' AND
        arrival2 = '2008-09-09'
  ALLOW FILTERING;
+
+/* SLC → BFL → LAX, 01/04/2008 */
+
+SELECT flightnum1,
+       origin1,
+       dest1,
+       departure1,
+       arrival1,
+       arrdelay1,
+       flightnum2,
+       origin2,
+       dest2,
+       departure2,
+       arrival2,
+       arrdelay2
+  FROM best2path
+ WHERE origin1 = 'SLC' AND
+       dest1 = 'BFL' AND
+       dest2 = 'LAX' AND
+       arrival2 = '2008-04-01'
+ ALLOW FILTERING;
+
+/* LAX → SFO → PHX, 12/07/2008 */
+
+SELECT flightnum1,
+      origin1,
+      dest1,
+      departure1,
+      arrival1,
+      arrdelay1,
+      flightnum2,
+      origin2,
+      dest2,
+      departure2,
+      arrival2,
+      arrdelay2
+ FROM best2path
+WHERE origin1 = 'LAX' AND
+      dest1 = 'SFO' AND
+      dest2 = 'PHX' AND
+      arrival2 = '2008-07-12'
+ALLOW FILTERING;
+
+/* DFW → ORD → DFW, 10/06/2008 */
+
+SELECT flightnum1,
+       origin1,
+       dest1,
+       departure1,
+       arrival1,
+       arrdelay1,
+       flightnum2,
+       origin2,
+       dest2,
+       departure2,
+       arrival2,
+       arrdelay2
+  FROM best2path
+ WHERE origin1 = 'DFW' AND
+       dest1 = 'ORD' AND
+       dest2 = 'DFW' AND
+       arrival2 = '2008-06-10'
+ ALLOW FILTERING;
+
+/* LAX → ORD → JFK, 01/01/2008 */
+
+SELECT flightnum1,
+      origin1,
+      dest1,
+      departure1,
+      arrival1,
+      arrdelay1,
+      flightnum2,
+      origin2,
+      dest2,
+      departure2,
+      arrival2,
+      arrdelay2
+ FROM best2path
+WHERE origin1 = 'LAX' AND
+      dest1 = 'ORD' AND
+      dest2 = 'JFK' AND
+      arrival2 = '2008-01-01'
+ALLOW FILTERING;
