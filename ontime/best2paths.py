@@ -33,7 +33,7 @@ from pyspark import SparkConf, SparkContext
 import pyspark_cassandra
 
 ## Module Constants
-APP_NAME = "Top 10 carriers in decreasing order of on-time arrival performance at Y from X."
+APP_NAME = "Tom's best path"
 
 # My functions
 from common import *
@@ -80,6 +80,16 @@ def main(sc):
     path1 = FlightData.filter(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): crsdeptime < time(hour=12, minute=00))
     path2 = FlightData.filter(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): crsdeptime > time(hour=12, minute=00))
     
+    # filter path1 and path2 by locations
+    #CMI → ORD → LAX, 04/03/2008
+    #JAX → DFW → CRP, 09/09/2008
+    #SLC → BFL → LAX, 01/04/2008
+    #LAX → SFO → PHX, 12/07/2008
+    #DFW → ORD → DFW, 10/06/2008
+    #LAX → ORD → JFK, 01/01/2008
+    #path1Filtered = path1.filter(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): origin in ('CMI', 'JAX', 'SLC', 'LAX', 'DFW', 'LAX') and dest in ('ORD', 'DFW', 'BFL', 'SFO', 'ORD', 'ORD'))
+    #path2Filtered = path2.filter(lambda (flightdate, origin, dest, flightnum, crsdeptime, crsarrtime, arrdelay): origin in ('ORD', 'DFW', 'BFL', 'SFO', 'ORD', 'ORD') and dest in ('LAX', 'CRP', 'LAX', 'PHX', 'DFW', 'JFK'))        
+    
     # I can traform path by Origin and destination key, in order to join path1 destionation with path2 origin
     # TIP: since the The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y).
     # i could subtrack 2 days from the second dataset; then join by two keys
@@ -95,7 +105,7 @@ def main(sc):
     
     # Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16: assume you know the actual delay of each flight)
     # I can sum delays for each 2 path, then order by such values. So
-    twoDaysPathFlat = joinedPath.map(lambda ((flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1), (flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2)): ((flightdate1, origin1, dest1, dest2), [(flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1, flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2, arrdelay1+arrdelay2)]))
+    twoDaysPathFlat = joinedPath.map(lambda ((flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1), (flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2)): ((flightdate1, flightdate2, origin1, dest1, dest2), [(flightdate1, origin1, dest1, flightnum1, crsdeptime1, crsarrtime1, arrdelay1, flightdate2, origin2, dest2, flightnum2, crsdeptime2, crsarrtime2, arrdelay2, arrdelay1+arrdelay2)]))
     
     # Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16: assume you know the actual delay of each flight).
     #reducing data by sum of delays. keep only the best. First sum flight from the same dat with the same path
