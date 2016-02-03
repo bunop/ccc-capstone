@@ -19,7 +19,8 @@ from operator import itemgetter, add
 ## Module Constants
 HDFS_PREFIX = "hdfs://sandbox.hortonworks.com:8020"
 LOOKUP_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/lookup/")
-DATA_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/filtered_data/")
+DATA_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/filtered_data")
+TEST_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/airline_ontime/test")
 DATE_FMT = "%Y-%m-%d"
 TIME_FMT = "%H%M"
 
@@ -40,8 +41,20 @@ def parse(row):
     row[fields.index("FlightDate")] = datetime.strptime(row[fields.index("FlightDate")], DATE_FMT).date()
     row[fields.index("AirlineID")] = int(row[fields.index("AirlineID")])
     row[fields.index("FlightNum")] = int(row[fields.index("FlightNum")])
-    row[fields.index("CRSDepTime")] = datetime.strptime(row[fields.index("CRSDepTime")], TIME_FMT).time()
-    row[fields.index("CRSArrTime")] = datetime.strptime(row[fields.index("CRSArrTime")], TIME_FMT).time()
+    
+    #cicle amoung scheduled times    
+    for index in ["CRSDepTime", "CRSArrTime"]:
+        if row[fields.index(index)] == "2400":
+            row[fields.index(index)] = "0000"
+        
+        # Handle time values
+        try:
+            row[fields.index(index)] = datetime.strptime(row[fields.index(index)], TIME_FMT).time()
+                    
+        except ValueError:
+            #raise Exception, "problem in evaluating %s" %(row[fields.index(index)])
+            row[fields.index(index)] = None
+        
     row[fields.index("Cancelled")] = bool(int(row[fields.index("Cancelled")]))
     row[fields.index("Diverted")] = bool(int(row[fields.index("Diverted")]))
 

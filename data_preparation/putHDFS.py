@@ -52,7 +52,7 @@ program_name = os.path.basename(sys.argv[0])
 logger = logging.getLogger(program_name)
 
 # truncate data file atfter this number of lines (debug)
-MAX_LINES = 1000
+MAX_LINES = 10000
 
 #a function to process a directory
 def processDirectory(directory):
@@ -84,6 +84,10 @@ def processFile(myfile):
 
     #get file extension
     file_type = os.path.splitext(myfile)[-1]
+    
+    #get only 2008 files
+    if "2008" not in myfile:
+        return
 
     #dealing with zip archive
     if file_type == ".zip":
@@ -136,18 +140,46 @@ def processZipFile(myfile):
 
             #debug: deal with the first x lines of a file
             truncateFile(data_file)
-
-            #pack csv in gzip format
-            cmd = "pigz --best %s" %(data_file)
+            
+            #get file basename
+            basename = os.path.splitext(archived_file)[0]
+            
+            #Try to split input files in chunks
+            cmd = "split --lines=%s %s %s." %(MAX_LINES, archived_file, basename)
             cmds = shlex.split(cmd)
             helper.launch(cmds)
-
-            archived_file += ".gz"
-
-            logger.info("%s ready for HDFS" %(archived_file))
             
-     #return to old dir
-     os.chdir(olddir
+            #now, remove original file
+            os.remove(os.path.join(workdir, data_file))
+            
+            #scan directory for csv, load them in HDFS
+            for chunk in os.listdir(workdir):
+                chunk = os.path.join(workdir, chunk)          
+            
+                #pack csv in gzip format
+                cmd = "pigz --best %s" %(chunk)
+                cmds = shlex.split(cmd)
+                helper.launch(cmds)
+                
+                chunk += ".gz"
+
+                #Load data into HDFS:
+                helper.launch(shlex.split("hadoop fs -put %s %s" %(chunk, raw_data_path)))
+
+                #debug
+                logger.info("%s loaded into hdfs://%s" %(chunk, raw_data_path))
+                logger.debug("Removing %s from %s" %(chunk, workdir))
+                os.remove(chunk)
+                
+            #block for splitted files
+            
+        #block for a csv file
+    
+    #return to old dir
+    os.chdir(olddir)
+    
+    #debug
+    #sys.exit(0)
 
 
 #A function to truncate a file
@@ -184,7 +216,7 @@ def truncateFile(myfile, lines=MAX_LINES):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Scan for Aviation database data, and organize contents in one directory')
     parser.add_argument('-i', '--input_path', type=str, required=True, help='The database input path')
-    parser.add_argument('-o', '--output_path', type=str, required=True, help="The output path directory")
+    parser.add_argument('-o', '--output_path', type=str, required=True, help="The output path directory (HDFS)")
     args = parser.parse_args()
 
     # This is the database path (on AWS)
@@ -209,7 +241,8 @@ if __name__ == "__main__":
     processDirectory(database_path)
 
     # now move temporary directory to out directory
-    shutil.move(workdir, raw_data_path)
+    #shutil.move(workdir, raw_data_path)
+    os.rmdir(workdir)
 
     # Debug
     logger.info("Data file ready in %s directory" %(raw_data_path))
