@@ -84,7 +84,7 @@ def processFile(myfile):
 
     #get file extension
     file_type = os.path.splitext(myfile)[-1]
-
+    
     #dealing with zip archive
     if file_type == ".zip":
         #call a function to process zip
