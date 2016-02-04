@@ -599,7 +599,7 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=node19"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 best2paths.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=1 --num-executors 7 --driver-memory=2G --executor-memory=2600M best2paths.py
 ```
 
 ## Storing data into Cassandra
@@ -656,12 +656,12 @@ SELECT startdate,
 
 ```
 USE capstone;
-COPY best2path (flightnum1, origin1, dest1, departure1, arrival1, arrdelay1, flightnum2, origin2, dest2, departure2, arrival2, arrdelay2 ) TO 'best2path.csv' ;
+COPY best2path (startdate, flightnum1, origin1, dest1, departure1, arrival1, arrdelay1, flightnum2, origin2, dest2, departure2, arrival2, arrdelay2 ) TO 'best2path.csv' ;
 ```
 
 ### Load cassandra table:
 
 ```
 USE capstone
-COPY best2path (flightnum1, origin1, dest1, departure1, arrival1, arrdelay1, flightnum2, origin2, dest2, departure2, arrival2, arrdelay2 ) FROM 'best2path.csv';
+COPY best2path (startdate, flightnum1, origin1, dest1, departure1, arrival1, arrdelay1, flightnum2, origin2, dest2, departure2, arrival2, arrdelay2 ) FROM 'best2path.csv';
 ```

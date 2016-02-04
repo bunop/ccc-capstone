@@ -1,6 +1,3 @@
-Virginia:
-
-172.31.58.114   ip-172-31-58-114.ec2.internal   ambari
 
 Frankfurt:
 
