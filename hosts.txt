@@ -16,3 +16,15 @@ ip-172-31-25-18.eu-central-1.compute.internal
 ip-172-31-25-19.eu-central-1.compute.internal
 ip-172-31-18-191.eu-central-1.compute.internal
 ip-172-31-18-192.eu-central-1.compute.internal
+
+Cluster2:
+
+172.31.29.45    ip-172-31-29-45.eu-central-1.compute.internal     master
+172.31.29.46    ip-172-31-29-46.eu-central-1.compute.internal     node1
+172.31.29.47    ip-172-31-29-47.eu-central-1.compute.internal     node2
+172.31.29.48    ip-172-31-29-48.eu-central-1.compute.internal     node3
+
+ip-172-31-29-45.eu-central-1.compute.internal
+ip-172-31-29-46.eu-central-1.compute.internal
+ip-172-31-29-47.eu-central-1.compute.internal
+ip-172-31-29-48.eu-central-1.compute.internal
