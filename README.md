@@ -7,6 +7,7 @@
 * [ant (HOWTO install)][install-ant]: get [binary][ant-binary]
 * jna
 * java devel (if you can'f find: [tools.jar][tools-jar])
+* pigz
 
 [install-ant]: http://xmodulo.com/how-to-install-apache-ant-on-centos.html
 [ant-binary]: http://mirror.nohup.it/apache//ant/binaries/apache-ant-1.9.6-bin.tar.gz
@@ -100,15 +101,15 @@ set to hostname, or ip address, as suggested [here][configure-cassandra]
 236c236
 <           - seeds: "127.0.0.1"
 ---
->           - seeds: "node18,node19"
+>           - seeds: "node2,node3"
 308c308
 < listen_address: localhost
 ---
-> listen_address: ambari
+> listen_address: master
 357c357,358
 < rpc_address: localhost
 ---
-> rpc_address: ambari
+> rpc_address: master
 >
 ```
 
@@ -190,7 +191,7 @@ $ export PYSPARK_CASSANDRA=/home/ec2-user/capstone/pyspark-cassandra/target
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
     --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
     --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
-    --conf spark.cassandra.connection.host=node19 pyspark-shell"
+    --conf spark.cassandra.connection.host=master pyspark-shell"
 $ ipython --profile spark
 ```
 
@@ -320,7 +321,7 @@ $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/popular/part-r-
 $ hadoop fs -cat /user/paolo/capstone/airline_origin_destination/filtered_data/part-m-00000 | head
 ```
 
-## Processing and filtering Origin/Destination data
+## Processing and filtering Ontime data
 
 Set directory to data preparation, and create the `raw_data` directory:
 
@@ -464,7 +465,7 @@ $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
-  --conf spark.cassandra.connection.host=node19"
+  --conf spark.cassandra.connection.host=master"
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByAirport.py
 ```
 
@@ -489,7 +490,7 @@ SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin 
 Or you can use a CQL script:
 
 ```
-$ cqlsh -f top10_carriersByAirport.cql node19 > top10_carriersByAirport.txt
+$ cqlsh -f top10_carriersByAirport.cql master > top10_carriersByAirport.txt
 ```
 
 ## 2.2) Rank airport by airports
@@ -509,7 +510,7 @@ $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
-  --conf spark.cassandra.connection.host=node19"
+  --conf spark.cassandra.connection.host=master"
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_airportsByAirport.py
 ```
 
@@ -525,7 +526,7 @@ SFO (San Francisco International Airport)
 You can use a CQL script:
 
 ```
-$ cqlsh -f top10_airportsByAirport.cql node19 > top10_airportsByAirport.txt
+$ cqlsh -f top10_airportsByAirport.cql master > top10_airportsByAirport.txt
 ```
 
 ## 2.3) Rank carriers by path
@@ -545,14 +546,14 @@ $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar \
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
-  --conf spark.cassandra.connection.host=node19"
+  --conf spark.cassandra.connection.host=master"
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByPath.py
 ```
 
 You can use a CQL script:
 
 ```
-$ cqlsh -f top10_carriersByPath.cql node19 > top10_carriersByPath.txt
+$ cqlsh -f top10_carriersByPath.cql master > top10_carriersByPath.txt
 ```
 
 ## 3.1) Rank airport by popularity
@@ -598,8 +599,9 @@ $ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar \
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
-  --conf spark.cassandra.connection.host=node19"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=1 --num-executors 7 --driver-memory=2G --executor-memory=2600M best2paths.py
+  --conf spark.cassandra.connection.host=master"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=4G best2paths.py
+$ cqlsh -f best2paths.cql master > best2paths.txt
 ```
 
 ## Storing data into Cassandra
