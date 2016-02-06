@@ -13,7 +13,7 @@
 [ant-binary]: http://mirror.nohup.it/apache//ant/binaries/apache-ant-1.9.6-bin.tar.gz
 [tools-jar]: http://stackoverflow.com/questions/5730815/unable-to-locate-tools-jar
 
-### install maven
+### Install maven
 
 As a superuser do:
 
@@ -202,7 +202,7 @@ Example on pyspark_cassandra dataframe could be found [here][pyspark-dataframe-c
 [pyspark-dataframe-cassanra]: http://rustyrazorblade.com/2015/05/on-the-bleeding-edge-pyspark-dataframes-and-cassandra/
 
 
-## Processing and filtering Origin/Destination data
+## Processing and filtering Aviation dataset
 
 ### Mount DATA volume
 
@@ -466,17 +466,17 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByAirport.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_carriersByAirport.py
 ```
 
-Provide the results using the following airport codes.
+Provide the results using the following airport codes:
 
-CMI (University of Illinois Willard Airport)
-BWI (Baltimore-Washington International Airport)
-MIA (Miami International Airport)
-LAX (Los Angeles International Airport)
-IAH (George Bush Intercontinental Airport)
-SFO (San Francisco International Airport)
+* CMI (University of Illinois Willard Airport)
+* BWI (Baltimore-Washington International Airport)
+* MIA (Miami International Airport)
+* LAX (Los Angeles International Airport)
+* IAH (George Bush Intercontinental Airport)
+* SFO (San Francisco International Airport)
 
 ```
 SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'CMI';
@@ -511,7 +511,7 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_airportsByAirport.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_airportsByAirport.py
 ```
 
 Provide the results using the following airport codes.
@@ -547,7 +547,7 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 7 top10_carriersByPath.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_carriersByPath.py
 ```
 
 You can use a CQL script:
@@ -626,7 +626,7 @@ CREATE TABLE best2path (startdate TEXT, flightnum1 INT, origin1 TEXT, dest1 TEXT
 
 ### Quering Cassandra
 
-For each airport X, rank the top-10 carriers in decreasing order of on-time departure performance from X.
+Examples of queries in Cassandra:
 
 ```
 USE capstone;
