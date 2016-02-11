@@ -19,6 +19,12 @@ from kafka.producer import SimpleProducer
 
 from datetime import datetime
 
+# Pydoop
+import pydoop.hdfs as hdfs
+
+#get file list
+test_dataset = hdfs.ls("/user/paolo/capstone/airline_ontime/test")
+
 #An useful way to defined a logger lever, handler, and formatter
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(threadName)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(os.path.basename(sys.argv[0]))
@@ -31,20 +37,20 @@ def print_response(response=None):
 def main():
     kafka = KafkaClient("sandbox.hortonworks.com:6667")
     producer = SimpleProducer(kafka)
+    
     try:
         time.sleep(5)
         topic = 'test'
-        for i in range(5):
-            time.sleep(1)
-            msg = 'This is a message sent from the kafka producer: ' \
-            + str(datetime.now().time()) + ' -- '\
-            + str(datetime.now().strftime("%A, %d %B %Y%I:%M%p"))
-            print_response(producer.send_messages(topic, msg))
+        
+        for myfile in test_dataset:
+            with hdfs.open(myfile) as handle:
+                for line in handle:
+                    print_response(producer.send_messages(topic, line))
             
     except LeaderNotAvailableError:
         # https://github.com/mumrah/kafka-python/issues/249
         time.sleep(1)
-        print_response(producer.send_messages(topic, msg))
+        print_response(producer.send_messages(topic, line))
         
     kafka.close()
 
