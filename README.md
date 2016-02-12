@@ -1,5 +1,5 @@
 
-# Cloud computing capstone (part 1)
+# Cloud computing capstone - Part 1
 
 ## Requirements
 
@@ -748,4 +748,111 @@ COPY best2path (startdate, flightnum1, origin1, dest1, departure1, arrival1, arr
 ```
 USE capstone
 COPY best2path (startdate, flightnum1, origin1, dest1, departure1, arrival1, arrdelay1, flightnum2, origin2, dest2, departure2, arrival2, arrdelay2 ) FROM 'best2path.csv';
+```
+
+# Cloud computing capstone - Part 2
+
+Empty the `topic` and create a new topic. Then pass filtered data from HDFS:
+
+```
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --delete --topic test --zookeeper localhost:2181
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --create --zookeeper sandbox.hortonworks.com:2181   --replication-factor 1 --partitions 1 --topic test
+hadoop fs -cat /user/paolo/capstone/airline_ontime/test/part* |   /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic test
+```
+
+## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
+
+Set directory to `~/capstone/ontime`. Call a *python* script:
+
+```
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airports.py
+```
+
+Here's the top10 airport:
+
+```
+(ORD,12449354)
+(ATL,11540422)
+(DFW,10799303)
+(LAX,7723596)
+(PHX,6585532)
+(DEN,6273787)
+(DTW,5636622)
+(IAH,5480734)
+(MSP,5199213)
+(SFO,5171023)
+```
+
+## 1.2) Rank the top 10 airlines by on-time arrival performance.
+
+Set directory to `~/capstone/ontime` and call:
+
+```
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airline.py
+$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airline.py
+```
+
+Here's the top10 airlines:
+
+```
+(19690,-1.01180434574519)
+(19678,1.1569234424812056)
+(19391,1.4506385127822803)
+(20295,4.747609195734892)
+(20384,5.3224309999287875)
+(20436,5.465881148819851)
+(19386,5.557783392671835)
+(19393,5.5607742598815735)
+(20304,5.736312463662878)
+(20363,5.8671846616957595)
+```
+
+## 2.1) Rank carriers by airports
+
+>Clarification 1/27/2016: For questions 1 and 2 below, we are asking you to find,
+for each airport, the top 10 carriers and destination airports from that airport
+with respect to on-time departure performance. We are not asking you to rank the
+overall top 10 carriers/airports.
+
+Create cassandra tables:
+
+```
+USE capstone;
+CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
+```
+
+Set directory to `~/capstone/ontime` and call:
+
+```
+$ export PYSPARK_ROOT=/home/paolo/capstone/pyspark-cassandra/target
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar \
+  --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar \
+  --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.6.egg \
+  --conf spark.cassandra.connection.host=127.0.0.1"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_carriersByAirport.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_carriersByAirport.py
+```
+
+Provide the results using the following airport codes:
+
+* CMI (University of Illinois Willard Airport)
+* BWI (Baltimore-Washington International Airport)
+* MIA (Miami International Airport)
+* LAX (Los Angeles International Airport)
+* IAH (George Bush Intercontinental Airport)
+* SFO (San Francisco International Airport)
+
+```
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'CMI';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'BWI';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'MIA';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'LAX';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'IAH';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'SFO';
+```
+
+Or you can use a CQL script:
+
+```
+$ cqlsh -f top10_carriersByAirport.cql master > top10_carriersByAirport.txt
 ```
