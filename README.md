@@ -928,3 +928,39 @@ You can use a CQL script:
 ```
 $ cqlsh -f top10_carriersByPath.cql master > top10_carriersByPath.txt
 ```
+
+## 3.2) Find best path
+
+Tom wants to travel from airport X to airport Z. However, Tom also wants to stop
+at airport Y for some sightseeing on the way. More concretely, Tom has the following
+requirements (see Task 1 Queries for specific queries):
+
+* The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y).
+  For example, if X-Y departs January 5, 2008, Y-Z must depart January 7, 2008.
+* Tom wants his flights scheduled to depart airport X before 12:00 PM local time and
+  to depart airport Y after 12:00 PM local time.
+* Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16:
+  assume you know the actual delay of each flight).
+
+Your mission (should you choose to accept it!) is to find, for each X-Y-Z and day/month
+(dd/mm) combination in the year 2008, the two flights (X-Y and Y-Z) that satisfy
+constraints (a) and (b) and have the best individual performance with respect to
+constraint (c), if such flights exist.
+
+```
+USE capstone;
+CREATE TABLE best2path (startdate TEXT, flightnum1 INT, origin1 TEXT, dest1 TEXT, departure1 TIMESTAMP, arrival1 TIMESTAMP, arrdelay1 FLOAT, flightnum2 INT, origin2 TEXT, dest2 TEXT, departure2 TIMESTAMP, arrival2 TIMESTAMP, arrdelay2 FLOAT, PRIMARY KEY(origin1, dest1, dest2, startdate));
+```
+
+Set directory to `~/capstone/ontime`. Call a *python* script passing input directory and output file
+
+```
+$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/best2paths
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar \
+  --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=master"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 best2paths.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=4G best2paths.py
+$ cqlsh -f best2paths.cql master > best2paths.txt
+```

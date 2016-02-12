@@ -10,9 +10,9 @@ Common functions for apacke spark
 
 import os
 import csv
+import datetime
 
 from StringIO import StringIO
-from datetime import datetime
 from collections import namedtuple
 from operator import itemgetter, add
 
@@ -41,7 +41,7 @@ def split(line):
 def parse(row):
     """Parses a row and returns a named tuple"""
 
-    row[fields.index("FlightDate")] = datetime.strptime(row[fields.index("FlightDate")], DATE_FMT).date()
+    row[fields.index("FlightDate")] = datetime.datetime.strptime(row[fields.index("FlightDate")], DATE_FMT).date()
     row[fields.index("AirlineID")] = int(row[fields.index("AirlineID")])
     row[fields.index("FlightNum")] = int(row[fields.index("FlightNum")])
     
@@ -52,7 +52,7 @@ def parse(row):
         
         # Handle time values
         try:
-            row[fields.index(index)] = datetime.strptime(row[fields.index(index)], TIME_FMT).time()
+            row[fields.index(index)] = datetime.datetime.strptime(row[fields.index(index)], TIME_FMT).time()
                     
         except ValueError:
             #raise Exception, "problem in evaluating %s" %(row[fields.index(index)])
