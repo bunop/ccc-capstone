@@ -21,15 +21,17 @@ from pyspark import SparkConf, SparkContext
 from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
 
-# add pyspark cassandra
+# add pyspark cassandra, and streaming
+# http://katychuang.me/blog/2015-09-30-kafka_spark.html
 import pyspark_cassandra
+from pyspark_cassandra import streaming
 
 ## Module Constants
-CHECKPOINT_DIR = "checkpoint2/top10_airlines"
+CHECKPOINT_DIR = "checkpoint2/top10_carriersByAirport"
 APP_NAME = "top-10 carriers in decreasing order of on-time departure performance from X"
 TOPIC = "test"
 
-## Ranges
+## Global Variables
 #offsetRanges = []
 
 ## my functions
@@ -64,7 +66,7 @@ def updateFunction(newValues, oldValues):
 
 def getTop10(group, element):
     """Add and element to the list, order the list and then filter the lower value
-    to get onlt 10 elements"""
+    to get only 10 elements"""
     
     group = add(group, element)
     
@@ -74,6 +76,12 @@ def getTop10(group, element):
     # remove all elements after the 10 index. When reducing, two lists could be evaluated
     if len(group) > 10:
         group = group[:10]
+    
+    return group
+    
+def addIndex(group):
+    for i, line in enumerate(group):
+        line.insert(0,i+1)
         
     return group
 
@@ -129,10 +137,10 @@ def main(kvs):
     averageByKey = collectDelays.map(lambda (key, values): (key, sum(values)/float(len(values))))
 
     # traforming data using Origin as a key, and (AirilineID, DepDelay) as value
-    OriginData = averageByKey.map(lambda ((origin, airlineid), depdelay): (origin, [(airlineid, depdelay)]))
+    OriginData = averageByKey.map(lambda ((origin, airlineid), depdelay): (origin, [[airlineid, depdelay]]))
     
     # reducing data by Origin. Keep best top 10 performances
-    reducedOrigin = OriginData.reduceByKey(getTop10)
+    reducedOrigin = OriginData.reduceByKey(getTop10).mapValues(addIndex)
     
     # transform the rdd in a flatten rdd by kesy
     top10Origin = reducedOrigin.flatMapValues(lambda x: x)
@@ -141,10 +149,10 @@ def main(kvs):
     top10Origin.pprint()
 
     # Store values in Cassandra database
-    #carriersByAirport = top10Origin.map(lambda (origin, (airlineid, depdelay)): {"origin":origin, "airlineid":airlineid, "airline":airline_lookup.value[str(airlineid)], "depdelay":depdelay})
+    carriersByAirport = top10Origin.map(lambda (origin, (rank, airlineid, depdelay)): {"rank":rank, "origin":origin, "airlineid":airlineid, "airline":airline_lookup.value[str(airlineid)], "depdelay":depdelay})
     
     # Use LOWER characters
-    #carriersByAirport.saveToCassandra("capstone","carriersbyairport")
+    carriersByAirport.saveToCassandra("capstone","carriersbyairport")
 
 
 #main function
@@ -180,4 +188,6 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             print("Shutting down Spark...")
             ssc.stop(stopSparkContext=True, stopGraceFully=True)
+            
+    
 

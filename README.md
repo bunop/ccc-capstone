@@ -818,12 +818,13 @@ Create cassandra tables:
 
 ```
 USE capstone;
-CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depdelay FLOAT, PRIMARY KEY(origin, depdelay));
+CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depdelay FLOAT, rank INT, PRIMARY KEY(origin, rank ));
 ```
 
 Set directory to `~/capstone/ontime` and call:
 
 ```
+$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/top10_carriersByAirport
 $ export PYSPARK_ROOT=/home/paolo/capstone/pyspark-cassandra/target
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar \
   --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar \
