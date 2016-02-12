@@ -226,15 +226,28 @@ Create a topic. Specify the *zookeper* address:
 $ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --create --zookeeper sandbox.hortonworks.com:2181 \
   --replication-factor 1 --partitions 1 --topic test
 ```
+List all topics:
+
+```
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --list --zookeeper sandbox.hortonworks.com:2181
+```
 
 Create a producer. Specify *zookeper* and *listener* addresses, and topic name:
 
 ```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 \
   --topic test
 ```
 
-Type some text on the screen. It will reach the *consumer*. In another terminal, launch
+Type some text on the screen. It will reach the *consumer*. You can also `cat` a file
+and stream it into kafka:
+
+```
+$ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/part* | \
+  /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic test
+```
+
+In another terminal, launch
 the *consumer*. Remember to specify *zookeeper* address:
 
 ```
@@ -242,7 +255,11 @@ $ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-consumer.sh --zookeeper sandbox.
   --topic test --from-beginning
 ```
 
-You should see all the typed text in the *producer* window.
+You should see all the typed text in the *producer* window. Delete a topic:
+
+```
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --delete --topic test --zookeeper localhost:2181
+```
 
 #### Testing pyspark with kafka
 

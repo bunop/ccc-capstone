@@ -25,33 +25,70 @@ import pydoop.hdfs as hdfs
 #get file list
 test_dataset = hdfs.ls("/user/paolo/capstone/airline_ontime/test")
 
+# a Global variable
+producer = None
+
 #An useful way to defined a logger lever, handler, and formatter
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(threadName)s - %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(threadName)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(os.path.basename(sys.argv[0]))
 
 def print_response(response=None):
     if response:
-        print('Error: {0}'.format(response[0].error))
-        print('Offset: {0}'.format(response[0].offset))
+        msg = ['Error: {0}'.format(response[0].error)]
+        msg += ['Offset: {0}'.format(response[0].offset)]
+        msg = "; ".join(msg)
+        logger.debug(msg)
+
+def submit(topic, line, trials=3):
+    step = 0
+    global producer
+    
+    while step < trials:
+        step += 1
+        try:
+            print_response(producer.send_messages(topic, line))
+            return #if submitted
+            
+        except LeaderNotAvailableError:
+            # https://github.com/mumrah/kafka-python/issues/249
+            time.sleep(1)
+            
+    #If arrive here
+    logger.warn("line %s ignored" %(line))
+    return #anyway
 
 def main():
+    # a global variable
+    global producer 
+
     kafka = KafkaClient("sandbox.hortonworks.com:6667")
     producer = SimpleProducer(kafka)
+
+    #Select topic    
+    topic = 'test'
     
-    try:
-        time.sleep(5)
-        topic = 'test'
-        
-        for myfile in test_dataset:
-            with hdfs.open(myfile) as handle:
-                for line in handle:
-                    print_response(producer.send_messages(topic, line))
+    for myfile in test_dataset:
+        logger.info("Working on %s" %(myfile))
+        with hdfs.open(myfile) as handle:
+            for i, line in enumerate(handle):
+                #strip line
+                line = line.strip()
+                
+                #Submite data
+                submit(topic, line)
+                
+                if i % 10000 == 0:
+                    logger.info("%s lines submitted for %s" %(i, myfile))
+                    
+            #for every line
             
-    except LeaderNotAvailableError:
-        # https://github.com/mumrah/kafka-python/issues/249
-        time.sleep(1)
-        print_response(producer.send_messages(topic, line))
+        #with file open
+        logger.info("%s lines submitted for %s" %(i, myfile))
         
+        #sleep some time
+        time.sleep(10)
+                    
+    # for a generic file in HDFS
     kafka.close()
 
 if __name__ == "__main__":
