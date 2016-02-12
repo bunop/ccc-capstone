@@ -16,6 +16,7 @@ $ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/top10_airports
 from __future__ import print_function
 
 import sys
+import time
 
 from pyspark import SparkConf, SparkContext
 from pyspark.streaming import StreamingContext
@@ -40,7 +41,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 2)
+    ssc = StreamingContext(sc, 1)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)
@@ -121,8 +122,14 @@ if __name__ == "__main__":
     # Execute Main functionality
     main(kvs)
     
-    
     # start stream
     ssc.start()
-    ssc.awaitTermination()
     
+    #ssc.awaitTermination()
+    while True:
+        try:
+            time.sleep(2)
+            
+        except KeyboardInterrupt:
+            print("Shutting down Spark...")
+            ssc.stop(stopSparkContext=True, stopGraceFully=True)
