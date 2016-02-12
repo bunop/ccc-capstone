@@ -103,7 +103,7 @@ def main(kvs):
     CarrierData = arrived_data.map(lambda m: ((m.Origin, m.Dest,  m.AirlineID), m.ArrDelay))
     
     # calculate average with mapreduceaverage: Trasorm each value in a list
-    collectDelays = CarrierData.map(lambda (key, value): (key, value)).updateStateByKey(updateFunction)
+    collectDelays = CarrierData.updateStateByKey(updateFunction)
     
     # calculate average with mapreduce mapreduce average: Trasorm each value in a list
     averageByKey = collectDelays.reduceByKey(add).map(lambda (key, values): (key, sum(values)/float(len(values))))
