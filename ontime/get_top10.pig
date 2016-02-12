@@ -11,7 +11,6 @@ REGISTER '/home/paolo/capstone/piggy_bank/contrib/piggybank/java/piggybank.jar';
 /* load data from filtered dataset */
 filtered = LOAD '$filtered' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'NO_MULTILINE', 'NOCHANGE', 'SKIP_INPUT_HEADER') AS (FlightDate:chararray,AirlineID:chararray,FlightNum:int,Origin:chararray,OriginCityName:chararray,OriginStateName:chararray,Dest:chararray,DestCityName:chararray,DestStateName:chararray,CRSDepTime:chararray,DepDelay:float,CRSArrTime:chararray,ArrDelay:float,Cancelled:int,CancellationCode:chararray,Diverted:int,CRSElapsedTime:float,ActualElapsedTime:float,AirTime:float,Distance:float);
 
-
 /* Group by origin and destination */
 Origin = GROUP filtered BY Origin;
 Destination = GROUP filtered BY Dest;
@@ -30,7 +29,7 @@ United_group = GROUP United_counts BY airport;
 Total_counts = FOREACH United_group GENERATE FLATTEN($0), SUM(United_counts.count) AS count;
 
 /* order by counts - using PARALLEL reduce tasks */
-Popular = ORDER Total_counts BY count DESC;
+Popular = ORDER Total_counts BY count DESC PARALLEL 4;
 
 /* get and dump the top 10 airports */
 TOP_10 = LIMIT Popular 10;
