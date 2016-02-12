@@ -894,29 +894,24 @@ You can use a CQL script:
 $ cqlsh -f top10_airportsByAirport.cql master > top10_airportsByAirport.txt
 ```
 
-
-
-
-
-
 ## 2.3) Rank carriers by path
 
 Create cassandra tables:
 
 ```
 USE capstone;
-CREATE TABLE carriersbypath ( origin TEXT, destination TEXT, airlineid INT, airline TEXT, arrdelay FLOAT, PRIMARY KEY(origin, destination, arrdelay));
+CREATE TABLE carriersbypath ( origin TEXT, destination TEXT, airlineid INT, airline TEXT, arrdelay FLOAT, rank INT, PRIMARY KEY(origin, destination, rank ));
 ```
 
 Set directory to `~/capstone/ontime` and call:
 
 ```
-$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
-  -p results=/user/paolo/capstone/airline_ontime/top10_carriersByPath/ top10_carriersByPath.pig
+$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/top10_carriersByPath
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar \
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_carriersByPath.py
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_carriersByPath.py
 ```
 
