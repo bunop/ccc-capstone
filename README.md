@@ -201,89 +201,6 @@ Example on pyspark_cassandra dataframe could be found [here][pyspark-dataframe-c
 [centos-6-pyspark_cassandra]: https://github.com/bigstepinc/pyspark-cassandra.git
 [pyspark-dataframe-cassanra]: http://rustyrazorblade.com/2015/05/on-the-bleeding-edge-pyspark-dataframes-and-cassandra/
 
-### Testing Kafka installation
-
-Inspect `/usr/hdp/current/kafka-broker/config/server.properties` for *zookeper* and
-*listener* addresses:
-
-```
-$ grep sandbox server.properties
-kafka.timeline.metrics.host=sandbox.hortonworks.com
-listeners=PLAINTEXT://sandbox.hortonworks.com:6667
-zookeeper.connect=sandbox.hortonworks.com:2181
-```
-
-In order to enable topic deletion, edit `/usr/hdp/current/kafka-broker/config/server.properties`
-in such way:
-
-```
-$ delete.topic.enable=true
-```
-
-Create a topic. Specify the *zookeper* address:
-
-```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --create --zookeeper sandbox.hortonworks.com:2181 \
-  --replication-factor 1 --partitions 1 --topic test
-```
-List all topics:
-
-```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --list --zookeeper sandbox.hortonworks.com:2181
-```
-
-Create a producer. Specify *zookeper* and *listener* addresses, and topic name:
-
-```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 \
-  --topic test
-```
-
-Type some text on the screen. It will reach the *consumer*. You can also `cat` a file
-and stream it into kafka:
-
-```
-$ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/part* | \
-  /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic test
-```
-
-In another terminal, launch
-the *consumer*. Remember to specify *zookeeper* address:
-
-```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-consumer.sh --zookeeper sandbox.hortonworks.com:2181 \
-  --topic test --from-beginning
-```
-
-You should see all the typed text in the *producer* window. Delete a topic:
-
-```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --delete --topic test --zookeeper localhost:2181
-```
-
-#### Testing pyspark with kafka
-
-You need a running *producer* since this script doesn't read a topic from beginning.
-Next, you have to launch spark with the appropriate `spark-streaming-kafka-assembly`
-in which your spark version appears. [here][kafka-assembly] is the address in which
-libraries are. You can get download and cache locally libraries by giving such command:
-
-```
-$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 kafka_wordcount.py sandbox.hortonworks.com:2181 test
-```
-
-[kafka-assembly]: https://repo1.maven.org/maven2/org/apache/spark/spark-streaming-kafka-assembly_2.10/1.3.1/
-
-### Install the Kafka Python driver
-
-In order to create *producer* and *consumer*, you can install a python package:
-
-```
-$ sudo easy_install pip
-$ sudo pip install kafka-python
-$ pip install kafka-python
-```
-
 ## Processing and filtering Aviation dataset
 
 ### Mount DATA volume
@@ -752,12 +669,103 @@ COPY best2path (startdate, flightnum1, origin1, dest1, departure1, arrival1, arr
 
 # Cloud computing capstone - Part 2
 
+## Testing Kafka installation
+
+Inspect `/usr/hdp/current/kafka-broker/config/server.properties` for *zookeper* and
+*listener* addresses:
+
+```
+$ grep sandbox server.properties
+kafka.timeline.metrics.host=sandbox.hortonworks.com
+listeners=PLAINTEXT://sandbox.hortonworks.com:6667
+zookeeper.connect=sandbox.hortonworks.com:2181
+```
+
+In order to enable topic deletion, edit `/usr/hdp/current/kafka-broker/config/server.properties`
+in such way:
+
+```
+$ delete.topic.enable=true
+```
+
+Create a topic. Specify the *zookeper* address:
+
+```
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --create --zookeeper sandbox.hortonworks.com:2181 \
+  --replication-factor 1 --partitions 1 --topic test
+```
+List all topics:
+
+```
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --list --zookeeper sandbox.hortonworks.com:2181
+```
+
+Create a producer. Specify *zookeper* and *listener* addresses, and topic name:
+
+```
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 \
+  --topic test
+```
+
+Type some text on the screen. It will reach the *consumer*. You can also `cat` a file
+and stream it into kafka:
+
+```
+$ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/part* | \
+  /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic test
+```
+
+In another terminal, launch
+the *consumer*. Remember to specify *zookeeper* address:
+
+```
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-consumer.sh --zookeeper sandbox.hortonworks.com:2181 \
+  --topic test --from-beginning
+```
+
+You should see all the typed text in the *producer* window. Delete a topic:
+
+```
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --delete --topic test --zookeeper localhost:2181
+```
+
+Quering zookeper:
+
+```
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-consumer-offset-checker.sh --zookeeper localhost:2181 --group spark-streaming-consumer --topic test
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list sandbox.hortonworks.com:6667 --topic test --time -2
+$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list sandbox.hortonworks.com:6667 --topic test --time -1
+```
+
 Empty the `topic` and create a new topic. Then pass filtered data from HDFS:
 
 ```
 $ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --delete --topic test --zookeeper localhost:2181
 $ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --create --zookeeper sandbox.hortonworks.com:2181   --replication-factor 1 --partitions 1 --topic test
 hadoop fs -cat /user/paolo/capstone/airline_ontime/test/part* |   /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic test
+```
+
+### Testing pyspark with kafka
+
+You need a running *producer* since this script doesn't read a topic from beginning.
+Next, you have to launch spark with the appropriate `spark-streaming-kafka-assembly`
+in which your spark version appears. [here][kafka-assembly] is the address in which
+libraries are. You can get download and cache locally libraries by giving such command:
+
+```
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 kafka_wordcount.py sandbox.hortonworks.com:2181 test
+```
+
+[kafka-assembly]: https://repo1.maven.org/maven2/org/apache/spark/spark-streaming-kafka-assembly_2.10/1.3.1/
+
+### Install the Kafka Python driver
+
+In order to create *producer* and *consumer*, you can install a python package:
+
+```
+$ sudo easy_install pip
+$ sudo pip install kafka-python
+$ pip install kafka-python
 ```
 
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
