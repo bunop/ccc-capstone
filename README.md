@@ -857,3 +857,71 @@ Or you can use a CQL script:
 ```
 $ cqlsh -f top10_carriersByAirport.cql master > top10_carriersByAirport.txt
 ```
+
+## 2.2) Rank airport by airports
+
+Create cassandra tables:
+
+```
+USE capstone;
+CREATE TABLE airportsbyairport ( origin TEXT, destination TEXT, depdelay FLOAT, rank INT, PRIMARY KEY(origin, rank ));
+```
+
+Set directory to `~/capstone/ontime` and call:
+
+```
+$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/top10_airportsByAirport
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=master"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airportsByAirport.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_airportsByAirport.py
+```
+
+Provide the results using the following airport codes.
+
+CMI (University of Illinois Willard Airport)
+BWI (Baltimore-Washington International Airport)
+MIA (Miami International Airport)
+LAX (Los Angeles International Airport)
+IAH (George Bush Intercontinental Airport)
+SFO (San Francisco International Airport)
+
+You can use a CQL script:
+
+```
+$ cqlsh -f top10_airportsByAirport.cql master > top10_airportsByAirport.txt
+```
+
+
+
+
+
+
+## 2.3) Rank carriers by path
+
+Create cassandra tables:
+
+```
+USE capstone;
+CREATE TABLE carriersbypath ( origin TEXT, destination TEXT, airlineid INT, airline TEXT, arrdelay FLOAT, PRIMARY KEY(origin, destination, arrdelay));
+```
+
+Set directory to `~/capstone/ontime` and call:
+
+```
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ \
+  -p results=/user/paolo/capstone/airline_ontime/top10_carriersByPath/ top10_carriersByPath.pig
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar \
+  --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=master"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_carriersByPath.py
+```
+
+You can use a CQL script:
+
+```
+$ cqlsh -f top10_carriersByPath.cql master > top10_carriersByPath.txt
+```
