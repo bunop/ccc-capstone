@@ -675,10 +675,9 @@ Inspect `/usr/hdp/current/kafka-broker/config/server.properties` for *zookeper* 
 *listener* addresses:
 
 ```
-$ grep sandbox server.properties
-kafka.timeline.metrics.host=sandbox.hortonworks.com
-listeners=PLAINTEXT://sandbox.hortonworks.com:6667
-zookeeper.connect=sandbox.hortonworks.com:2181
+$ grep ip-172-31-29-45.eu-central-1.compute.internal /usr/hdp/current/kafka-broker/config/server.properties                
+listeners=PLAINTEXT://ip-172-31-29-45.eu-central-1.compute.internal:6667
+zookeeper.connect=ip-172-31-29-45.eu-central-1.compute.internal:2181,ip-172-31-29-47.eu-central-1.compute.internal:2181,ip-172-31-29-46.eu-central-1.compute.internal:2181
 ```
 
 In order to enable topic deletion, edit `/usr/hdp/current/kafka-broker/config/server.properties`
@@ -688,22 +687,28 @@ in such way:
 $ delete.topic.enable=true
 ```
 
-Create a topic. Specify the *zookeper* address:
+In ambari, this modification in transient. Every time kafka is restarted, ambari will
+define a default configuration. To make such modifications persistent, you have to
+edit a new kakfa configuration in ambari web service. You can add more than one kafka
+broker.
+
+To create a topic, specify the *zookeper* address. You can use node names defined in
+`/etc/hosts`:
 
 ```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --create --zookeeper sandbox.hortonworks.com:2181 \
-  --replication-factor 1 --partitions 1 --topic test
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:2181 \
+  --replication-factor 2 --partitions 4 --topic test
 ```
 List all topics:
 
 ```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --list --zookeeper sandbox.hortonworks.com:2181
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper master:2181
 ```
 
 Create a producer. Specify *zookeper* and *listener* addresses, and topic name:
 
 ```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 \
+$ /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node2:6667 \
   --topic test
 ```
 
@@ -711,38 +716,40 @@ Type some text on the screen. It will reach the *consumer*. You can also `cat` a
 and stream it into kafka:
 
 ```
-$ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/part* | \
-  /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic test
+$ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/test.csv | \
+  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node2:6667 --topic test
 ```
 
 In another terminal, launch
 the *consumer*. Remember to specify *zookeeper* address:
 
 ```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-consumer.sh --zookeeper sandbox.hortonworks.com:2181 \
+$ /usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --zookeeper master:2181 \
   --topic test --from-beginning
 ```
 
 You should see all the typed text in the *producer* window. Delete a topic:
 
 ```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --delete --topic test --zookeeper localhost:2181
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic test --zookeeper localhost:2181
 ```
 
 Quering zookeper:
 
 ```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-consumer-offset-checker.sh --zookeeper localhost:2181 --group spark-streaming-consumer --topic test
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list sandbox.hortonworks.com:6667 --topic test --time -2
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list sandbox.hortonworks.com:6667 --topic test --time -1
+$ /usr/hdp/current/kafka-broker/bin/kafka-consumer-offset-checker.sh --zookeeper master:2181 --group spark-streaming-consumer --topic test
+$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list master:6667,node2:6667 --topic test --time -2
+$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list master:6667,node2:6667 --topic test --time -1
 ```
 
 Empty the `topic` and create a new topic. Then pass filtered data from HDFS:
 
 ```
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --delete --topic test --zookeeper localhost:2181
-$ /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-topics.sh --create --zookeeper sandbox.hortonworks.com:2181   --replication-factor 1 --partitions 1 --topic test
-hadoop fs -cat /user/paolo/capstone/airline_ontime/test/part* |   /usr/hdp/2.3.0.0-2557/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic test
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic test --zookeeper master:2181
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:2181 \
+  --replication-factor 2 --partitions 4 --topic test
+$ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/test.csv | \
+  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node2:6667 --topic test
 ```
 
 ### Testing pyspark with kafka
@@ -750,13 +757,17 @@ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/part* |   /usr/hdp/2.3.0
 You need a running *producer* since this script doesn't read a topic from beginning.
 Next, you have to launch spark with the appropriate `spark-streaming-kafka-assembly`
 in which your spark version appears. [here][kafka-assembly] is the address in which
-libraries are. You can get download and cache locally libraries by giving such command:
+libraries are. Pay attention since there is a [issue] with scala 2.11, so get the 2.10
+libraries. You can get download and cache locally libraries by giving such command:
 
 ```
-$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 kafka_wordcount.py sandbox.hortonworks.com:2181 test
+$ cd /home/ec2-user/capstone/streaming
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
+  kafka_wordcount.py master:2181 test
 ```
 
-[kafka-assembly]: https://repo1.maven.org/maven2/org/apache/spark/spark-streaming-kafka-assembly_2.10/1.3.1/
+[kafka-assembly]: https://repo1.maven.org/maven2/org/apache/spark/spark-streaming-kafka-assembly_2.10/1.5.2/
+[kafka-scala-issure]: https://groups.google.com/forum/#!topic/adam-developers/j5bzgpK5-aU
 
 ### Install the Kafka Python driver
 
@@ -773,7 +784,8 @@ $ pip install kafka-python
 Set directory to `~/capstone/ontime`. Call a *python* script:
 
 ```
-$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airports.py
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
+  --master yarn --executor-cores=2 --num-executors 4 top10_airline.py
 ```
 
 Here's the top10 airport:
@@ -796,7 +808,7 @@ Here's the top10 airport:
 Set directory to `~/capstone/ontime` and call:
 
 ```
-$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airline.py
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_airline.py
 $ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airline.py
 ```
 
@@ -838,7 +850,7 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar
   --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar \
   --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.6.egg \
   --conf spark.cassandra.connection.host=127.0.0.1"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_carriersByAirport.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_carriersByAirport.py
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_carriersByAirport.py
 ```
 
@@ -883,7 +895,7 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airportsByAirport.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_airportsByAirport.py
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_airportsByAirport.py
 ```
 
@@ -919,7 +931,7 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_carriersByPath.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_carriersByPath.py
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_carriersByPath.py
 ```
 
@@ -960,7 +972,7 @@ $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 best2paths.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 best2paths.py
 $ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=4G best2paths.py
 $ cqlsh -f best2paths.cql master > best2paths.txt
 ```

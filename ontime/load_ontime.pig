@@ -6,7 +6,7 @@
 /* registering piggybank CSV storage:
 http://stackoverflow.com/questions/17816078/csv-reading-in-pig-csv-file-contains-quoted-comma
 */
-REGISTER '/home/paolo/capstone/piggy_bank/contrib/piggybank/java/piggybank.jar';
+REGISTER '/home/ec2-user/capstone/piggy_bank/contrib/piggybank/java/piggybank.jar';
 
 /* load data from HDFS. CRS means Computerized Reservations Systems*/
 /* skip header strings: http://stackoverflow.com/questions/19115298/skiping-the-header-while-loading-the-text-file-using-piglatin */

@@ -4,6 +4,13 @@
 Created on Sun Jan 24 18:13:00 2016
 
 @author: Paolo Cozzi <paolo.cozzi@ptp.it>
+
+Top 10 Airlines (ex 1.2)
+
+Remove checkpoint with:
+
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airlines
+
 """
 
 ## Imports
@@ -15,7 +22,7 @@ from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
 
 # Global variables
-CHECKPOINT_DIR = "checkpoint2/top10_airlines"
+CHECKPOINT_DIR = "checkpoint/top10_airlines"
 APP_NAME = "Top 10 Airports"
 TOPIC = "test"
 

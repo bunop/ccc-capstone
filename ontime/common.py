@@ -17,8 +17,8 @@ from collections import namedtuple
 from operator import itemgetter, add
 
 ## Module Constants
-HOST = "sandbox.hortonworks.com"
-ZOOKEEPER = ["%s:2181" %(HOST)]
+HOST = "ip-172-31-29-45.eu-central-1.compute.internal"
+ZOOKEEPER = ['ip-172-31-29-45.eu-central-1.compute.internal:2181', 'ip-172-31-29-47.eu-central-1.compute.internal:2181', 'ip-172-31-29-46.eu-central-1.compute.internal:2181']
 ZKQUORUM = ",".join(ZOOKEEPER) #zkQuorum:  Zookeeper quorum (hostname:port,hostname:port,..)
 HDFS_PREFIX = "hdfs://%s:8020" %(HOST)
 LOOKUP_DIR = os.path.join(HDFS_PREFIX, "/user/paolo/capstone/lookup/")
