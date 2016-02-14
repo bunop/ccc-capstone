@@ -25,7 +25,6 @@ from pyspark.streaming.kafka import KafkaUtils
 # Global variables
 CHECKPOINT_DIR = "checkpoint2/top10_airports"
 APP_NAME = "Top 10 Airports"
-TOPIC = "test"
 
 ## my functions
 from common import *
@@ -41,7 +40,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 1)
+    ssc = StreamingContext(sc, 30)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)
@@ -115,8 +114,15 @@ def main(kvs):
 if __name__ == "__main__":
     # Configure Spark. Create a new context or restore from checkpoint
     ssc = StreamingContext.getOrCreate(CHECKPOINT_DIR, functionToCreateContext)
+    
+    # get this spark context
+    sc = ssc.sparkContext
+    
+    # http://stackoverflow.com/questions/24686474/shipping-python-modules-in-pyspark-to-other-nodes
+    sc.addPyFile("common.py")
 
-    # Create a Transformed DStream. Read Kafka from first offset
+    # Create a Transformed DStream. Read Kafka from first offset. To get a list of
+    # kafka parameters: http://kafka.apache.org/08/configuration.html
     kvs = KafkaUtils.createStream(ssc, ZKQUORUM, "spark-streaming-consumer", {TOPIC: 1}, kafkaParams={ 'auto.offset.reset': 'smallest'})
     
     # Execute Main functionality

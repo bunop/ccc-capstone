@@ -17,6 +17,7 @@ from collections import namedtuple
 from operator import itemgetter, add
 
 ## Module Constants
+TOPIC = "test"
 HOST = "sandbox.hortonworks.com"
 ZOOKEEPER = ["%s:2181" %(HOST)]
 ZKQUORUM = ",".join(ZOOKEEPER) #zkQuorum:  Zookeeper quorum (hostname:port,hostname:port,..)
