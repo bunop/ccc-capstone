@@ -40,7 +40,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 1)
+    ssc = StreamingContext(sc, 30)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)

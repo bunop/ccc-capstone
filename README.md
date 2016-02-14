@@ -793,19 +793,19 @@ $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1
   --master yarn --executor-cores=2 --num-executors 4 top10_airports.py
 ```
 
-Here's the top10 airport:
+Here's the top10 airport **test environment**:
 
 ```
-(ORD,12449354)
-(ATL,11540422)
-(DFW,10799303)
-(LAX,7723596)
-(PHX,6585532)
-(DEN,6273787)
-(DTW,5636622)
-(IAH,5480734)
-(MSP,5199213)
-(SFO,5171023)
+(LAS,14608)
+(MDW,13377)
+(PHX,11405)
+(BWI,9718)
+(OAK,8036)
+(HOU,8008)
+(DAL,7616)
+(LAX,7185)
+(MCO,7127)
+(SAN,6221)
 ```
 
 ## 1.2) Rank the top 10 airlines by on-time arrival performance.

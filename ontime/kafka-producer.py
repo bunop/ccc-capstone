@@ -13,7 +13,7 @@ import sys
 import time
 import logging
 
-from kafka.common import LeaderNotAvailableError
+from kafka.common import LeaderNotAvailableError, UnknownError
 from kafka import KafkaProducer
 
 from datetime import datetime
@@ -33,24 +33,31 @@ producer = None
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(threadName)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(os.path.basename(sys.argv[0]))
 
-def print_response(response=None):
-    if response:
-        msg = ['Error: {0}'.format(response[0].error)]
-        msg += ['Offset: {0}'.format(response[0].offset)]
+def print_response(record_metadata=None):
+    if record_metadata:
+        msg = ['Topic: {0}'.format(record_metadata.topic)]
+        msg += ['Partition: {0}'.format(record_metadata.partition)]
+        msg += ['Offset: {0}'.format(record_metadata.offset)]
         msg = "; ".join(msg)
         logger.debug(msg)
 
-def submit(topic, line, trials=3):
+def submit(topic, line, trials=3, async=True):
     step = 0
     global producer
     
     while step < trials:
         step += 1
         try:
-            print_response(producer.send_messages(topic, line))
+            future = producer.send(topic, line)
+            
+            if async is False:
+                record_metadata = future.get(timeout=10)
+                print_response(record_metadata)
+                
             return #if submitted
             
-        except LeaderNotAvailableError:
+        except (LeaderNotAvailableError, UnknownError), message:
+            logger.err(message)
             # https://github.com/mumrah/kafka-python/issues/249
             time.sleep(1)
             
@@ -62,7 +69,7 @@ def main():
     # a global variable
     global producer 
 
-    producer = KafkaProducer(bootstrap_servers=["master:6667", "node1:6667", "node2:6667", "node3:6667"], compression_type='gzip', retries=2, acks=1)
+    producer = KafkaProducer(bootstrap_servers=["%s:6667" %(HOST)], compression_type='gzip', acks=1)
     
     for myfile in test_dataset:
         if "_SUCCESS" in myfile:
@@ -74,17 +81,8 @@ def main():
                 #strip line
                 line = line.strip()
                 
-                #Submite data
-                future = producer.send(TOPIC, line)
-                
-                # Block for 'synchronous' sends
-                try:
-                    record_metadata = future.get(timeout=10)
-                    
-                except Exception, message:
-                    # Decide what to do if produce request failed...
-                    logger.exception(message)
-                    pass
+                #Submit data (my function)
+                submit(TOPIC, line, trials=1)
                 
                 if i % 10000 == 0:
                     logger.info("%s lines submitted for %s" %(i, myfile))
@@ -97,8 +95,8 @@ def main():
         #sleep some time
         time.sleep(10)
                     
-    # for a generic file in HDFS
-    kafka.close()
+    # for all files in HDFS
+    producer.close()
 
 if __name__ == "__main__":
     main()
