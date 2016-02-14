@@ -39,6 +39,11 @@ def split(line):
     reader = csv.reader(StringIO(line))
     return list(reader)
 
+def splitOne(line):
+    """Operator function for splitting a line with csv module"""
+    reader = csv.reader(StringIO(line))
+    return reader.next()
+
 def parse(rows):
     """Parse multiple rows"""
     return [parse_row(row) for row in rows]

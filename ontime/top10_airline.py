@@ -90,7 +90,7 @@ def main(kvs):
     sc = ssc.sparkContext
 
     # Load the airlines lookup dictionary
-    airlines = dict(sc.textFile(os.path.join(LOOKUP_DIR,"Lookup_AirlineID.csv" )).map(split).collect())
+    airlines = dict(sc.textFile(os.path.join(LOOKUP_DIR,"Lookup_AirlineID.csv" )).map(splitOne).collect())
 
     # Broadcast the lookup dictionary to the cluster. Broadcast variables allow the programmer
     # to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.
