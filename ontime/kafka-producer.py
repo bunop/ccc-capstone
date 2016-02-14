@@ -14,16 +14,17 @@ import time
 import logging
 
 from kafka.common import LeaderNotAvailableError
-from kafka.client import KafkaClient
-from kafka.producer import SimpleProducer
+from kafka import KafkaProducer
 
 from datetime import datetime
+
+from common import *
 
 # Pydoop
 import pydoop.hdfs as hdfs
 
 #get file list
-test_dataset = hdfs.ls("/user/paolo/capstone/airline_ontime/test")
+test_dataset = hdfs.ls(DATA_DIR)
 
 # a Global variable
 producer = None
@@ -61,13 +62,12 @@ def main():
     # a global variable
     global producer 
 
-    kafka = KafkaClient("sandbox.hortonworks.com:6667")
-    producer = SimpleProducer(kafka)
-
-    #Select topic    
-    topic = 'test'
+    producer = KafkaProducer(bootstrap_servers=["master:6667", "node1:6667", "node2:6667", "node3:6667"], compression_type='gzip', retries=2, acks=1)
     
     for myfile in test_dataset:
+        if "_SUCCESS" in myfile:
+            continue
+        
         logger.info("Working on %s" %(myfile))
         with hdfs.open(myfile) as handle:
             for i, line in enumerate(handle):
@@ -75,7 +75,16 @@ def main():
                 line = line.strip()
                 
                 #Submite data
-                submit(topic, line)
+                future = producer.send(TOPIC, line)
+                
+                # Block for 'synchronous' sends
+                try:
+                    record_metadata = future.get(timeout=10)
+                    
+                except Exception, message:
+                    # Decide what to do if produce request failed...
+                    logger.exception(message)
+                    pass
                 
                 if i % 10000 == 0:
                     logger.info("%s lines submitted for %s" %(i, myfile))
@@ -83,7 +92,7 @@ def main():
             #for every line
             
         #with file open
-        logger.info("%s lines submitted for %s" %(i, myfile))
+        logger.info("Completed %s" %(myfile))
         
         #sleep some time
         time.sleep(10)

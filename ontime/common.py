@@ -17,6 +17,7 @@ from collections import namedtuple
 from operator import itemgetter, add
 
 ## Module Constants
+TOPIC = "ontime"
 HOST = "ip-172-31-29-45.eu-central-1.compute.internal"
 ZOOKEEPER = ['ip-172-31-29-45.eu-central-1.compute.internal:2181', 'ip-172-31-29-47.eu-central-1.compute.internal:2181', 'ip-172-31-29-46.eu-central-1.compute.internal:2181']
 ZKQUORUM = ",".join(ZOOKEEPER) #zkQuorum:  Zookeeper quorum (hostname:port,hostname:port,..)

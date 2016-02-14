@@ -25,7 +25,6 @@ from pyspark.streaming.kafka import KafkaUtils
 # Global variables
 CHECKPOINT_DIR = "checkpoint/top10_airports"
 APP_NAME = "Top 10 Airports"
-TOPIC = "test"
 
 ## my functions
 from common import *
@@ -115,6 +114,12 @@ def main(kvs):
 if __name__ == "__main__":
     # Configure Spark. Create a new context or restore from checkpoint
     ssc = StreamingContext.getOrCreate(CHECKPOINT_DIR, functionToCreateContext)
+    
+    # get this spark context
+    sc = ssc.sparkContext
+    
+    # http://stackoverflow.com/questions/24686474/shipping-python-modules-in-pyspark-to-other-nodes
+    sc.addPyFile("common.py")
 
     # Create a Transformed DStream. Read Kafka from first offset. To get a list of
     # kafka parameters: http://kafka.apache.org/08/configuration.html
@@ -125,12 +130,5 @@ if __name__ == "__main__":
     
     # start stream
     ssc.start()
+    ssc.awaitTermination()
     
-    #ssc.awaitTermination()
-    while True:
-        try:
-            time.sleep(2)
-            
-        except KeyboardInterrupt:
-            print("Shutting down Spark...")
-            ssc.stop(stopSparkContext=True, stopGraceFully=True)

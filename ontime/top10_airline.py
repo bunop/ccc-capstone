@@ -24,7 +24,6 @@ from pyspark.streaming.kafka import KafkaUtils
 # Global variables
 CHECKPOINT_DIR = "checkpoint/top10_airlines"
 APP_NAME = "Top 10 Airports"
-TOPIC = "test"
 
 ## my functions
 from common import *

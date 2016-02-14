@@ -708,7 +708,7 @@ $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper master:21
 Create a producer. Specify *zookeper* and *listener* addresses, and topic name:
 
 ```
-$ /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node2:6667 \
+$ /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node1:6667,node2:6667,node3:6667 \
   --topic test
 ```
 
@@ -717,7 +717,7 @@ and stream it into kafka:
 
 ```
 $ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/test.csv | \
-  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node2:6667 --topic test
+  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node1:6667,node2:6667,node3:6667 --topic test
 ```
 
 In another terminal, launch
@@ -737,19 +737,20 @@ $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic test --zook
 Quering zookeper:
 
 ```
-$ /usr/hdp/current/kafka-broker/bin/kafka-consumer-offset-checker.sh --zookeeper master:2181 --group spark-streaming-consumer --topic test
-$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list master:6667,node2:6667 --topic test --time -2
-$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list master:6667,node2:6667 --topic test --time -1
+$ /usr/hdp/current/kafka-broker/bin/kafka-consumer-offset-checker.sh --zookeeper master:2181 --group spark-streaming-consumer --topic ontime
+$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list master:6667,node1:6667,node2:6667,node3:6667 --topic ontime --time -2
+$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list master:6667,node1:6667,node2:6667,node3:6667 --topic ontime --time -1
 ```
 
 Empty the `topic` and create a new topic. Then pass filtered data from HDFS:
 
 ```
-$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic test --zookeeper master:2181
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic ontime --zookeeper master:2181
 $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:2181 \
-  --replication-factor 2 --partitions 4 --topic test
-$ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/test.csv | \
-  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node2:6667 --topic test
+  --replication-factor 1 --partitions 4 --topic ontime
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper master:2181
+$ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data/part-* | \
+  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node1:6667,node2:6667,node3:6667 --topic ontime
 ```
 
 ### Testing pyspark with kafka
@@ -774,18 +775,22 @@ $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1
 In order to create *producer* and *consumer*, you can install a python package:
 
 ```
-$ sudo easy_install pip
-$ sudo pip install kafka-python
-$ pip install kafka-python
+$ easy_install pip
+$ git clone https://github.com/dpkp/kafka-python.git
+$ cd kafka-python
+$ pip install .
+$ yum install gcc-c++
+$ pip install pydoop
 ```
 
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
-Set directory to `~/capstone/ontime`. Call a *python* script:
+Set directory to `~/capstone/ontime`. Free checkpoint data, then call a *python* script:
 
 ```
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airports
 $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
-  --master yarn --executor-cores=2 --num-executors 4 top10_airline.py
+  --master yarn --executor-cores=2 --num-executors 4 top10_airports.py
 ```
 
 Here's the top10 airport:
