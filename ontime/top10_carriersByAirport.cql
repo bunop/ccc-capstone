@@ -1,11 +1,10 @@
 
 /* Queries for question 2.1
-CMI (University of Illinois Willard Airport)
-BWI (Baltimore-Washington International Airport)
-MIA (Miami International Airport)
-LAX (Los Angeles International Airport)
-IAH (George Bush Intercontinental Airport)
-SFO (San Francisco International Airport)
+* SRQ
+* CMH
+* JFK
+* SEA
+* BOS
 */
 
 USE capstone;
@@ -16,9 +15,8 @@ CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depde
 COPY carriersbyairport (origin, airlineid, airline, depdelay) FROM 'top10_carriersByAirport/part-r-00000' WITH DELIMITER=',';
 */
 
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'CMI';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'BWI';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'MIA';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'LAX';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'IAH';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'SFO';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'SRQ';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'CMH';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'JFK';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'SEA';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'BOS';

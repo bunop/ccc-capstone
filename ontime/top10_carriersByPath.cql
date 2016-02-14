@@ -1,18 +1,14 @@
 
 /* Queries for question 2.3:
-CMI → ORD
-IND → CMH
-DFW → IAH
-LAX → SFO
-JFK → LAX
-ATL → PHX
+LGA → BOS
+BOS → LGA
+OKC → DFW
+MSP → ATL
 */
 
 USE capstone;
 
-SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'CMI' AND destination = 'ORD';
-SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'IND' AND destination = 'CMH';
-SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'DFW' AND destination = 'IAH';
-SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'LAX' AND destination = 'SFO';
-SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'JFK' AND destination = 'LAX';
-SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'ATL' AND destination = 'PHX';
+SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'LGA' AND destination = 'BOS';
+SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'BOS' AND destination = 'LGA';
+SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'OKC' AND destination = 'DFW';
+SELECT origin, destination, airlineid, arrdelay, airline FROM carriersbypath WHERE origin = 'MSP' AND destination = 'ATL';

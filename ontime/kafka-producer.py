@@ -85,7 +85,7 @@ def main():
                 
                 data += [line]
                 
-                if i % 5000 == 0:                                 
+                if i % 2500 == 0:
                     #Submit data (my function)
                     submit(TOPIC, data, trials=3)
                     data = []

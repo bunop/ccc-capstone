@@ -742,17 +742,6 @@ $ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShel
 $ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list node4:6667 --topic ontime --time -1
 ```
 
-Empty the `topic` and create a new topic. Then pass filtered data from HDFS:
-
-```
-$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic ontime --zookeeper master:2181
-$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:2181 \
-  --replication-factor 1 --partitions 1 --topic ontime
-$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper master:2181
-$ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data/part-* | \
-  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list node4:6667 --topic ontime
-```
-
 ### Testing pyspark with kafka
 
 You need a running *producer* since this script doesn't read a topic from beginning.
@@ -785,6 +774,20 @@ $ pip install -U setuptools
 $ pip install pydoop
 ```
 
+## Prepare topic for exercises
+
+Empty the `topic` and create a new topic. Then pass filtered data from HDFS with
+the python `kafka-producer.py` script:
+
+```
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic ontime --zookeeper master:2181
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:2181 \
+  --replication-factor 1 --partitions 1 --topic ontime
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper master:2181
+$ cd ~/capstone/ontime
+$ python kafka-producer.py
+```
+
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
 Set directory to `~/capstone/ontime`. Free checkpoint data, then call a *python* script:
@@ -792,7 +795,8 @@ Set directory to `~/capstone/ontime`. Free checkpoint data, then call a *python*
 ```
 $ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airports
 $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
-  --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=6G top10_airports.py
+  --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=6G \
+  top10_airports.py
 ```
 
 Here's the top10 airport:
@@ -815,8 +819,10 @@ Here's the top10 airport:
 Set directory to `~/capstone/ontime` and call:
 
 ```
-$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_airline.py
-$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airline.py
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airline
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
+  --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=6G \
+  top10_airline.py
 ```
 
 Here's the top10 airlines:
@@ -841,6 +847,13 @@ for each airport, the top 10 carriers and destination airports from that airport
 with respect to on-time departure performance. We are not asking you to rank the
 overall top 10 carriers/airports.
 
+Dump cassandra table:
+
+```
+USE capstone;
+COPY carriersbyairport (origin, depdelay, airline, airlineid ) TO 'carriersbyairport.csv' ;
+```
+
 Create cassandra tables:
 
 ```
@@ -851,32 +864,29 @@ CREATE TABLE carriersbyairport ( origin TEXT, airlineid INT, airline TEXT, depde
 Set directory to `~/capstone/ontime` and call:
 
 ```
-$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/top10_carriersByAirport
-$ export PYSPARK_ROOT=/home/paolo/capstone/pyspark-cassandra/target
-$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar \
-  --driver-class-path ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5.jar \
-  --py-files ${PYSPARK_ROOT}/pyspark_cassandra-0.1.5-py2.6.egg \
-  --conf spark.cassandra.connection.host=127.0.0.1"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_carriersByAirport.py
-$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_carriersByAirport.py
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_carriersByAirport
+$ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
+  --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
+  --conf spark.cassandra.connection.host=master"
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 \
+  --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_carriersByAirport.py
 ```
 
 Provide the results using the following airport codes:
 
-* CMI (University of Illinois Willard Airport)
-* BWI (Baltimore-Washington International Airport)
-* MIA (Miami International Airport)
-* LAX (Los Angeles International Airport)
-* IAH (George Bush Intercontinental Airport)
-* SFO (San Francisco International Airport)
+* SRQ
+* CMH
+* JFK
+* SEA
+* BOS
 
 ```
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'CMI';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'BWI';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'MIA';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'LAX';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'IAH';
-SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'SFO';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'SRQ';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'CMH';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'JFK';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'SEA';
+SELECT origin, airlineid, depdelay, airline FROM carriersbyairport WHERE origin = 'BOS';
 ```
 
 Or you can use a CQL script:
@@ -886,6 +896,14 @@ $ cqlsh -f top10_carriersByAirport.cql master > top10_carriersByAirport.txt
 ```
 
 ## 2.2) Rank airport by airports
+
+Dump cassandra table:
+
+```
+USE capstone;
+COPY airportsbyairport (origin, depdelay, destination ) TO 'airportsbyairport.csv' ;
+```
+
 
 Create cassandra tables:
 
@@ -897,23 +915,22 @@ CREATE TABLE airportsbyairport ( origin TEXT, destination TEXT, depdelay FLOAT, 
 Set directory to `~/capstone/ontime` and call:
 
 ```
-$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/top10_airportsByAirport
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airportsByAirport
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_airportsByAirport.py
-$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_airportsByAirport.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 \
+  --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_airportsByAirport.py
 ```
 
 Provide the results using the following airport codes.
 
-CMI (University of Illinois Willard Airport)
-BWI (Baltimore-Washington International Airport)
-MIA (Miami International Airport)
-LAX (Los Angeles International Airport)
-IAH (George Bush Intercontinental Airport)
-SFO (San Francisco International Airport)
+* SRQ
+* CMH
+* JFK
+* SEA
+* BOS
 
 You can use a CQL script:
 
@@ -922,6 +939,13 @@ $ cqlsh -f top10_airportsByAirport.cql master > top10_airportsByAirport.txt
 ```
 
 ## 2.3) Rank carriers by path
+
+Dump cassandra table:
+
+```
+USE capstone;
+COPY carriersbypath (origin, destination, arrdelay, airline, airlineid ) TO 'carriersbypath.csv' ;
+```
 
 Create cassandra tables:
 
@@ -933,13 +957,13 @@ CREATE TABLE carriersbypath ( origin TEXT, destination TEXT, airlineid INT, airl
 Set directory to `~/capstone/ontime` and call:
 
 ```
-$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/top10_carriersByPath
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_carriersByPath
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar \
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_carriersByPath.py
-$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 top10_carriersByPath.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 \
+  --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 top10_carriersByPath.py
 ```
 
 You can use a CQL script:
@@ -966,6 +990,15 @@ Your mission (should you choose to accept it!) is to find, for each X-Y-Z and da
 constraints (a) and (b) and have the best individual performance with respect to
 constraint (c), if such flights exist.
 
+Dump cassandra table:
+
+```
+USE capstone;
+COPY best2path (origin1, dest1, dest2, startdate, arrdelay1, arrdelay2, arrival1, arrival2, departure1, departure2, flightnum1, flightnum2, origin2 ) TO 'best2path.csv' ;
+```
+
+Create cassandra tables:
+
 ```
 USE capstone;
 CREATE TABLE best2path (startdate TEXT, flightnum1 INT, origin1 TEXT, dest1 TEXT, departure1 TIMESTAMP, arrival1 TIMESTAMP, arrdelay1 FLOAT, flightnum2 INT, origin2 TEXT, dest2 TEXT, departure2 TIMESTAMP, arrival2 TIMESTAMP, arrdelay2 FLOAT, PRIMARY KEY(origin1, dest1, dest2, startdate));
@@ -974,12 +1007,13 @@ CREATE TABLE best2path (startdate TEXT, flightnum1 INT, origin1 TEXT, dest1 TEXT
 Set directory to `~/capstone/ontime`. Call a *python* script passing input directory and output file
 
 ```
-$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/best2paths
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/best2paths
 $ export PYSPARK_SUBMIT_ARGS="--jars ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar \
   --driver-class-path ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5.jar  \
   --py-files ${PYSPARK_CASSANDRA}/pyspark_cassandra-0.1.5-py2.7.egg \
   --conf spark.cassandra.connection.host=master"
-$ spark-submit $PYSPARK_SUBMIT_ARGS --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 best2paths.py
-$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=4G best2paths.py
+$ spark-submit $PYSPARK_SUBMIT_ARGS --master yarn --executor-cores=3 --num-executors 4 \
+  --driver-memory=3G --executor-memory=4G --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
+  best2paths.py
 $ cqlsh -f best2paths.cql master > best2paths.txt
 ```
