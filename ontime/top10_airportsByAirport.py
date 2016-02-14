@@ -12,6 +12,8 @@ carrier) have the best on-time departure performance from X. How you measure
 "on-time departure performance" is up to you.
 """
 
+from __future__ import print_function
+
 ## Imports
 import sys
 import time
@@ -28,7 +30,6 @@ from pyspark_cassandra import streaming
 ## Module Constants
 CHECKPOINT_DIR = "checkpoint2/top10_airportsByAirport"
 APP_NAME = "Top-10 airports in decreasing order of on-time departure performance from X."
-TOPIC = "test"
 
 ## my functions
 from common import *
@@ -44,7 +45,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 1)
+    ssc = StreamingContext(sc, 30)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)
@@ -123,6 +124,12 @@ def main(kvs):
 if __name__ == "__main__":
     # Configure Spark. Create a new context or restore from checkpoint
     ssc = StreamingContext.getOrCreate(CHECKPOINT_DIR, functionToCreateContext)
+    
+    # get this spark context
+    sc = ssc.sparkContext
+    
+    # http://stackoverflow.com/questions/24686474/shipping-python-modules-in-pyspark-to-other-nodes
+    sc.addPyFile("common.py")
 
     # Create a Transformed DStream. Read Kafka from first offset
     # creating a stream

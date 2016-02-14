@@ -13,6 +13,8 @@ value can be queried by a user.
 
 """
 
+from __future__ import print_function
+
 ## Imports
 import sys
 import time
@@ -29,10 +31,6 @@ from pyspark_cassandra import streaming
 ## Module Constants
 CHECKPOINT_DIR = "checkpoint2/top10_carriersByAirport"
 APP_NAME = "top-10 carriers in decreasing order of on-time departure performance from X"
-TOPIC = "test"
-
-## Global Variables
-#offsetRanges = []
 
 ## my functions
 from common import *
@@ -48,7 +46,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 1)
+    ssc = StreamingContext(sc, 30)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)
@@ -95,15 +93,6 @@ def get_output(rdd):
     for item in rdd_data:
         print(item)
 
-#def storeOffsetRanges(rdd):
-#    global offsetRanges
-#    offsetRanges = rdd.offsetRanges()
-#    return rdd
-#
-#def printOffsetRanges(rdd):
-#    for o in offsetRanges:
-#        print("%s %s %s %s" % (o.topic, o.partition, o.fromOffset, o.untilOffset))
-
 def main(kvs):
     """Main function"""
 
@@ -120,9 +109,6 @@ def main(kvs):
 
     # Get lines from kafka stream
     ontime_data = kvs.map(lambda x: x[1]).map(split).map(parse)
-    
-    # Call a function on each RDD of this DStream
-#    ontime_data.foreachRDD(printOffsetRanges)
     
     # filter out cancelled or diverted data: http://spark.apache.org/examples.html
     arrived_data = ontime_data.filter(lambda x: x.Cancelled is False and x.Diverted is False and x.AirlineID is not None and x.DepDelay is not None)
@@ -159,6 +145,12 @@ def main(kvs):
 if __name__ == "__main__":
     # Configure Spark. Create a new context or restore from checkpoint
     ssc = StreamingContext.getOrCreate(CHECKPOINT_DIR, functionToCreateContext)
+    
+    # get this spark context
+    sc = ssc.sparkContext
+    
+    # http://stackoverflow.com/questions/24686474/shipping-python-modules-in-pyspark-to-other-nodes
+    sc.addPyFile("common.py")
 
     # Create a Transformed DStream. Read Kafka from first offset
     # creating a stream
