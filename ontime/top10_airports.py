@@ -85,7 +85,7 @@ def main(kvs):
     """Main function"""
     
     # Get lines from kafka stream
-    ontime_data = kvs.map(lambda x: x[1]).map(split).map(parse)
+    ontime_data = kvs.map(lambda x: x[1]).map(split).flatMap(parse)
     
     # Get origin and destionation
     origin = ontime_data.map(lambda x: (x.Origin,1)).reduceByKey(lambda a, b: a+b)#.updateStateByKey(updateFunction)

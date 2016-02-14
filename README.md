@@ -697,7 +697,7 @@ To create a topic, specify the *zookeper* address. You can use node names define
 
 ```
 $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:2181 \
-  --replication-factor 2 --partitions 4 --topic test
+  --replication-factor 1 --partitions 1 --topic test
 ```
 List all topics:
 
@@ -708,7 +708,7 @@ $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper master:21
 Create a producer. Specify *zookeper* and *listener* addresses, and topic name:
 
 ```
-$ /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node1:6667,node2:6667,node3:6667 \
+$ /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list node4:6667 \
   --topic test
 ```
 
@@ -717,7 +717,7 @@ and stream it into kafka:
 
 ```
 $ hadoop fs -cat /user/paolo/capstone/airline_ontime/test/test.csv | \
-  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node1:6667,node2:6667,node3:6667 --topic test
+  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list node4:6667 --topic test
 ```
 
 In another terminal, launch
@@ -738,8 +738,8 @@ Quering zookeper:
 
 ```
 $ /usr/hdp/current/kafka-broker/bin/kafka-consumer-offset-checker.sh --zookeeper master:2181 --group spark-streaming-consumer --topic ontime
-$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list master:6667,node1:6667,node2:6667,node3:6667 --topic ontime --time -2
-$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list master:6667,node1:6667,node2:6667,node3:6667 --topic ontime --time -1
+$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list node4:6667 --topic ontime --time -2
+$ /usr/hdp/current/kafka-broker/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list node4:6667 --topic ontime --time -1
 ```
 
 Empty the `topic` and create a new topic. Then pass filtered data from HDFS:
@@ -747,10 +747,10 @@ Empty the `topic` and create a new topic. Then pass filtered data from HDFS:
 ```
 $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic ontime --zookeeper master:2181
 $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:2181 \
-  --replication-factor 1 --partitions 4 --topic ontime
+  --replication-factor 1 --partitions 1 --topic ontime
 $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper master:2181
 $ hadoop fs -cat /user/paolo/capstone/airline_ontime/filtered_data/part-* | \
-  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list master:6667,node1:6667,node2:6667,node3:6667 --topic ontime
+  /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list node4:6667 --topic ontime
 ```
 
 ### Testing pyspark with kafka
@@ -775,11 +775,13 @@ $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1
 In order to create *producer* and *consumer*, you can install a python package:
 
 ```
+$ yum install python-setuptools
 $ easy_install pip
 $ git clone https://github.com/dpkp/kafka-python.git
 $ cd kafka-python
 $ pip install .
 $ yum install gcc-c++
+$ pip install -U setuptools
 $ pip install pydoop
 ```
 
@@ -790,22 +792,22 @@ Set directory to `~/capstone/ontime`. Free checkpoint data, then call a *python*
 ```
 $ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airports
 $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
-  --master yarn --executor-cores=2 --num-executors 4 top10_airports.py
+  --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=6G top10_airports.py
 ```
 
-Here's the top10 airport **test environment**:
+Here's the top10 airport:
 
 ```
-(LAS,14608)
-(MDW,13377)
-(PHX,11405)
-(BWI,9718)
-(OAK,8036)
-(HOU,8008)
-(DAL,7616)
-(LAX,7185)
-(MCO,7127)
-(SAN,6221)
+(ORD,12449354)
+(ATL,11540422)
+(DFW,10799303)
+(LAX,7723596)
+(PHX,6585532)
+(DEN,6273787)
+(DTW,5636622)
+(IAH,5480734)
+(MSP,5199213)
+(SFO,5171023)
 ```
 
 ## 1.2) Rank the top 10 airlines by on-time arrival performance.
