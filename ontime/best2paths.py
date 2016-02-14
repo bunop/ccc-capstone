@@ -121,7 +121,7 @@ def main(kvs):
     """Main function"""
     
     # Get lines from kafka stream
-    ontime_data = kvs.map(lambda x: x[1]).map(split).map(parse)
+    ontime_data = kvs.map(lambda x: x[1]).map(split).flatMap(parse)
 
     # filter out cancelled or diverted data: http://spark.apache.org/examples.html
     # consider to get only 2008 data as specified in requirements
@@ -206,7 +206,7 @@ if __name__ == "__main__":
     # :param keyDecoder:  A function used to decode key (default is utf8_decoder)
     # :param valueDecoder:  A function used to decode value (default is utf8_decoder)
     # :return: A DStream object
-    kvs = KafkaUtils.createStream(ssc, ZKQUORUM, "spark-streaming-consumer", {TOPIC: 1}, kafkaParams={ 'auto.offset.reset': 'smallest'})
+    kvs = KafkaUtils.createStream(ssc, ZKQUORUM, "best2path", {TOPIC: 1}, kafkaParams={ 'auto.offset.reset': 'smallest'})
     
     # Execute Main functionality
     main(kvs)

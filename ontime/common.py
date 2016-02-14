@@ -37,11 +37,16 @@ Ontime = namedtuple('Ontime', fields)
 def split(line):
     """Operator function for splitting a line with csv module"""
     reader = csv.reader(StringIO(line))
-    return reader.next()
+    return list(reader)
 
-def parse(row):
+def parse(rows):
+    """Parse multiple rows"""
+    return [parse_row(row) for row in rows]
+        
+
+def parse_row(row):
     """Parses a row and returns a named tuple"""
-
+    
     row[fields.index("FlightDate")] = datetime.datetime.strptime(row[fields.index("FlightDate")], DATE_FMT).date()
     row[fields.index("AirlineID")] = int(row[fields.index("AirlineID")])
     row[fields.index("FlightNum")] = int(row[fields.index("FlightNum")])

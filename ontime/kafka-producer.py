@@ -13,7 +13,7 @@ import sys
 import time
 import logging
 
-from kafka.common import LeaderNotAvailableError, UnknownError
+from kafka.common import LeaderNotAvailableError, UnknownError, KafkaTimeoutError
 from kafka import KafkaProducer
 
 from datetime import datetime
@@ -41,35 +41,35 @@ def print_response(record_metadata=None):
         msg = "; ".join(msg)
         logger.debug(msg)
 
-def submit(topic, line, trials=3, async=True):
+def submit(topic, data, trials=3, async=True):
     step = 0
     global producer
     
     while step < trials:
         step += 1
         try:
-            future = producer.send(topic, line)
+            future = producer.send(topic, "\n".join(data))
             
             if async is False:
                 record_metadata = future.get(timeout=10)
                 print_response(record_metadata)
-                
+            
             return #if submitted
             
-        except (LeaderNotAvailableError, UnknownError), message:
-            logger.err(message)
+        except (LeaderNotAvailableError, UnknownError, KafkaTimeoutError), message:
+            logger.error(message)
             # https://github.com/mumrah/kafka-python/issues/249
-            time.sleep(1)
+            time.sleep(10)
             
     #If arrive here
-    logger.warn("line %s ignored" %(line))
+    logger.warn("data %s ignored" %(data))
     return #anyway
 
 def main():
     # a global variable
     global producer 
 
-    producer = KafkaProducer(bootstrap_servers=["%s:6667" %(HOST)], compression_type='gzip', acks=1)
+    producer = KafkaProducer(bootstrap_servers=["%s:6667" %(HOST)], compression_type='gzip', acks=1, retries=2)
     
     for myfile in test_dataset:
         if "_SUCCESS" in myfile:
@@ -77,23 +77,32 @@ def main():
         
         logger.info("Working on %s" %(myfile))
         with hdfs.open(myfile) as handle:
+            data = []
             for i, line in enumerate(handle):
                 #strip line
                 line = line.strip()
                 
-                #Submit data (my function)
-                submit(TOPIC, line, trials=1)
+                data += [line]
                 
-                if i % 10000 == 0:
+                if i % 5000 == 0:                                 
+                    #Submit data (my function)
+                    submit(TOPIC, data, trials=3)
+                    data = []
+                
+                if i % 20000 == 0:
                     logger.info("%s lines submitted for %s" %(i, myfile))
                     
             #for every line
+            
+            #submit the rest of the data
+            submit(TOPIC, data, trials=3)
+            data = []
             
         #with file open
         logger.info("Completed %s" %(myfile))
         
         #sleep some time
-        time.sleep(10)
+        time.sleep(5)
                     
     # for all files in HDFS
     producer.close()

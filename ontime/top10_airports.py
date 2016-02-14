@@ -85,7 +85,7 @@ def main(kvs):
     """Main function"""
     
     # Get lines from kafka stream
-    ontime_data = kvs.map(lambda x: x[1]).map(split).map(parse)
+    ontime_data = kvs.map(lambda x: x[1]).map(split).flatMap(parse)
     
     # Get origin and destionation
     origin = ontime_data.map(lambda x: (x.Origin,1)).reduceByKey(lambda a, b: a+b)#.updateStateByKey(updateFunction)
@@ -123,7 +123,7 @@ if __name__ == "__main__":
 
     # Create a Transformed DStream. Read Kafka from first offset. To get a list of
     # kafka parameters: http://kafka.apache.org/08/configuration.html
-    kvs = KafkaUtils.createStream(ssc, ZKQUORUM, "spark-streaming-consumer", {TOPIC: 1}, kafkaParams={ 'auto.offset.reset': 'smallest'})
+    kvs = KafkaUtils.createStream(ssc, ZKQUORUM, "top10_airports", {TOPIC: 1}, kafkaParams={ 'auto.offset.reset': 'smallest'})
     
     # Execute Main functionality
     main(kvs)
