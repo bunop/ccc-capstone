@@ -69,6 +69,7 @@ def main():
     # a global variable
     global producer 
 
+    # Get a producer object
     producer = KafkaProducer(bootstrap_servers=["node4:6667"], compression_type='gzip', acks=1, retries=2)
     
     for myfile in test_dataset:

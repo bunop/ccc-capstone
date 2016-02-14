@@ -123,7 +123,7 @@ if __name__ == "__main__":
 
     # Create a Transformed DStream. Read Kafka from first offset. To get a list of
     # kafka parameters: http://kafka.apache.org/08/configuration.html
-    kvs = KafkaUtils.createStream(ssc, ZKQUORUM, "spark-streaming-consumer", {TOPIC: 1}, kafkaParams={ 'auto.offset.reset': 'smallest'})
+    kvs = KafkaUtils.createStream(ssc, ZKQUORUM, "top10_airports", {TOPIC: 1}, kafkaParams={ 'auto.offset.reset': 'smallest'})
     
     # Execute Main functionality
     main(kvs)
