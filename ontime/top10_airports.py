@@ -24,6 +24,7 @@ from pyspark.streaming.kafka import KafkaUtils
 
 # Global variables
 CHECKPOINT_DIR = "checkpoint2/top10_airports"
+OUTPUT_DIR = "tmp/top10_airports"
 APP_NAME = "Top 10 Airports"
 
 ## my functions
@@ -71,40 +72,39 @@ def getTop10(group, element):
         
     return group
 
-# A generic function. Could I call cassandra here?
-def get_output(rdd):
-    rdd_data = rdd.collect()
-    
-    if len(rdd_data) == 0:
-        return
-    
-    for item in rdd_data:
-        print(item)
-
 def main(kvs):
     """Main function"""
     
     # Get lines from kafka stream
-    ontime_data = kvs.map(lambda x: x[1]).map(split).flatMap(parse)
+    ontime_data = kvs.map(lambda x: x[1]).map(splitOne).map(parse_row)
     
     # Get origin and destionation
-    origin = ontime_data.map(lambda x: (x.Origin,1)).reduceByKey(lambda a, b: a+b)#.updateStateByKey(updateFunction)
-    dest = ontime_data.map(lambda x: (x.Dest,1)).reduceByKey(lambda a, b: a+b)#.updateStateByKey(updateFunction)
+    origin = ontime_data.map(lambda x: (x.Origin,1)).reduceByKey(lambda a, b: a+b)
+    dest = ontime_data.map(lambda x: (x.Dest,1)).reduceByKey(lambda a, b: a+b)
     
     # Union of the twd RDD. Sum by the same key. Then remember it
-    popular = origin.union(dest).reduceByKey(lambda a, b: a+b).updateStateByKey(updateFunction)
+    popular = origin.union(dest).reduceByKey(lambda a, b: a+b)
     
     # traforming data using 1 as a key, and (AirlineID, ArrDelay) as value
     popular2 = popular.map(lambda (airport, count): (True, [(airport, count)]))
-
-    # reducing data by 1. Keep best top 10 performances
-    top10 = popular2.reduceByKey(getTop10)
     
     # Flat map values
-    top10Airport = top10.flatMapValues(lambda x: x).map(lambda (key, value): value)
+    airports = popular2.flatMapValues(lambda x: x).map(lambda (key, value): value)
+    
+    # debug
+    airports.pprint()
+    
+    # Saving data in hdfs
+    airports.saveAsTextFiles(OUTPUT_DIR)
+
+    # reducing data by 1. Keep best top 10 performances
+    #top10 = popular2.reduceByKey(getTop10)
+    
+    # Flat map values
+    #top10Airport = top10.flatMapValues(lambda x: x).map(lambda (key, value): value)
     
     # print the top 10 delays
-    top10Airport.pprint()
+    #top10Airport.pprint()
     
     # Call a function on each RDD of this DStream
     #top10Airport.foreachRDD(get_output)
