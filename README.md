@@ -770,10 +770,32 @@ $ pip install kafka-python
 
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
-Set directory to `~/capstone/ontime`. Call a *python* script:
+Set directory to `~/capstone/ontime`. Reset temporary files and topics
+
+```
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic top10_airports --zookeeper localhost:2181
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper sandbox.hortonworks.com:2181   --replication-factor 1 --partitions 1 --topic top10_airports
+$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2
+$ hadoop fs -rm -r -skipTrash /user/paolo/intermediate/top10_airports/
+```
+
+Call a *python* script:
 
 ```
 $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airports.py
+```
+
+When there is no new output, interrupt the python script and then put the intermediate
+results on new kafka topic:
+
+```
+$ python kafka-producer.py -d /user/paolo/intermediate/top10_airports/ -t top10_airports
+```
+
+Then call the final script:
+
+```
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airports.2.py
 ```
 
 Here's the top10 airport **test environment**:
@@ -793,26 +815,38 @@ Here's the top10 airport **test environment**:
 
 ## 1.2) Rank the top 10 airlines by on-time arrival performance.
 
-Set directory to `~/capstone/ontime` and call:
+Set directory to `~/capstone/ontime`. Reset temporary files and topics
+
+```
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic top10_airlines --zookeeper localhost:2181
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper sandbox.hortonworks.com:2181   --replication-factor 1 --partitions 1 --topic top10_airlines
+$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2
+$ hadoop fs -rm -r -skipTrash /user/paolo/intermediate/top10_airlines/
+```
+
+Call a *python* script:
 
 ```
 $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airlines.py
-$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airlines.py
 ```
 
-Here's the top10 airlines:
+When there is no new output, interrupt the python script and then put the intermediate
+results on new kafka topic:
 
 ```
-(19690,-1.01180434574519)
-(19678,1.1569234424812056)
-(19391,1.4506385127822803)
-(20295,4.747609195734892)
-(20384,5.3224309999287875)
-(20436,5.465881148819851)
-(19386,5.557783392671835)
-(19393,5.5607742598815735)
-(20304,5.736312463662878)
-(20363,5.8671846616957595)
+$ python kafka-producer.py -d /user/paolo/intermediate/top10_airlines/ -t top10_airlines
+```
+
+Then call the final script:
+
+```
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airlines.2.py
+```
+
+Here's the top10 airlines **test environment**::
+
+```
+(19393,5.849497681607419)
 ```
 
 ## 2.1) Rank carriers by airports

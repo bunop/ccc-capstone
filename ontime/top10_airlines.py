@@ -18,7 +18,7 @@ from pyspark.streaming.kafka import KafkaUtils
 
 # Global variables
 CHECKPOINT_DIR = "checkpoint2/top10_airlines"
-OUTPUT_DIR = "intermediate/top10_airline/"
+OUTPUT_DIR = "intermediate/top10_airlines/"
 APP_NAME = "Top 10 Airlines"
 
 ## my functions
@@ -35,7 +35,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 30)
+    ssc = StreamingContext(sc, 10)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)
@@ -100,7 +100,7 @@ def main(kvs):
     ArrDelay = arrived_data.map(lambda m: ((m.AirlineID, airline_lookup.value[str(m.AirlineID)]), m.ArrDelay))
     
     # sum elements and number of elements, to store them in a intermediate file (k, (sum(v), len(v)))
-    collectDelays = ArrDelay.map(lambda (key, values): (key, [sum(values), len(values)]))
+    collectDelays = ArrDelay.map(lambda (key, value): (key, [value])).reduceByKey(add).map(lambda (key, values): (key, [sum(values), len(values)]))
     
     #debug
     collectDelays.pprint()

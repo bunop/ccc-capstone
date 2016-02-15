@@ -27,11 +27,11 @@ from pyspark.streaming.kafka import KafkaUtils
 CHECKPOINT_DIR = "checkpoint2/top10_airports.2"
 APP_NAME = "Top 10 Airports 2"
 
-# override default TOPIC
-TOPIC = "top10_airports"
-
 ## my functions
 from common import *
+
+# override default TOPIC
+TOPIC = "top10_airports"
 
 # Function to create and setup a new StreamingContext
 def functionToCreateContext():

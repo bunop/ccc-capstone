@@ -22,11 +22,11 @@ from operator import add
 CHECKPOINT_DIR = "checkpoint2/top10_airlines.2"
 APP_NAME = "Top 10 Airlines 2"
 
-# override default TOPIC
-TOPIC = "top10_airlines
-
 ## my functions
 from common import *
+
+# override default TOPIC
+TOPIC = "top10_airlines"
 
 # Function to create and setup a new StreamingContext
 def functionToCreateContext():
@@ -39,7 +39,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 30)
+    ssc = StreamingContext(sc, 10)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)
@@ -52,8 +52,8 @@ def updateFunction(newValues, oldValues):
     if oldValues is None:
        return newValues
       
-    # sum element by element
-    return [add(newValues[0], oldValues[0]), add(newValues[1], oldValues[1])]
+    # return a list of elements
+    return add(newValues, oldValues)
 
 def getTop10(group, element):
     """Add and element to the list, order the list and then filter the lower value
@@ -80,6 +80,14 @@ def get_output(rdd):
     for item in rdd_data:
         print(item)
 
+def calcAverage(values):
+    """calculate average element by element"""
+    
+    num = [value[0] for value in values]
+    den = [value[1] for value in values]
+    
+    return float(sum(num))/sum(den)
+
 def main(kvs):
     """Main function"""
     
@@ -87,10 +95,10 @@ def main(kvs):
     data = kvs.map(lambda x: literal_eval(x[1]))
     
     # collect delays from stream
-    collectDelays = ArrDelay.updateStateByKey(updateFunction)
+    collectDelays = data.updateStateByKey(updateFunction)
     
     # calculate average
-    averageByKey = collectDelays.map(lambda (key, value): (key, value[0]/float(value[1])))
+    averageByKey = collectDelays.map(lambda (key, values): (key, calcAverage(values)))
     
     # # traforming data using 1 as a key, and (AirlineID, ArrDelay) as value
     #AirlineIDData = averageByKey.map(lambda (airlineid, arrdelay): (True, [(airlineid, arrdelay)]))
