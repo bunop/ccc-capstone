@@ -9,11 +9,12 @@ Top 10 Airports (ex 1.1)
 
 Remove checkpoint with:
 
-$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airports
+$ hadoop fs -rm -r -skipTrash /user/paolo/checkpoint2/top10_airports
 
 """
 
 from __future__ import print_function
+from ast import literal_eval
 
 import sys
 import time
@@ -23,12 +24,14 @@ from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
 
 # Global variables
-CHECKPOINT_DIR = "checkpoint/top10_airports"
-OUTPUT_DIR = "intermediate/top10_airports/"
-APP_NAME = "Top 10 Airports"
+CHECKPOINT_DIR = "checkpoint2/top10_airports.2"
+APP_NAME = "Top 10 Airports 2"
 
 ## my functions
 from common import *
+
+# override default TOPIC
+TOPIC = "top10_airports"
 
 # Function to create and setup a new StreamingContext
 def functionToCreateContext():
@@ -75,27 +78,23 @@ def getTop10(group, element):
 def main(kvs):
     """Main function"""
     
-    # Get lines from kafka stream
-    ontime_data = kvs.map(lambda x: x[1]).map(splitOne).map(parse_row)
+    # get data from kafka
+    data = kvs.map(lambda x: literal_eval(x[1]))
     
-    # Get origin and destionation
-    origin = ontime_data.map(lambda x: (x.Origin,1)).reduceByKey(lambda a, b: a+b)
-    dest = ontime_data.map(lambda x: (x.Dest,1)).reduceByKey(lambda a, b: a+b)
+    #collect airports from stream
+    popular = data.updateStateByKey(updateFunction)
     
-    # Union of the twd RDD. Sum by the same key. Then remember it
-    popular = origin.union(dest).reduceByKey(lambda a, b: a+b)
-    
-    # traforming data using 1 as a key, and (AirlineID, ArrDelay) as value
+    # trasforming data using 1 as a key, and (AirlineID, ArrDelay) as value
     popular2 = popular.map(lambda (airport, count): (True, [(airport, count)]))
+
+    # reducing data by 1. Keep best top 10 performances
+    top10 = popular2.reduceByKey(getTop10)
     
     # Flat map values
-    airports = popular2.flatMapValues(lambda x: x).map(lambda (key, value): value)
+    top10Airport = top10.flatMapValues(lambda x: x).map(lambda (key, value): value)
     
-    # debug
-    airports.pprint()
-    
-    # Saving data in hdfs
-    airports.saveAsTextFiles(OUTPUT_DIR)
+    # print the top 10 delays
+    top10Airport.pprint()
     
 
 #main function
@@ -118,8 +117,12 @@ if __name__ == "__main__":
     
     # start stream
     ssc.start()
-    ssc.awaitTermination()
     
+    #ssc.awaitTermination()
+    while True:
+        try:
+            time.sleep(2)
             
-            
-    
+        except KeyboardInterrupt:
+            print("Shutting down Spark...")
+            ssc.stop(stopSparkContext=True, stopGraceFully=True)

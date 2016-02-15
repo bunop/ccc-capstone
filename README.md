@@ -423,8 +423,8 @@ Here's the top10 airport:
 Set directory to `~/capstone/ontime` and call:
 
 ```
-$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ top10_airline.pig
-$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airline.py
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ top10_airlines.pig
+$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airlines.py
 ```
 
 Here's the top10 airlines:
@@ -790,16 +790,40 @@ $ python kafka-producer.py
 
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
-Set directory to `~/capstone/ontime`. Free checkpoint data, then call a *python* script:
+Set directory to `~/capstone/ontime`. Reset temporary files and topics
 
 ```
-$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airports
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic top10_airports --zookeeper master:2181
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:2181 --replication-factor 1 \
+  --partitions 1 --topic top10_airports
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airports/
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/intermediate/top10_airports/
+```
+
+Call a *python* script:
+
+```
 $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
   --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=6G \
   top10_airports.py
 ```
 
-Here's the top10 airport:
+When there is no new output, interrupt the python script and then put the intermediate
+results on new kafka topic:
+
+```
+$ python kafka-producer.py -d /user/paolo/intermediate/top10_airports/ -t top10_airports
+```
+
+Then call the final script:
+
+```
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
+  --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=6G \
+  top10_airports.2.py
+```
+
+Here's the top10 airport
 
 ```
 (ORD,12449354)
@@ -816,28 +840,43 @@ Here's the top10 airport:
 
 ## 1.2) Rank the top 10 airlines by on-time arrival performance.
 
-Set directory to `~/capstone/ontime` and call:
+Set directory to `~/capstone/ontime`. Reset temporary files and topics
 
 ```
-$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airline
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic top10_airlines --zookeeper master:2181
+$ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:2181 --replication-factor 1 \
+  --partitions 1 --topic top10_airlines
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airlines/
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/intermediate/top10_airlines/
+```
+
+Call a *python* script:
+
+```
 $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
   --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=6G \
   top10_airline.py
 ```
 
+When there is no new output, interrupt the python script and then put the intermediate
+results on new kafka topic:
+
+```
+$ python kafka-producer.py -d /user/paolo/intermediate/top10_airlines/ -t top10_airlines
+```
+
+Then call the final script:
+
+```
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 \
+  --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=6G \
+  top10_airlines.2.py
+```
+
 Here's the top10 airlines:
 
 ```
-(19690,-1.01180434574519)
-(19678,1.1569234424812056)
-(19391,1.4506385127822803)
-(20295,4.747609195734892)
-(20384,5.3224309999287875)
-(20436,5.465881148819851)
-(19386,5.557783392671835)
-(19393,5.5607742598815735)
-(20304,5.736312463662878)
-(20363,5.8671846616957595)
+(19393,5.849497681607419)
 ```
 
 ## 2.1) Rank carriers by airports

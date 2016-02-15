@@ -25,6 +25,7 @@ from pyspark.streaming.kafka import KafkaUtils
 
 # Global variables
 CHECKPOINT_DIR = "checkpoint2/top10_airlines"
+OUTPUT_DIR = "intermediate/top10_airlines/"
 APP_NAME = "Top 10 Airlines"
 
 ## my functions
@@ -41,7 +42,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 30)
+    ssc = StreamingContext(sc, 10)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)
@@ -104,32 +105,17 @@ def main(kvs):
     
     # map by arrived delays
     ArrDelay = arrived_data.map(lambda m: ((m.AirlineID, airline_lookup.value[str(m.AirlineID)]), m.ArrDelay))
-    #ArrDelay = arrived_data.map(lambda m: (m.AirlineID, m.ArrDelay))
     
-    # calculate average with mapreduce mapreduce average: Trasorm each value in a list
-    collectDelays = ArrDelay.updateStateByKey(updateFunction)
+    # sum elements and number of elements, to store them in a intermediate file (k, (sum(v), len(v)))
+    collectDelays = ArrDelay.map(lambda (key, value): (key, [value])).reduceByKey(add).map(lambda (key, values): (key, [sum(values), len(values)]))
     
-    # calculate average
-    averageByKey = collectDelays.map(lambda (key, values): (key, sum(values)/float(len(values))))
-
-    # # traforming data using 1 as a key, and (AirlineID, ArrDelay) as value
-    #AirlineIDData = averageByKey.map(lambda (airlineid, arrdelay): (True, [(airlineid, arrdelay)]))
-    AirlineIDData = averageByKey.map(lambda (key, value): (True, [(key, value)]))
-
-    # reducing data by 1. Keep best top 10 performances
-    reducedAirlineID = AirlineIDData.reduceByKey(getTop10)
+    #debug
+    collectDelays.pprint()
     
-    # transform the rdd in a flatten rdd by kesy
-    top10Airline = reducedAirlineID.flatMapValues(lambda x: x).map(lambda (key, ((airline_id, airline), delay)): (airline_id, airline, delay))
-    
-    # print the top 10 delays
-    top10Airline.pprint()
-    
-    # Call a function on each RDD of this DStream
-    #top10Airline.foreachRDD(get_output)
+    # Saving data in hdfs
+    collectDelays.saveAsTextFiles(OUTPUT_DIR)
     
 
-    
 #main function
 if __name__ == "__main__":
     # Configure Spark. Create a new context or restore from checkpoint
