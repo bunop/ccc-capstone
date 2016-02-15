@@ -25,7 +25,7 @@ from pyspark.streaming.kafka import KafkaUtils
 # add pyspark cassandra, and streaming
 # http://katychuang.me/blog/2015-09-30-kafka_spark.html
 import pyspark_cassandra
-from pyspark_cassandra import streaming
+from pyspark_cassandra import streaming, CassandraSparkContext
 
 ## Module Constants
 CHECKPOINT_DIR = "checkpoint2/top10_airportsByAirport"

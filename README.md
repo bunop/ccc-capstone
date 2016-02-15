@@ -770,6 +770,12 @@ $ pip install kafka-python
 
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
+Create database
+
+```
+CREATE TABLE popular ( airport TEXT, count INT, PRIMARY KEY(airport));
+```
+
 Set directory to `~/capstone/ontime`. Call a *python* script:
 
 ```

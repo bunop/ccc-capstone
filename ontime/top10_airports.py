@@ -22,6 +22,11 @@ from pyspark import SparkConf, SparkContext
 from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
 
+# add pyspark cassandra, and streaming
+# http://katychuang.me/blog/2015-09-30-kafka_spark.html
+import pyspark_cassandra
+from pyspark_cassandra import streaming, CassandraSparkContext
+
 # Global variables
 CHECKPOINT_DIR = "checkpoint2/top10_airports"
 APP_NAME = "Top 10 Airports"
@@ -34,7 +39,7 @@ def functionToCreateContext():
     # new context
     conf = SparkConf()
     conf = conf.setAppName(APP_NAME)
-    sc   = SparkContext(conf=conf)
+    sc   = CassandraSparkContext(conf=conf)
     
     # http://stackoverflow.com/questions/24686474/shipping-python-modules-in-pyspark-to-other-nodes
     sc.addPyFile("common.py")
@@ -84,15 +89,32 @@ def get_output(rdd):
 def main(kvs):
     """Main function"""
     
+    # get this spark context
+    global ssc
+    sc = ssc.sparkContext 
+    
     # Get lines from kafka stream
     ontime_data = kvs.map(lambda x: x[1]).map(split).flatMap(parse)
     
     # Get origin and destionation
-    origin = ontime_data.map(lambda x: (x.Origin,1)).reduceByKey(lambda a, b: a+b)#.updateStateByKey(updateFunction)
-    dest = ontime_data.map(lambda x: (x.Dest,1)).reduceByKey(lambda a, b: a+b)#.updateStateByKey(updateFunction)
+    origin = ontime_data.map(lambda x: (x.Origin,1)).reduceByKey(lambda a, b: a+b)
+    dest = ontime_data.map(lambda x: (x.Dest,1)).reduceByKey(lambda a, b: a+b)
     
-    # Union of the twd RDD. Sum by the same key. Then remember it
-    popular = origin.union(dest).reduceByKey(lambda a, b: a+b).updateStateByKey(updateFunction)
+    # Union of the twd RDD. Sum by the same key. 
+    popular = origin.union(dest).reduceByKey(lambda a, b: a+b)
+    
+    # get data from cassandra table. Then reduce by key
+    data = sc.cassandraTable("capstone","popular").select("airport","count").map( lambda x: (x["airport"], x["count"]))
+    
+    popular.pprint()
+    print(data.collect())
+    
+    # Union of cassandra data and rdd data
+    popular2 = popular.union(data).reduceByKey(lambda a, b: a+b)
+    
+    # Updating cassandra data
+    data = popular2.map(lambda (x,y): {"airport":x, "count":y})
+    data.saveToCassandra("capstone","popular")
     
     # traforming data using 1 as a key, and (AirlineID, ArrDelay) as value
     popular2 = popular.map(lambda (airport, count): (True, [(airport, count)]))
