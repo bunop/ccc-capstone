@@ -423,8 +423,8 @@ Here's the top10 airport:
 Set directory to `~/capstone/ontime` and call:
 
 ```
-$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ top10_airline.pig
-$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airline.py
+$ pig -x mapreduce -p filtered=/user/paolo/capstone/airline_ontime/filtered_data/ top10_airlines.pig
+$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airlines.py
 ```
 
 Here's the top10 airlines:
@@ -796,8 +796,8 @@ Here's the top10 airport **test environment**:
 Set directory to `~/capstone/ontime` and call:
 
 ```
-$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airline.py
-$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airline.py
+$ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.3.1 top10_airlines.py
+$ spark-submit --master yarn --executor-cores=4 --num-executors 6 top10_airlines.py
 ```
 
 Here's the top10 airlines:
