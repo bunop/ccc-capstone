@@ -41,7 +41,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 10)
+    ssc = StreamingContext(sc, 60)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)
@@ -76,7 +76,7 @@ def main(kvs):
     """Main function"""
     
     # Get lines from kafka stream
-    ontime_data = kvs.map(lambda x: x[1]).map(splitOne).map(parse_row)
+    ontime_data = kvs.map(lambda x: x[1]).map(split).flatMap(parse)
     
     # Get origin and destionation
     origin = ontime_data.map(lambda x: (x.Origin,1)).reduceByKey(lambda a, b: a+b)
@@ -95,7 +95,7 @@ def main(kvs):
     airports.pprint()
     
     # Saving data in hdfs
-    airports.saveAsTextFiles(OUTPUT_DIR)
+    airports.repartition(1).saveAsTextFiles(OUTPUT_DIR)
     
 
 #main function

@@ -47,8 +47,7 @@ def splitOne(line):
 def parse(rows):
     """Parse multiple rows"""
     return [parse_row(row) for row in rows]
-        
-
+    
 def parse_row(row):
     """Parses a row and returns a named tuple"""
     

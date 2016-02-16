@@ -37,7 +37,53 @@ def print_response(record_metadata=None):
         msg = "; ".join(msg)
         logger.debug(msg)
 
-def submit(topic, line, trials=3, async=True):
+def submitChunk(topic, data, trials=3, async=True):
+    step = 0
+    global producer
+    
+    while step < trials:
+        step += 1
+        try:
+            future = producer.send(topic, "\n".join(data))
+            
+            if async is False:
+                record_metadata = future.get(timeout=10)
+                print_response(record_metadata)
+            
+            return #if submitted
+            
+        except (LeaderNotAvailableError, UnknownError, KafkaTimeoutError), message:
+            logger.error(message)
+            # https://github.com/mumrah/kafka-python/issues/249
+            time.sleep(10)
+            
+    #If arrive here
+    logger.warn("data %s ignored" %(data))
+    return #anyway
+
+def processChunk(myfile, topic):
+    with hdfs.open(myfile["name"]) as handle:
+        data = []
+        
+        for i, line in enumerate(handle):
+            #strip line
+            line = line.strip()
+            data += [line]
+            
+            if i % 5000 == 0:
+                #Submit data (my function)
+                submitChunk(topic, data, trials=3)
+                data = []
+            
+            if i % 20000 == 0 and i != 0:
+                logger.info("%s lines submitted for %s" %(i, myfile["name"]))
+                
+        #for every line
+        #submit the rest of the data
+        submitChunk(topic, data, trials=3)
+        data = []
+
+def submitLine(topic, line, trials=3, async=True):
     step = 0
     global producer
     
@@ -61,7 +107,21 @@ def submit(topic, line, trials=3, async=True):
     logger.warn("line %s ignored" %(line))
     return #anyway
 
-def main(directory, topic):
+def processLine(myfile, topic):
+    with hdfs.open(myfile["name"]) as handle:
+        for i, line in enumerate(handle):
+            #strip line
+            line = line.strip()
+            
+            #Submit data (my function)
+            submitLine(topic, line, trials=3)
+            
+            if i % 20000 == 0 and i != 0:
+                logger.info("%s lines submitted for %s" %(i, myfile["name"]))
+                
+        #for every line
+
+def main(directory, topic, byline):
     #get a hdfs object
     myHdfs = hdfs.hdfs()
     myPath = myHdfs.walk(directory)
@@ -96,18 +156,14 @@ def main(directory, topic):
         
         logger.info("Working on %s" %(myfile["name"]))
 
-        with hdfs.open(myfile["name"]) as handle:
-            for i, line in enumerate(handle):
-                #strip line
-                line = line.strip()
-                
-                submit(topic, line, trials=3)
-                
-                if i % 20000 == 0 and i != 0:
-                    logger.info("%s lines submitted for %s" %(i, myfile["name"]))
-                    
-            #for every line
+        #call processChunk if I want to submit chunk
+        if byline is False:
+            processChunk(myfile, topic)
             
+        else:
+            #Otherwise submit line by line
+            processLine(myfile, topic)
+
         #with file open
         logger.info("Completed %s" %(myfile["name"]))
         
@@ -121,8 +177,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Scan a directory and upload data in kafka-topic')
     parser.add_argument('-d', '--directory', type=str, required=True, help='The HDFS directory file')
     parser.add_argument('-t', '--topic', type=str, required=True, help="The kafka topic")
+    parser.add_argument('--line', action='store_true', default=False, help="submit line by line")
     args = parser.parse_args()
         
     #call main function
-    main(directory=args.directory, topic=args.topic)
+    main(directory=args.directory, topic=args.topic, byline=args.line)
 

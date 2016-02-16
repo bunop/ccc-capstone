@@ -785,7 +785,7 @@ $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper master:
   --replication-factor 1 --partitions 1 --topic ontime
 $ /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper master:2181
 $ cd ~/capstone/ontime
-$ python kafka-producer.py
+$ python kafka-producer.py -d /user/paolo/capstone/airline_ontime/filtered_data/ -t ontime
 ```
 
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
@@ -812,12 +812,22 @@ When there is no new output, interrupt the python script and then put the interm
 results on new kafka topic:
 
 ```
-$ python kafka-producer.py -d /user/paolo/intermediate/top10_airports/ -t top10_airports
+$ python kafka-producer.py -d /user/ec2-user/intermediate/top10_airports/ -t top10_airports --line
+```
+
+Inspect intermediate results:
+
+```
+$
+$ /usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --zookeeper master:2181 \
+  --topic top10_airports --from-beginning
 ```
 
 Then call the final script:
 
 ```
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/checkpoint/top10_airports.2/
+$ hadoop fs -rm -r -skipTrash /user/ec2-user/final/top10_airports/
 $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1.5.2 \
   --master yarn --executor-cores=3 --num-executors 4 --driver-memory=3G --executor-memory=6G \
   top10_airports.2.py

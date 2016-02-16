@@ -24,7 +24,8 @@ from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
 
 # Global variables
-CHECKPOINT_DIR = "checkpoint2/top10_airports.2"
+CHECKPOINT_DIR = "checkpoint/top10_airports.2"
+OUTPUT_DIR = "final/top10_airports/"
 APP_NAME = "Top 10 Airports 2"
 
 ## my functions
@@ -44,7 +45,7 @@ def functionToCreateContext():
     sc.addPyFile("common.py")
     
     # As argument Spark Context and batch retention
-    ssc = StreamingContext(sc, 10)
+    ssc = StreamingContext(sc, 30)
     
     # set checkpoint directory
     ssc.checkpoint(CHECKPOINT_DIR)
@@ -95,6 +96,9 @@ def main(kvs):
     
     # print the top 10 delays
     top10Airport.pprint()
+
+    # save results    
+    popular.repartition(1).saveAsTextFiles(OUTPUT_DIR)
     
 
 #main function
@@ -110,7 +114,7 @@ if __name__ == "__main__":
 
     # Create a Transformed DStream. Read Kafka from first offset. To get a list of
     # kafka parameters: http://kafka.apache.org/08/configuration.html
-    kvs = KafkaUtils.createStream(ssc, ZKQUORUM, "top10_airports", {TOPIC: 1}, kafkaParams={ 'auto.offset.reset': 'smallest'})
+    kvs = KafkaUtils.createStream(ssc, ZKQUORUM, "top10_airports.2", {TOPIC: 1}, kafkaParams={ 'auto.offset.reset': 'smallest'})
     
     # Execute Main functionality
     main(kvs)
