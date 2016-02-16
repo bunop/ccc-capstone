@@ -788,6 +788,26 @@ $ cd ~/capstone/ontime
 $ python kafka-producer.py -d /user/paolo/capstone/airline_ontime/filtered_data/ -t ontime
 ```
 
+##
+
+Edit `/etc/security/limits.conf` as suggested [here][too-many-files-open] and [here][Too-many-open-files]
+
+```
+# To open a large number of files
+*               hard    nofile          10000
+```
+
+Then edit `/usr/hdp/current/spark-client/conf/spark-env.sh` and place:
+
+```
+ulimit -n 10000
+```
+
+You have to restart all machines before using a different ulimit value.
+
+[too-many-files-open]: http://apache-spark-user-list.1001560.n3.nabble.com/Too-many-open-files-td1464.html
+[Too-many-open-files]: https://community.hortonworks.com/questions/7637/pyspark-machine-learning-get-to-many-open-file-err.html
+
 ## 1.1) Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
 Set directory to `~/capstone/ontime`. Reset temporary files and topics
@@ -886,7 +906,16 @@ $ spark-submit --packages org.apache.spark:spark-streaming-kafka-assembly_2.10:1
 Here's the top10 airlines:
 
 ```
-(19393,5.849497681607419)
+(19690, -1.01180434574519)                                                      
+(19678, 1.1569234424812056)
+(19391, 1.4506385127822803)
+(20295, 4.747609195734892)
+(20384, 5.3224309999287875)
+(20436, 5.465881148819851)
+(19386, 5.557783392671835)
+(19393, 5.5607742598815735)
+(20304, 5.736312463662878)
+(20363, 5.8671846616957595)
 ```
 
 ## 2.1) Rank carriers by airports
